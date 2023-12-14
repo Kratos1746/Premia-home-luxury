@@ -4,30 +4,56 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="output.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500&display=swap">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
+
+
+
 <body>
     <div class="bg-neutral-900 min-h-screen flex flex-col">
+       <!-- <nav class="bg-neutral-800 p-4">
+            <div class="flex items-center justify-between">
+              <img src="/img/logo-ombra.png" alt="Logo" class="h-18 w-52 mr-2">
+             
+             
+           
+               <div class="flex  items-center space-x-8">
+                 <a href="/dist/index.html" class="text-white">Home</a>
+                 <a href="#" class="text-white">Immobili</a>
+                 <a href="/dist/about.html" class="text-white">Chi Siamo</a>
+                 <a href="/dist/contatti.html" class="text-white">Contatti</a>
+               </div>
+               <img src="/img/logo-ombra.png" alt="Logo" class="h-18 w-52 mr-2 opacity-0 pointer-events-none">
+             </div>
+           
+           </nav> -->
 
         <div class="flex items-center justify-center flex-col">
         <img src="/img/logo-ombra.png" alt="" class="max-w-[300px] py-10">
-        <h1 class="text-3xl font-semibold text-neutral-400 uppercase underline-offset-8 underline">Contatti</h1>
+        <h1 class="text-5xl font-semibold text-neutral-500 opacity-80 tracking-wider font-lora xl:text-6xl">Contatti</h1><br>
     </div>
 
     <br>
     <br>
 
     <div class="w-[90%] mx-auto">
-        <h1 class="text-xl text-white">Hai delle esigenze in particolare e non hai trovato nulla sul nostro sito?</h1> <br><br>
-        <h1 class="text-3xl text-center text-white">I nostri collaboratori ti aiuteranno a trovare la casa ideale per TE</h1> <br><br>
-        <p class="text-base text-white">Compila il form con tutte le informazioni. Ti chiameremo per trovare la soluzione alle tue esigenze</p>
-    </div>
+        <h1 class="text-xl text-white text-center md:text-2xl xl:text-3xl 2xl:text-4xl">Hai delle esigenze in particolare e non hai trovato nulla sul nostro sito?</h1> <br><br>
+        <h1 class="text-3xl text-center py-2 text-white md:text-4xl lg:text-6xl xl:text-7xl 2xl:text-7xl ">I nostri collaboratori ti aiuteranno a trovare la casa ideale per <b>TE</b></h1> <br><br>
+            </div>
     <br><br>
 
-    <div class="bg-neutral-800">
-    <div class="max-w-md mx-auto p-8 rounded ">
+    <div class="bg-neutral-800"><br> <br>
+        <p class="text-base pl-10 text-white md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl">Compila il form con tutte le informazioni. Ti chiameremo per trovare la soluzione alle tue esigenze.</p>
+<br>
+    <div class="max-w-md mx-auto p-8 md:py-8 md:px-0  rounded md:flex md:max-w-2xl lg:max-w-5xl xl:max-w-full ">
         
-        <form action="#" method="post">
+        
+        <form action="#" method="post" class="md:w-1/2 md:mr-12 lg:mx-10 lg:mr-16 ">
             <div class="mb-4">
                 <label for="nome" class="block text-white text-sm font-medium mb-2">Nome</label>
                 <input type="text" id="nome" name="nome" class="w-full p-2 border rounded-md bg-neutral-800 text-white shadow-md shadow-neutral-900" required>
@@ -48,15 +74,21 @@
                 <textarea id="messaggio" name="messaggio" rows="4" class="w-full p-2 border rounded-md bg-neutral-800 text-white shadow-md shadow-neutral-900" required></textarea>
             </div>
 
-            <button type="submit" class="bg-white float-right text-black font-medium text-lg px-8 py-2 rounded-md hover:bg-green-800 hover:scale-105 hover:text-white duration-75">Invia</button>
+            <button type="submit" class="bg-white float-right text-black font-medium text-lg px-8 py-2 rounded-md shadow-md shadow-neutral-900 hover:bg-green-800 hover:scale-105 hover:text-white duration-75 md:px-10 lg:px-16 xl:px-20 xl:py-3 xl:text-xl">Invia</button>
         </form>
 <br><br><br>
-        <div class="mt-6 flex justify-between">
-            <button onclick="effettuaChiamatacell()" class="flex items-center bg-green-700 text-white px-4 py-4 rounded-full hover:scale-105 transition-all">
-                <img src="/img/cellulare.png" alt="" class="w-10 h-8">
+        <div class="mt-6 flex justify-between md:flex-col md:items-start md:justify-center md:mt-0 gap-10 lg:gap-14 xl:ml-20 2xl:ml-32">
+           
+            <button onclick="effettuaChiamatacell()" class="flex items-center hover:scale-105 transition-all">
+                <div class=" bg-green-700 text-white px-4 py-5 rounded-full lg:px-6 lg:py-7">
+                <img src="/img/cellulare.png" alt="" class="w-10 h-8"></div> 
+                <div class="flex items-center text-white">
+                <p class="hidden ml-4 md:block lg:text-lg xl:ml-8 xl:text-xl">3289086227</p></div>
             </button>
-
-            <button onclick="effettuaChiamata()" class="flex items-center bg-white text-white px-4 py-4 rounded-full hover:scale-105 transition-all">
+            
+            
+            <button onclick="effettuaChiamata()" class="flex items-center hover:scale-105 transition-all">
+                <div class=" bg-white text-white px-4 py-5 rounded-full lg:px-6 lg:py-7">
                 <svg width="40px" height="32px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
                     <title>phone</title>
@@ -73,20 +105,42 @@
                             </g>
                         </g>
                     </g>
-                </svg>
+                </svg> </div>
+                <div class="flex items-center text-white">
+                <p class="hidden ml-4 md:block lg:text-lg xl:ml-8 xl:text-xl">0952274123</p></div>
             </button>
+           
+            
             <a href="mailto:segreteria@premiahome.it?subject=Oggetto%20della%20mail&body=Testo%20del%20messaggio" target="_blank">
-            <button class="flex items-center bg-red-700 text-white px-4 py-5 rounded-full hover:scale-105 transition-all">
-                <img src="/img/email.png" alt="" class="w-10 h-8">
+            <button class="flex items-center hover:scale-105 transition-all">
+                <div class=" bg-red-700 text-white px-4 py-5 rounded-full lg:px-6 lg:py-7">
+                <img src="/img/email.png" alt="" class="w-10 h-8"></div>
+                <div class="flex items-center text-white">
+                <p class="hidden ml-4 md:block lg:text-lg xl:ml-8 xl:text-xl">segreteria@premiahome.it</p></div>
             </button></a>
+            
+            
         </div>
     </div>
 </div>
-<div class="mt-6">
+<div class="my-6">
     <div class="embed-responsive aspect-ratio-16/9 flex items-center ">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d665.2964057052409!2d15.09998159791886!3d37.514972535419794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1313fcc9a325d817%3A0x1cfe2b4f67569401!2sViale%20Jonio%2C%2035%2C%2095129%20Catania%20CT!5e0!3m2!1sit!2sit!4v1702409176863!5m2!1sit!2sit"  style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="w-full min-h-[300px] mx-4"></iframe>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d665.2964057052409!2d15.09998159791886!3d37.514972535419794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1313fcc9a325d817%3A0x1cfe2b4f67569401!2sViale%20Jonio%2C%2035%2C%2095129%20Catania%20CT!5e0!3m2!1sit!2sit!4v1702409176863!5m2!1sit!2sit"  style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="w-full min-h-[300px] mx-4 lg:min-h-[450px]"></iframe>
           
     </div>
+</div>
+
+<div class="bg-neutral-950 py-4 px-8 flex md:justify-between ">
+    <div class="flex flex-col">
+        <div class="border-b border-red-700">
+    <p class="text-white font-semibold">Premia Home S.P.A. - P.IVA: 06024760875 -  Viale jonio 35, Catania</p> <br>
+</div> <br>
+    <p class="text-white font-semibold">lun-ven: 9-13 / 15-19 <br>sabato: 9-13</p>
+</div>
+    <br>
+    <div class="flex items-end pl-8">
+    <p class="text-white text-sm font-semibold">Website by SDT Copy Sales</p>
+</div>
 </div>
     </div>
 

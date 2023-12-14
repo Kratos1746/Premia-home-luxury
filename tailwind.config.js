@@ -91,6 +91,10 @@ module.exports = {
       'back': "url('/img/sfondo home.jpg')",
       
     },},
+    fontFamily: {
+        lora: ['Lora', 'serif'],
+        Montserrat:['Montserrat','serif'],
+      },
   },
   plugins: [],
 }
