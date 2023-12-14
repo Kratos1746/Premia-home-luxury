@@ -11,34 +11,65 @@
 
 
 
-<body>
-    <div class="bg-neutral-900 min-h-screen flex flex-col">
-      <nav class="bg-neutral-800 p-4">
-       <div class="flex items-center justify-between">
-          <img src="/img/logo-ombra.png" alt="Logo" class="h-18 w-52 mr-2">
-        
-        
-          <!-- Logo a sinistra -->
-          
-    
-          <!-- Voci di navigazione al centro -->
-          <div class="flex  items-center space-x-8">
-            <a href="#" class="text-white">Home</a>
-            <a href="#" class="text-white">Immobili</a>
-            <a href="/dist/about.html" class="text-white">Chi Siamo</a>
-            <a href="/dist/contatti.html" class="text-white">Contatti</a>
+<body class="overflow-x-hidden"> <!-- Aggiungi la classe overflow-hidden per impedire lo scrolling della pagina -->
+
+  <div class="bg-neutral-900 min-h-screen flex flex-col">
+      <nav class="p-4 z-10 bg-transparent min-[1780px]:py-6 ">
+          <div class="flex items-center justify-between ">
+              <img src="/img/logo-ombra.png" alt="Logo" class="h-18 w-52 ml-4 z-10 ">
+              
+              <div class="flex items-center space-x-8 text-lg font-semibold  ">
+                  <a href="#" class="text-green-600  underline underline-offset-4 hover:scale-105 transition-all">Home</a>
+                  <a href="#" class="text-white hover:scale-105 transition-all">Immobili</a>
+                  <a href="/dist/about.html" class="text-white hover:scale-105 transition-all">Chi Siamo</a>
+                  <a href="/dist/contatti.html" class="text-white hover:scale-105 transition-all">Contatti</a>
+              </div>
+              
+              <img src="/img/logo-ombra.png" alt="Logo" class="h-18 w-52 mr-2 opacity-0 pointer-events-none">
           </div>
-          <img src="/img/logo-ombra.png" alt="Logo" class="h-18 w-52 mr-2 opacity-0 pointer-events-none">
-        </div>
-      
       </nav>
-    
+  
+      
+          <video src="/img/video-home.mp4" class="absolute h-full w-full object-cover brightness-50 " autoplay loop>
+           
+          </video>
+      
+      <div class=" flex flex-col justify-center items-center min-h-screen text-center font-Montserrat mx-4 text-white z-10">  
+        <h1 class="text-5xl uppercase md:text-6xl lg:text-7xl xl:text-8xl min-[1780px]:text-9xl">Dai <b>valore</b> al tuo immobile</h1> <br>
+        <p class="text-xl md:text-2xl lg:text-3xl xl:text-4xl ">Premia Home Luxury: agenzia per immobili di lusso</p>
+       </div> 
 
-    <div class="w-[90%] mx-auto">
-       
-   
 
-<div class="bg-neutral-950 py-4 px-8 flex md:justify-between ">
+       <div class="w-[90%] mx-auto flex flex-col justify-center items-center bg-neutral-900 text-white">
+        <h1 class="text-5xl uppercase md:text-6xl lg:text-7xl xl:text-8xl font-Montserrat ">Premia Home</h1> <br><br><br>
+        <p class="text-base md:text-lg lg:text-xl xl:text-2xl  ">
+          A differenza delle altre agenzie immobiliari, Premia Home è una società di intermediazione immobiliare partecipata a maggioranza dalla Holding del gruppo Premia (<b>S.p.A.</b>). <br><br>
+
+          La nostra società <b>non</b> si occupa solamente di immobiliare, ma offriamo anche servizi <b>finanziari…</b></p> <br><br>
+
+          <button class="p-4 bg-transparent border-4 border-green-800 rounded-md text-lg md:text-2xl lg:text-3xl animate-pulse xl:p-5 hover:bg-green-800 hover:border-white transition-all">Scopri di più</button>
+          <br><br><br>
+       </div>
+
+       <div class=" flex flex-col justify-center bg-neutral-800 text-white pt-16 pb-10 px-2">
+        <div class=" flex flex-row ">
+        <div class="w-1/2 px-20 ">
+        <p class="text-xl md:text2xl lg:text-3xl xl:text-5xl text-center font-medium font-lora">Voglio acquistare casa</p> <br><br>
+        <p class="text-base md:text-lg lg:text-xl xl:text-3xl  ">L’acquisto di un immobile è sempre molto impegnativo. Attraverso le collaborazioni con altre agenzie immobiliari, possiamo offrirti un ampio <b>catalogo</b> di immobili per scegliere la tua casa ideale.</p>
+        </div>
+        <div class="w-1/2 px-20 border-l-2 ">
+        <p class="text-xl md:text2xl lg:text-3xl xl:text-5xl text-center font-medium font-lora">Voglio vendere casa</p> <br><br>
+        <p class="text-base md:text-lg lg:text-xl xl:text-3xl  ">Mettiamo a disposizione gli strumenti e le competenze per vendere <b>rapidamente</b> casa tua al prezzo più alto di mercato.
+          Il nostro team è composto da professionisti del settore che ti seguiranno in ogni aspetto della vendita: analisi dei documenti, studio del mercato e strategia di sponsorizzazione <b>esclusiva</b> per la tua casa</p>
+       </div>
+      </div>
+      <br><br><br>
+       <div class="flex justify-center py-8 ">
+       <button type="submit" onclick="effettuaChiamata()" class="w-[80%] bg-red-700 text-white font-semibold text-lg xl:text-xl 2xl:text-2xl p-4 shadow-md shadow-black border-2 border-neutral-500 hover:scale-105 hover:shadow-lg hover:shadow-black transition-all md:w-[60%] lg:w-[50%] max-w-[550px] ">Voglio un appuntamento</button>
+      </div>
+    </div>
+
+<div class="bg-neutral-950 py-4 px-8 flex md:justify-between relative bottom-0 ">
     <div class="flex flex-col">
         <div class="border-b border-red-700">
     <p class="text-white font-semibold">Premia Home S.P.A. - P.IVA: 06024760875 -  Viale jonio 35, Catania</p> <br>
@@ -51,6 +82,15 @@
 </div>
 </div>
     </div>
+
+  </div>
+  
+
+    
+       
+   
+
+
 
  
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>

@@ -8,6 +8,7 @@ module.exports = {
     'dasopra':'dasopra  .5s linear',
     'dasinistra':'dasinistra  1s linear',
     'bounce':'bounce 1s infinite',
+    'pulse':'pulse 1s infinite',
   },
   keyframes: {
     'bounce-horizontal': {
@@ -81,6 +82,22 @@ module.exports = {
       },
       '100%': {
         transform: 'translateY(25%)',
+        
+      },
+    },
+
+    'pulse': {
+      '0%' : {
+        transform: 'scale(100%)',
+       
+      },
+      '50%': {
+        transform: 'scale(105%)',
+        
+      },
+      
+      '100%': {
+        transform: 'scale(100%)',
         
       },
     },
