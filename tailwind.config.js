@@ -5,7 +5,9 @@ module.exports = {
     'bounce-horizontal': 'bounce-horizontal 1.5s infinite',
     'bounce-horizontal-reverse': 'bounce-horizontal-reverse 1.5s infinite', // Nome animazione: durata animazione e iterazioni
     'appari':'appari  1s linear',
+    'scompari':'scompari  .2s linear',
     'dasopra':'dasopra  .5s linear',
+    'dasopra2':'dasopra2  .2s ease-in',
     'dasinistra':'dasinistra  1s linear',
     'bounce':'bounce 1s infinite',
     'pulse':'pulse 1s infinite',
@@ -44,6 +46,15 @@ module.exports = {
       },
       '100%': {
         opacity:'1',
+      },
+    },
+
+    'scompari' :{
+      '0%': {
+        opacity:'1',
+      },
+      '100%': {
+        opacity:'0',
       },
     },
 
@@ -102,11 +113,21 @@ module.exports = {
       },
     },
     
+    'dasopra2' :{
+      '0%': {
+        transform: 'translateY(-60px)',
+        
+      },
+      '100%': {
+        transform: 'translateY(0px)',
+        
+      },
+    },
     
   },
     extend: {backgroundImage: {
       'back': "url('/img/sfondo home.jpg')",
-      
+ 
     },},
     fontFamily: {
         lora: ['Lora', 'serif'],
