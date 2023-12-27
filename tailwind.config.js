@@ -1,13 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./dist/*.{html,js}"],
+  content: ["./dist/*.{html,js,php}"],
   theme: {animation: {
     'bounce-horizontal': 'bounce-horizontal 1.5s infinite',
     'bounce-horizontal-reverse': 'bounce-horizontal-reverse 1.5s infinite', // Nome animazione: durata animazione e iterazioni
     'appari':'appari  1s linear',
     'scompari':'scompari  .2s linear',
-    'dasopra':'dasopra  .5s linear',
-    'dasopra2':'dasopra2  .2s ease-in',
+    'dasopra':'dasopra  .4s linear',
+    'dasopra2':'dasopra2  .3s ease-in',
     'dasinistra':'dasinistra  1s linear',
     'bounce':'bounce 1s infinite',
     'pulse':'pulse 1s infinite',

@@ -37,6 +37,7 @@ var prevScrollpos = window.pageYOffset;
         document.getElementById('nav').classList.remove('py-16');
         document.getElementById('nav').classList.remove('animate-dasopra2');
         document.getElementById('nav-1024').classList.remove('animate-dasopra2');
+        document.getElementById('nav-1024').classList.remove('bg-neutral-900');
       }
       if(currentScrollPos < 30){
         
@@ -84,3 +85,42 @@ var prevScrollpos = window.pageYOffset;
       
     }
   }
+
+  function toggleLogin() {
+    var button = document.getElementById('toggleLogin');
+    var button2 = document.getElementById('X');
+    var menu = document.getElementById('login');
+    var buttonmini = document.getElementById('toggleLoginMini');
+    var button2mini = document.getElementById('Xmini');
+    var menumini = document.getElementById('loginMini');
+   
+
+    if (menu.classList.contains('hidden')) {
+      // Se la barra è nascosta, mostra la barra e nascondi il bottone
+      menu.classList.remove('hidden');
+      button2.classList.remove('hidden');
+      menumini.classList.remove('hidden');
+      button2mini.classList.remove('hidden');
+   
+    
+      
+    } else {
+      // Se la barra è visibile, nascondi la barra e mostra il bottone
+      menu.classList.add('hidden');
+      button2.classList.add('hidden');
+      button.classList.remove('hidden');
+      buttonmini.classList.remove('hidden');
+      button2mini.classList.add('hidden');
+      menumini.classList.add('hidden');
+    
+      
+      
+    }
+  }
+
+  setTimeout(function() {
+    var messaggioDiv = document.getElementById('messaggio');
+    if (messaggioDiv) {
+        messaggioDiv.style.display = 'none';
+    }
+}, 3000);
