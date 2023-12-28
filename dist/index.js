@@ -124,3 +124,8 @@ var prevScrollpos = window.pageYOffset;
         messaggioDiv.style.display = 'none';
     }
 }, 3000);
+
+function aggiungiImmobile() {
+  // Reindirizza l'utente a new_imm.php quando il pulsante viene cliccato
+  window.location.href = 'new_imm.php';
+}

@@ -2,8 +2,13 @@
 ini_set('session.cache_limiter','public');
 session_cache_limiter(false);
 session_start();
+include './php/db_connection.php';
 
-								
+$query = "SELECT * FROM immobili";
+$result = mysqli_query($conn, $query);
+
+// Verifica se ci sono risultati
+if ($result)	{					
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -71,13 +76,17 @@ if (isset($_GET['messaggio'])) {
             </button>
             <?php
 
+     
             // Controlla se l'utente è autenticato
             if (isset($_SESSION['ID'])) {
                 // L'utente è autenticato, mostra il bottone per aggiungere gli immobili
-                echo '<button onclick="aggiungiImmobile()" class="bg-green-800 rounded-full p-4 py-5 text-white shadow-sm shadow-black hover:scale-105 hover:shadow-md hover:shadow-black transition-all  "><img src="/img/piu.svg" alt="" class="w-10 h-8"></button>';
-                header("Location: new_imm.php");
-            } 
+                echo '<button onclick="aggiungiImmobile()" class="bg-green-800 rounded-full p-4 py-5 text-white shadow-sm shadow-black hover:scale-105 hover:shadow-md hover:shadow-black transition-all">';
+                echo '<img src="/img/piu.svg" alt="" class="w-10 h-8">';
+                echo '</button>';
+        
+            }
             ?>
+
         </div>
          
            
@@ -123,12 +132,14 @@ if (isset($_GET['messaggio'])) {
                 <img src="/img/user.svg" alt="" class="w-10 h-8"></div>  
                 <?php
 
-                // Controlla se l'utente è autenticato
-                if (isset($_SESSION['ID'])) {
-                    // L'utente è autenticato, mostra il bottone per aggiungere gli immobili
-                    echo '<button onclick="aggiungiImmobile()" class="bg-green-800 rounded-full p-4 py-5 text-white shadow-sm shadow-black hover:scale-105 hover:shadow-md hover:shadow-black transition-all "><img src="/img/piu.svg" alt="" class="w-10 h-8"></button>';
-                    header("Location: new_imm.php");
-                } 
+           
+            if (isset($_SESSION['ID'])) {
+                // L'utente è autenticato, mostra il bottone per aggiungere gli immobili
+                echo '<button onclick="aggiungiImmobile()" class="bg-green-800 rounded-full p-4 py-5 text-white shadow-sm shadow-black hover:scale-105 hover:shadow-md hover:shadow-black transition-all">';
+                echo '<img src="/img/piu.svg" alt="" class="w-10 h-8">';
+                echo '</button>';
+        
+            }
                 ?>
 
             </button>
@@ -188,12 +199,15 @@ if (isset($_GET['messaggio'])) {
             </button>
             <?php
 
-// Controlla se l'utente è autenticato
-if (isset($_SESSION['ID'])) {
-    // L'utente è autenticato, mostra il bottone per aggiungere gli immobili
-    echo '<button onclick="aggiungiImmobile()" class="bg-green-800 rounded-full p-4 py-5 text-white shadow-sm shadow-black hover:scale-105 hover:shadow-md hover:shadow-black transition-all "><img src="/img/piu.svg" alt="" class="w-10 h-8"></button>';
-} 
-?>
+            // Controlla se l'utente è autenticato
+            if (isset($_SESSION['ID'])) {
+                // L'utente è autenticato, mostra il bottone per aggiungere gli immobili
+                echo '<button onclick="aggiungiImmobile()" class="bg-green-800 rounded-full p-4 py-5 text-white shadow-sm shadow-black hover:scale-105 hover:shadow-md hover:shadow-black transition-all">';
+                echo '<img src="/img/piu.svg" alt="" class="w-10 h-8">';
+                echo '</button>';
+
+            }
+            ?>
         
           
 </div> 
@@ -212,8 +226,63 @@ if (isset($_SESSION['ID'])) {
              </div>
 
 
+             <?php
+    // Itera sui risultati della query
+   
+    while ($row = mysqli_fetch_assoc($result)) {
+    ?>
+    <div class="mt-12 bg-neutral-800 w-full h-full flex text-white shadow-md shadow-black hover:shadow-lg hover:shadow-black transition-all">
+        <img src="<?php echo $row['foto_principale']; ?>" alt="Anteprima" class="w-1/3">
+    
+        <div class="flex flex-col justify-between mt-12 gap-10 text-3xl ml-24 w-2/3">
+            <h1 class="text-6xl break-all"><?php echo $row['titolo']; ?></h1>
+            <p><strong>€</strong> <?php echo $row['prezzo']; ?></p>
+            <div class="flex justify-between">
+            <div class="flex items-center ">
+    <?php
+    $maxLength = 150; // Imposta la lunghezza massima desiderata
+    $description = $row['descrizione'];
 
-             <div class="bg-neutral-950 py-4 px-8 flex md:justify-between absolute bottom-0 w-full  ">
+    if (strlen($description) > $maxLength) {
+        $shortDescription = substr($description, 0, $maxLength) . '...';
+        echo '<p class="text-xl break-all" style="max-width: 75%;">' . nl2br($shortDescription) . '</p>';
+    } else {
+        echo '<p class="text-xl break-all" style="max-width: 75%;">' . nl2br($description) . '</p>';
+    }
+    ?>
+</div>
+
+    <div class="flex justify-end mx-16 gap-10">
+        <div class="flex-col">
+            <p class="py-4"><?php echo $row['camere']; ?></p>
+            <p class="pt-4"><?php echo $row['bagni']; ?></p>
+        </div>
+        <div class="flex-col">
+            <p class="py-4"><?php echo $row['metri_quadrati']; ?></p>
+            <p class="pt-4"><?php echo $row['piani']; ?></p>
+        </div>
+    </div>
+</div>
+
+            <div class="border-t border-white w-[95%]  my-8 flex  gap-12">
+            
+            <p class="pt-4"> <?php echo $row['tipo_immobile']; ?></p>
+            <p class="pt-4"> <?php echo $row['comune']; ?></p>
+            <p class="pt-4">Rif. <?php echo $row['id_immobile']; ?></p></div>
+            <!-- Aggiungi altri dettagli dell'immobile che desideri mostrare -->
+        </div>
+    </div>
+    <?php
+    }
+    ?>
+    
+
+
+   
+
+
+
+             <div class="bg-neutral-950 py-4 px-8 flex md:justify-between w-full mt-12  ">
     <div class="flex flex-col">
         <div class="border-b border-red-700">
     <p class="text-white font-semibold">Premia Home S.P.A. - P.IVA: 06024760875 -  Viale jonio 35, Catania</p> <br>
@@ -238,3 +307,13 @@ if (isset($_SESSION['ID'])) {
 </body>
 
 </html>
+
+<?php
+} else {
+    // Gestisci eventuali errori nella query
+    echo "Errore nella query: " . mysqli_error($conn);
+}
+
+// Chiudi la connessione al database
+mysqli_close($conn);
+?>
