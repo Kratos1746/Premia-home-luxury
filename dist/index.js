@@ -11,16 +11,18 @@ var prevScrollpos = window.pageYOffset;
         document.getElementById('menu-1024').classList.remove('hidden');
         document.getElementById('Logo-1024').classList.remove('hidden');
         document.getElementById('nav-1024').classList.remove('hidden');
+        document.getElementById('nav').classList.remove('hidden'); 
         document.getElementById('menu-1024').classList.remove('mt-12');
         document.getElementById('nav-1024').classList.add('p-4');
         nav.classList.add('p-4');
         nav.classList.add('md:px-14');
         document.getElementById('nav').classList.add('bg-neutral-900');
-        document.getElementById('nav').classList.add('py-16');
+       
         document.getElementById('nav').classList.add('animate-dasopra2');
         document.getElementById('nav-1024').classList.add('bg-neutral-900');
         document.getElementById('nav-1024').classList.add('py-8');
         document.getElementById('nav-1024').classList.add('animate-dasopra2');
+        
       } else if(currentScrollPos>100) {
         // Altrimenti, nascondi la barra
         document.getElementById('hamburger').classList.remove('fixed');
@@ -29,12 +31,12 @@ var prevScrollpos = window.pageYOffset;
         document.getElementById('menu-1024').classList.add('hidden');
         document.getElementById('Logo-1024').classList.add('hidden');
         document.getElementById('nav-1024').classList.add('hidden');
-        
-        
+        document.getElementById('nav').classList.add('hidden'); 
+
         nav.classList.remove('p-4');
         nav.classList.remove('md:px-14');
         document.getElementById('nav').classList.remove('bg-neutral-900');
-        document.getElementById('nav').classList.remove('py-16');
+       
         document.getElementById('nav').classList.remove('animate-dasopra2');
         document.getElementById('nav-1024').classList.remove('animate-dasopra2');
         document.getElementById('nav-1024').classList.remove('bg-neutral-900');
@@ -42,7 +44,7 @@ var prevScrollpos = window.pageYOffset;
       if(currentScrollPos < 30){
         
         document.getElementById('nav').classList.remove('bg-neutral-900');
-        document.getElementById('nav').classList.remove('py-16');
+       
         document.getElementById('nav').classList.remove('animate-dasopra2');
         document.getElementById('nav-1024').classList.remove('bg-neutral-900');
         nav.classList.remove('md:px-14');
@@ -50,10 +52,11 @@ var prevScrollpos = window.pageYOffset;
         
 
       }
-
-  
+   
       prevScrollpos = currentScrollPos;
     };
+
+ 
 
   function toggleMenu() {
     var button = document.getElementById('hamburger');
@@ -88,18 +91,23 @@ var prevScrollpos = window.pageYOffset;
 
   function toggleLogin() {
     var button = document.getElementById('toggleLogin');
-    var button2 = document.getElementById('X');
+    var button2 = document.getElementById('Xmini2');
+    var button3 = document.getElementById('Xmini3');
     var menu = document.getElementById('login');
     var buttonmini = document.getElementById('toggleLoginMini');
+    var buttonmini2 = document.getElementById('toggleMini');
     var button2mini = document.getElementById('Xmini');
     var menumini = document.getElementById('loginMini');
+    var menumini2 = document.getElementById('loginMini2');
    
 
     if (menu.classList.contains('hidden')) {
       // Se la barra è nascosta, mostra la barra e nascondi il bottone
       menu.classList.remove('hidden');
       button2.classList.remove('hidden');
+      button3.classList.remove('hidden');
       menumini.classList.remove('hidden');
+      menumini2.classList.remove('hidden');
       button2mini.classList.remove('hidden');
    
     
@@ -109,9 +117,12 @@ var prevScrollpos = window.pageYOffset;
       menu.classList.add('hidden');
       button2.classList.add('hidden');
       button.classList.remove('hidden');
+      button3.classList.remove('hidden');
       buttonmini.classList.remove('hidden');
+      buttonmini2.classList.remove('hidden');
       button2mini.classList.add('hidden');
       menumini.classList.add('hidden');
+      menumini2.classList.add('hidden');
     
       
       

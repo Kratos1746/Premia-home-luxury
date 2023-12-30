@@ -7,21 +7,21 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500&display=swap">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+  <link href = "/dist/font/style.css" rel = "stylesheet" type = "text/css" />
   <title>PremiaHome-Luxury</title>
 </head>
 
 
 
-<body class="overflow-x-hidden"> <!-- Aggiungi la classe overflow-hidden per impedire lo scrolling della pagina -->
+<body class="overflow-x-hidden">
 
   
   <div class="bg-neutral-900 min-h-screen flex flex-col">
-      <nav id="nav-1024" class="max-lg:hidden lg:block  z-10  min-[1780px]:py-6 w-full fixed "data-aos="fade-down" data-aos-duration="600" data-aos-once="true">
+      <nav id="nav-1024" class="max-lg:hidden lg:block  z-10   w-full fixed py-10 "data-aos="fade-down" data-aos-duration="600" data-aos-once="true">
           <div class="flex items-center justify-between ">
               <img src="/img/logo-ombra.png" alt="Logo" id="Logo-1024" class="h-18 w-60 ml-8 mt-6 z-10 fixed top-0 left-0 ">
               
-              <div id="menu-1024" class=" mt-12 space-x-8  text-lg font-semibold xl:text-xl fixed left-1/2 -translate-x-1/2 ">
+              <div id="menu-1024" class="  space-x-8  text-lg font-semibold xl:text-xl fixed left-1/2 -translate-x-1/2 ">
                   <a href="#" class="text-green-600  underline underline-offset-4 hover:scale-105 transition-all">Home</a>
                   <a href="/dist/immobili.php" class="text-white hover:scale-105 transition-all">Immobili</a>
                   <a href="/dist/about.html" class="text-white hover:scale-105 transition-all">Chi Siamo</a>
@@ -32,14 +32,14 @@
           </div>
       </nav>
 
-      <nav id="nav" class=" lg:hidden p-4 z-10  min-[1780px]:py-6 md:px-14 fixed w-full  "data-aos="fade-down" data-aos-duration="600" data-aos-once="true">
+      <nav id="nav" class=" lg:hidden p-4 z-10  min-[1780px]:py-6 md:px-14 fixed w-full py-16  "data-aos="fade-down" data-aos-duration="600" data-aos-once="true">
         <div class="flex items-center justify-between  ">
             <img src="/img/logo-ombra.png" alt="Logo" id="Logo" class="h-18 w-48 ml-8 mt-6 z-10 fixed top-0 left-0 ">
 
-          <button id="toggleButton" class="transition-all   " onclick="toggleMenu()">
-            <img src="/img/menu-ita.png" alt="Logo" id="hamburger" class="h-14 w-14 ml-1 mr-8 mt-8 z-10 cursor-pointer fixed top-0 right-0">
-            <img src="/img/x.png" alt="Logo" id="X" class="hidden h-12 w-12 ml-1 mr-4 mt-8 z-10 cursor-pointer fixed top-0 right-0">
-          </button>
+            <button id="toggleButton" class="transition-all   " onclick="toggleMenu()">
+              <img src="/img/menu-ita.png" alt="Logo" id="hamburger" class="h-14 w-14 ml-1 mr-8 mt-8 z-10 cursor-pointer fixed top-0 right-0">
+              <img src="/img/x.png" alt="Logo" id="X" class="hidden h-12 w-12 ml-1 mr-4 mt-8 z-10 cursor-pointer fixed top-0 right-0">
+            </button>
 
             <div id="menu" class="bar hidden fixed left-0 top-0 py-10 px-8 text-center bg-neutral-800 w-full z-0">
             <div class=" flex flex-col text-xl font-semibold   gap-8">
@@ -61,9 +61,9 @@
            
           </video>
       <div class="absolute top-0 z-0">
-      <div class="relative flex flex-col justify-center items-center min-h-screen text-center font-Montserrat mx-4 text-white z-10">  
-        <h1 class="text-5xl uppercase md:text-6xl lg:text-7xl xl:text-8xl min-[1780px]:text-9xl">Dai <b>valore</b> al tuo immobile</h1> <br>
-        <p class="text-xl md:text-2xl lg:text-3xl xl:text-4xl ">Premia Home Luxury: agenzia per immobili di lusso</p>
+      <div class="relative flex flex-col justify-center items-center min-h-screen text-center font-Ayer mx-4 text-white z-10">  
+        <h1 class="text-7xl uppercase md:text-[112px] lg:text-9xl xl:text-[142px]  2xl:text-[160px]">Dai <span class="font-semibold"><span class="text-green-800">va</span>lo<span class="text-red-800">re</span></span> al tuo immobile</h1> <br>
+        <p class="text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl tracking-wide ">Premia Home Luxury: agenzia per immobili di lusso</p>
        </div> 
 
 <div class="flex flex-row items-center ">
@@ -73,7 +73,7 @@
 </div>
 
        <div class=" px-5 pt-10 flex flex-col justify-center items-center bg-neutral-900 text-white md:px-10 lg:px-12 lg:py-14 xl:px-32"> <br>
-        <h1 class="text-5xl uppercase md:text-6xl lg:text-7xl xl:text-8xl font-Montserrat " data-aos="fade-down" data-aos-duration="600" data-aos-once="true" >Premia Home</h1> <br><br><br>
+        <h1 class="text-7xl uppercase md:text-8xl lg:text-9xl xl:text-[142px] font-Ayer " data-aos="fade-down" data-aos-duration="600" data-aos-once="true" >Premia Home</h1> <br><br><br>
         <p class="text-base md:text-lg lg:text-xl xl:text-2xl  ">
           A differenza delle altre agenzie immobiliari, Premia Home è una società di intermediazione immobiliare partecipata a maggioranza dalla Holding del gruppo Premia (<b>S.p.A.</b>). <br><br>
 
@@ -86,13 +86,13 @@
       
        <div class=" flex flex-col justify-center bg-neutral-800 text-white pt-16 pb-10 px-2">
         <div class=" flex flex-row ">
-        <div class="w-1/2 px-4 text-center lg:px-20 "data-aos="fade-right" data-aos-duration="600" data-aos-once="true">
-        <p class="text-xl md:text-3xl lg:text-4xl xl:text-5xl text-center font-medium font-lora">Voglio acquistare casa</p> <br><br>
+        <div class="w-1/2 px-4 text-center lg:px-16 "data-aos="fade-left" data-aos-duration="600" data-aos-once="true">
+        <p class="text-4xl md:text-6xl lg:text-7xl xl:text-7xl 2xl:text-8xl text-center font-medium font-Ayer uppercase">Voglio acquistare casa</p> <br><br>
         <p class="text-base md:text-lg lg:text-xl xl:text-3xl  ">L’acquisto di un immobile è sempre molto impegnativo. Attraverso le collaborazioni con altre agenzie immobiliari, possiamo offrirti un ampio <b>catalogo</b> di immobili per scegliere la tua casa ideale.</p>
         </div>
         <div class="w-1 bg-white z-10"></div>
-        <div class="w-1/2 px-4 text-center lg:px-20  " data-aos="fade-left" data-aos-duration="600" data-aos-once="true">
-        <p class="text-xl md:text-3xl lg:text-4xl xl:text-5xl text-center font-medium font-lora">Voglio vendere casa</p> <br><br>
+        <div class="w-1/2 px-4 text-center lg:px-16  " data-aos="fade-right" data-aos-duration="600" data-aos-once="true">
+        <p class="text-4xl md:text-6xl lg:text-7xl xl:text-7xl 2xl:text-8xl text-center font-medium font-Ayer uppercase">Voglio vendere casa</p> <br><br>
         <p class="text-base md:text-lg lg:text-xl xl:text-3xl  ">Mettiamo a disposizione gli strumenti e le competenze per vendere <b>rapidamente</b> casa tua al prezzo più alto di mercato.
           Il nostro team è composto da professionisti del settore che ti seguiranno in ogni aspetto della vendita: analisi dei documenti, studio del mercato e strategia di sponsorizzazione <b>esclusiva</b> per la tua casa</p>
        </div>

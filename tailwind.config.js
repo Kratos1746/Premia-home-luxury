@@ -132,6 +132,9 @@ module.exports = {
     fontFamily: {
         lora: ['Lora', 'serif'],
         Montserrat:['Montserrat','serif'],
+        Unna:['Unna','serif'],
+        Merriweather:['Merriweather','serif'],
+        Ayer:['Ayer','serif'],
       },
   },
   plugins: [],

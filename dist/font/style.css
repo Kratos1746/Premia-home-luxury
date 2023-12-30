@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'Ayer';
+    src: local('Ayer Regular'), local('Ayer-Regular'),
+        url('Ayer-Regular.woff2') format('woff2'),
+        url('Ayer-Regular.woff') format('woff'),
+        url('Ayer-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+  }
