@@ -58,7 +58,7 @@ if (isset($_GET['id'])) {
 
               <div class=" w-1/3 mt-8 flex items-center">
               <div id="menu-1024" class="  space-x-8  text-lg font-semibold xl:text-xl fixed left-1/2 -translate-x-1/2 ">
-                  <a href="/dist/index.html" class=" text-white hover:scale-105 transition-all">Home</a>
+                  <a href="/dist/index.php" class=" text-white hover:scale-105 transition-all">Home</a>
                   <a href="#" class="text-green-600  underline underline-offset-4 hover:scale-105 transition-all">Immobili</a>
                   <a href="/dist/about.html" class="text-white hover:scale-105 transition-all">Chi Siamo</a>
                   <a href="/dist/contatti.html" class="text-white hover:scale-105 transition-all">Contatti</a>
@@ -172,7 +172,7 @@ if (isset($_GET['id'])) {
             </div>
             <div id="menu" class="bar hidden fixed left-0 top-0 py-10 px-8 text-center bg-neutral-800 w-full z-0">
             <div class=" flex flex-col text-xl font-semibold   gap-8">
-                <a href="/dist/index.html" class="text-white hover:scale-105 transition-all ">Home</a>
+                <a href="/dist/index.php" class="text-white hover:scale-105 transition-all ">Home</a>
                 <div class=" border-b mx-12 "></div>
                 <a href="#" class="text-green-600  underline underline-offset-4 hover:scale-105 transition-all">Immobili</a>
                 <div class="border-b mx-12"></div>

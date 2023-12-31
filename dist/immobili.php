@@ -252,8 +252,8 @@ if (isset($_GET['messaggio'])) {
 </div>
 <br>
     <div class="w-[90%] mx-auto">
-    <h1 class="text-5xl text-center py-2 text-white font-Ayer uppercase md:text-6xl lg:text-7xl xl:text-9xl " data-aos="fade-down" data-aos-duration="500" data-aos-once="true" data-aos-delay="100">Scegli il tuo immobile</h1> <br><br>
-        <h1 class="text-xl text-white text-center font-Ayer tracking-wide md:text-2xl xl:text-3xl 2xl:text-6xl" data-aos="fade-down" data-aos-duration="800" data-aos-once="true" data-aos-delay="300">Per il resto ci occuperemo tutto noi</h1> <br><br>
+    <h1 class="text-7xl text-center py-2 text-white font-Ayer uppercase md:text-7xl lg:text-8xl xl:text-9xl " data-aos="fade-down" data-aos-duration="500" data-aos-once="true" data-aos-delay="100">Scegli il tuo immobile</h1> <br><br>
+        <h1 class="text-3xl text-white text-center font-Ayer tracking-wide md:text-4xl xl:text-5xl 2xl:text-6xl" data-aos="fade-down" data-aos-duration="800" data-aos-once="true" data-aos-delay="300">Per il resto ci occuperemo tutto noi</h1> <br><br>
              </div>
 
 
@@ -264,14 +264,15 @@ if (isset($_GET['messaggio'])) {
       
     ?>
     
-    <div class="mt-12 bg-neutral-800 w-full h-fit flex text-white shadow-md shadow-black hover:shadow-lg hover:shadow-black transition-all max-lg:hidden max-h-[550px] ">
+    <div class="mt-12 bg-neutral-800 w-full h-fit flex text-white shadow-md shadow-black hover:shadow-lg hover:shadow-green-800 transition-all max-lg:hidden max-h-[550px] ">
  <a href="dettaglio_immobile.php?id=<?php echo $row['id_immobile']; ?>" class=" flex">
  
  
         <img src="<?php echo $row['foto_principale']; ?>" alt="Anteprima" class="w-full lg:w-[45%]  xl:w-1/3">
     
-        <div class="flex flex-col justify-between mt-4  gap-10  mx-6 lg:mx-16 lg:w-1/2 xl:w-2/3 xl:mx-8">
-            <h1 class="text-6xl break-normal xl:text-[80px] font-Ayer uppercase tracking-wide"><?php echo $row['titolo']; ?></h1>
+        <div class="flex flex-col justify-between   gap-10   lg:w-1/2 xl:w-2/3 ">
+            <h1 class="text-4xl break-normal xl:text-5xl font-Grotesk uppercase bg-green-800 px-8 py-4 shadow-md shadow-neutral-900 "><?php echo $row['titolo']; ?></h1>
+            <div class="mx-16  ">
             <p class="font-Unna text-3xl pt-2">€ <?php echo $row['prezzo']; ?></p>    
             <div class="flex justify-between">
             <div class="flex items-center max-xl:hidden  ">
@@ -311,7 +312,7 @@ if (isset($_GET['messaggio'])) {
     
 
     
-    <div class="border-t border-white w-[95%] font-Merriweather text-lg   mb-8 flex   gap-8 xl:text-xl">
+    <div class="border-t border-green-800 w-[95%] font-Merriweather text-lg mt-6  mb-8 flex   gap-8 xl:text-xl">
             
             <p class="pt-4 flex items-center gap-4 uppercase"><img src="/img/casa.svg" alt="" class="w-8 h-8"> <?php echo $row['tipo_immobile']; ?></p>
             <p class="pt-4 flex items-center gap-4 uppercase"><img src="/img/posizione.svg" alt="" class="w-8 h-8"> <?php echo $row['comune']; ?></p>
@@ -323,38 +324,44 @@ if (isset($_GET['messaggio'])) {
             <!-- Aggiungi altri dettagli dell'immobile che desideri mostrare -->
         </div>
     </div>
+</div>
 
+    <div class="mx-auto mb-10 bg-neutral-800 w-[80%] max-h-[700px] overflow-hidden flex rounded-sm text-white shadow-md shadow-black hover:shadow-lg hover:shadow-green-800 transition-all flex-col justify-center lg:hidden">
 
-    <div class="mt-12 mx-auto bg-neutral-800 w-[90%] h-fit flex rounded-sm  text-white shadow-md shadow-black hover:shadow-lg hover:shadow-black transition-all max-lg:flex-col justify-center lg:hidden">
-        <img src="<?php echo $row['foto_principale']; ?>" alt="Anteprima" class="w-full lg:w-1/3 rounded-t-sm ">
-    
-        <div class="flex flex-col justify-between mt-4  gap-10  mx-6 lg:ml-24 lg:w-2/3">
-            <h1 class="text-5xl break-all"><?php echo $row['titolo']; ?></h1>
-            <p class="font-Unna text-3xl pt-2">€ <?php echo $row['prezzo']; ?></p>
+<div class="relative w-full h-full  overflow-hidden"> <a href="dettaglio_immobile.php?id=<?php echo $row['id_immobile']; ?>" class="">
+       <img src="<?php echo $row['foto_principale']; ?>" alt="Anteprima" class=" w-full h-full  object-cover rounded-t-sm">
+   </div>
 
-            <div class="flex   max-sm:justify-center justify-end items-center w-full px-4  gap-8 lg:hidden">
-                
-            <p class="flex items-center justify-center gap-4"><img src="/img/camere2.svg" alt="" class="w-8 h-8"><?php echo $row['camere']; ?></p>
-            <p class=" flex items-center justify-center gap-4"><img src="/img/bagni2.svg" alt="" class="w-8 h-8"><?php echo $row['bagni']; ?></p>
-            <p class=" flex items-center justify-center gap-4"><img src="/img/mq.svg" alt="" class="w-8 h-8"><?php echo $row['metri_quadrati']; ?>M²</p>
-            <p class=" flex items-center justify-center gap-4"><img src="/img/piani.svg" alt="" class="w-8 h-8"><?php echo $row['piani']; ?></p>
-    
-        </div>
-
-        <div class="border-t border-white w-[95%] font-Merriweather text-lg   mb-8 flex   gap-8">
-            
-            <p class="pt-4 flex items-center gap-4 uppercase"><img src="/img/casa.svg" alt="" class="w-8 h-8"> <?php echo $row['tipo_immobile']; ?></p>
-            <p class="pt-4 flex items-center gap-4 uppercase"><img src="/img/posizione.svg" alt="" class="w-8 h-8"> <?php echo $row['comune']; ?></p>
-            <p class="pt-4 ml-auto">Rif. <?php echo $row['id_immobile']; ?></p>
-        </div>
- 
-
-        
-
-            
-            <!-- Aggiungi altri dettagli dell'immobile che desideri mostrare -->
-        </div>
+   <div class="flex flex-col gap-4  min-h-[300px] ">
+    <div class="bg-green-800 px-8 py-4 shadow-md shadow-neutral-900">
+       <h1 class="text-2xl break-normal uppercase sm:text-3xl md:text-4xl "><?php echo $row['titolo']; ?></h1>
     </div>
+    <div class="mx-8">
+       <p class="font-Unna text-3xl ">€ <?php echo $row['prezzo']; ?></p>
+
+      
+       <div class="flex justify-between gap-4">
+       <p class="pt-4 flex flex-col justify-end  items-start gap-4 uppercase"><img src="/img/casa.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6 "> <?php echo $row['tipo_immobile']; ?></p>
+   
+       <div class="flex justify-end px-2 gap-4  text-md  ">
+       <div class="flex-col">
+           <p class="py-4 flex gap-2"><img src="/img/camere2.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6 "><?php echo $row['camere']; ?></p>
+           <p class="pt-4 flex gap-2"><img src="/img/bagni2.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6 "><?php echo $row['bagni']; ?></p>
+       </div>
+       <div class="flex-col">
+           <p class="py-4 flex gap-2"><img src="/img/mq.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6 "><?php echo $row['metri_quadrati']; ?>M²</p>
+           <p class="pt-4 flex gap-2"><img src="/img/piani.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6"><?php echo $row['piani']; ?></p>
+       </div>
+   </div>
+         </div>
+       <div class="border-t border-green-700 w-[95%] mt-4 font-Merriweather text-md pb-8 flex gap-8">
+         
+           <p class="pt-4 flex items-center gap-4 uppercase"><img src="/img/posizione.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6"> <?php echo $row['comune']; ?></p>
+           <p class="pt-4 ml-auto">Rif. <?php echo $row['id_immobile']; ?></p>
+       </div>
+   </div>
+</div>
+</div>
     </a>
     <?php
     }

@@ -17,6 +17,10 @@ include './php/db_connection.php';
   <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk&display=swap" rel="stylesheet">
+<!-- Aggiungi questi link nell'head del tuo HTML -->
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+
 
   <title>PremiaHome-Luxury</title>
 </head>
@@ -82,6 +86,16 @@ include './php/db_connection.php';
   <div class="w-1/3 bg-red-900 py-4 shadow-2xl shadow-red-800"></div>
 </div>
 
+
+
+<div class="bg-neutral-900">
+<br>
+<br>
+<br><br>
+
+<h1 class="text-7xl uppercase md:text-8xl lg:text-9xl xl:text-[142px] font-Ayer text-center text-white " data-aos="fade-down" data-aos-duration="600" data-aos-once="true" >In evidenza</h1> <br>
+<br><br>
+ <div class="flex">   
 <?php
 
 
@@ -93,65 +107,113 @@ if ($result) {
     // Itera sui risultati della query
     while ($row = mysqli_fetch_assoc($result)) {
       ?>
-<div class="bg-neutral-900">
-<br>
-<br>
+ <br><br> <div class="mx-auto mb-10 bg-neutral-800 w-[31%] max-h-[700px] overflow-hidden flex rounded-sm text-white shadow-md shadow-black hover:shadow-lg hover:shadow-green-800 transition-all flex-col justify-center max-lg:hidden">
 
-<h1 class="text-7xl uppercase md:text-8xl lg:text-9xl xl:text-[142px] font-Ayer text-center text-white " data-aos="fade-down" data-aos-duration="600" data-aos-once="true" >In evidenza</h1> <br>
+<div class="relative w-full h-full  overflow-hidden"> <a href="dettaglio_immobile.php?id=<?php echo $row['id_immobile']; ?>" class="">
+       <img src="<?php echo $row['foto_principale']; ?>" alt="Anteprima" class=" w-full h-full  object-cover rounded-t-sm">
+   </div>
 
-       <br><br>  <div class=" mx-auto bg-neutral-800 w-[50%] lg:w-1/3  overflow-hidden flex rounded-sm  text-white shadow-md shadow-black hover:shadow-lg hover:shadow-black transition-all flex-col justify-center ">
-        <img src="<?php echo $row['foto_principale']; ?>" alt="Anteprima" class="w-[100%]  rounded-t-sm ">
-    
-        <div class="flex flex-col justify-between mt-4  gap-10  mx-6 ">
-            <h1 class="text-5xl break-normal"><?php echo $row['titolo']; ?></h1>
-            <p class="font-Unna text-3xl pt-2">€ <?php echo $row['prezzo']; ?></p>
-
-            <div class="flex   max-sm:justify-center justify-end items-center w-full px-4  gap-8 ">
-                
-            <p class="flex items-center justify-center gap-4"><img src="/img/camere2.svg" alt="" class="w-8 h-8"><?php echo $row['camere']; ?></p>
-            <p class=" flex items-center justify-center gap-4"><img src="/img/bagni2.svg" alt="" class="w-8 h-8"><?php echo $row['bagni']; ?></p>
-            <p class=" flex items-center justify-center gap-4"><img src="/img/mq.svg" alt="" class="w-8 h-8"><?php echo $row['metri_quadrati']; ?>M²</p>
-            <p class=" flex items-center justify-center gap-4"><img src="/img/piani.svg" alt="" class="w-8 h-8"><?php echo $row['piani']; ?></p>
-    
-        </div>
-
-        <div class="border-t border-white w-[95%] font-Merriweather text-lg   mb-8 flex   gap-8">
-            
-            <p class="pt-4 flex items-center gap-4 uppercase"><img src="/img/casa.svg" alt="" class="w-8 h-8"> <?php echo $row['tipo_immobile']; ?></p>
-            <p class="pt-4 flex items-center gap-4 uppercase"><img src="/img/posizione.svg" alt="" class="w-8 h-8"> <?php echo $row['comune']; ?></p>
-            <p class="pt-4 ml-auto">Rif. <?php echo $row['id_immobile']; ?></p>
-        </div>
- 
-
-        
-
-            
-            <!-- Aggiungi altri dettagli dell'immobile che desideri mostrare -->
-        </div>
+   <div class="flex flex-col gap-4  min-h-[300px] ">
+    <div class="bg-green-800 px-8 py-4 shadow-md shadow-neutral-900">
+       <h1 class="text-2xl break-normal uppercase sm:text-3xl md:text-4xl "><?php echo $row['titolo']; ?></h1>
     </div>
-    </a>
-  
-    <?php }
+    <div class="mx-8">
+       <p class="font-Unna text-3xl ">€ <?php echo $row['prezzo']; ?></p>
+
+      
+       <div class="flex justify-between gap-4">
+       <p class="pt-4 flex flex-col justify-end  items-start gap-4 uppercase"><img src="/img/casa.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6 "> <?php echo $row['tipo_immobile']; ?></p>
+   
+       <div class="flex justify-end px-2 gap-4  text-md  ">
+       <div class="flex-col">
+           <p class="py-4 flex gap-2"><img src="/img/camere2.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6 "><?php echo $row['camere']; ?></p>
+           <p class="pt-4 flex gap-2"><img src="/img/bagni2.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6 "><?php echo $row['bagni']; ?></p>
+       </div>
+       <div class="flex-col">
+           <p class="py-4 flex gap-2"><img src="/img/mq.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6 "><?php echo $row['metri_quadrati']; ?>M²</p>
+           <p class="pt-4 flex gap-2"><img src="/img/piani.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6"><?php echo $row['piani']; ?></p>
+       </div>
+   </div>
+         </div>
+       <div class="border-t border-green-700 w-[95%] mt-4 font-Merriweather text-md pb-8 flex gap-8">
+         
+           <p class="pt-4 flex items-center gap-4 uppercase"><img src="/img/posizione.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6"> <?php echo $row['comune']; ?></p>
+           <p class="pt-4 ml-auto">Rif. <?php echo $row['id_immobile']; ?></p>
+       </div>
+   </div>
+</div>
+</div>
+
+
+<div class="mx-auto bg-neutral-800 w-[31%] max-h-[700px] overflow-hidden flex rounded-sm text-white shadow-md shadow-black hover:shadow-lg hover:shadow-green-800 transition-all flex-col justify-center lg:hidden">
+
+<div class="relative w-full h-full  overflow-hidden"> <a href="dettaglio_immobile.php?id=<?php echo $row['id_immobile']; ?>" class="">
+       <img src="<?php echo $row['foto_principale']; ?>" alt="Anteprima" class=" w-full h-full  object-cover rounded-t-sm">
+   </div>
+
+   <div class="flex flex-col justify-between mt-4  mx-8 min-h-[400px] ">
+       <h1 class="text-2xl break-normal lg:text-3xl"><?php echo $row['titolo']; ?></h1>
+       <p class="font-Unna text-2xl ">€ <?php echo $row['prezzo']; ?></p>
+
+       <div class="flex justify-between gap-4">
+       <p class="pt-4 flex flex-col justify-end  items-start gap-4 uppercase"><img src="/img/casa.svg" alt="" class="w-8 h-8 max-lg:w-6 max-lg:h-6"> <?php echo $row['tipo_immobile']; ?></p>
+   
+       <div class="flex justify-end px-2 gap-4  text-md  ">
+       <div class="flex-col">
+           <p class="py-4 flex gap-2"><img src="/img/camere2.svg" alt="" class="w-8 h-8 max-lg:w-6 max-lg:h-6"><?php echo $row['camere']; ?></p>
+           <p class="pt-4 flex gap-2"><img src="/img/bagni2.svg" alt="" class="w-8 h-8 max-lg:w-6 max-lg:h-6"><?php echo $row['bagni']; ?></p>
+       </div>
+       <div class="flex-col">
+           <p class="py-4 flex gap-2"><img src="/img/mq.svg" alt="" class="w-8 h-8 max-lg:w-6 max-lg:h-6"><?php echo $row['metri_quadrati']; ?>M²</p>
+           <p class="pt-4 flex gap-2"><img src="/img/piani.svg" alt="" class="w-8 h-8 max-lg:w-6 max-lg:h-6"><?php echo $row['piani']; ?></p>
+       </div>
+   </div>
+         </div>
+       <div class="border-t border-green-700 w-[95%] font-Merriweather text-md pb-8 flex gap-8">
+         
+           <p class="pt-4 flex items-center gap-4 uppercase"><img src="/img/posizione.svg" alt="" class="w-8 h-8 max-lg:w-6 max-lg:h-6"> <?php echo $row['comune']; ?></p>
+           <p class="pt-4 ml-auto">Rif. <?php echo $row['id_immobile']; ?></p>
+       </div>
+   </div>
+</div>
+
+
+
+<?php }
 } else {
     echo "Errore nella query: " . mysqli_error($conn);
-}
+
+};
+
+
+?></div> 
+
+      
+ 
+
+
+  
+    <?php 
 
 // Chiudi la connessione al database
 mysqli_close($conn);
 
 ?>
 
+
+
+ 
 <br>
 <div class="border border-white w-[90%] mt-10 mx-auto"></div>
 </div>
        <div class=" px-5 pt-10 flex flex-col justify-center items-center bg-neutral-900 text-white md:px-10 lg:px-12 lg:py-14 xl:px-32"> <br>
-        <h1 class="text-7xl uppercase md:text-8xl lg:text-9xl xl:text-[142px] font-Ayer " data-aos="fade-down" data-aos-duration="600" data-aos-once="true" >Premia Home</h1> <br><br><br>
+        <h1 class="text-7xl uppercase md:text-8xl lg:text-9xl xl:text-[142px] font-Ayer text-center " data-aos="fade-down" data-aos-duration="600" data-aos-once="true" >Premia Home</h1> <br><br><br>
         <p class="text-base md:text-lg lg:text-xl xl:text-2xl  font-Grotesk tracking-wide ">
           A differenza delle altre agenzie immobiliari, Premia Home è una società di intermediazione immobiliare partecipata a maggioranza dalla Holding del gruppo Premia (<b>S.p.A.</b>). <br><br>
 
           La nostra società <b>non</b> si occupa solamente di immobiliare, ma offriamo anche servizi <b>finanziari…</b></p> <br><br>
 
-          <button class="p-4 bg-transparent border-4 border-green-800 rounded-md text-lg md:text-2xl lg:text-3xl animate-pulse xl:p-5 hover:bg-green-800 hover:border-white transition-all">Scopri di più</button>
+          <a href="/dist/about.html"><button class="p-4 bg-transparent border-4 border-green-800 rounded-md text-lg md:text-2xl lg:text-3xl animate-pulse xl:p-5 hover:bg-green-800 hover:border-white transition-all">Scopri di più</button></a>
           <br>
           <br>
        </div>
@@ -171,7 +233,7 @@ mysqli_close($conn);
       </div>
       <br><br><br>
        <div class="flex justify-center py-8 ">
-       <button type="submit" onclick="effettuaChiamata()" class="w-[80%] bg-red-700 text-white font-semibold text-lg xl:text-xl 2xl:text-2xl p-4 shadow-md shadow-black border-2 border-neutral-500 hover:scale-105 hover:shadow-lg hover:shadow-black transition-all md:w-[60%] lg:w-[50%] max-w-[550px] ">Voglio un appuntamento</button>
+       <button type="submit" onclick="effettuaChiamata()" class="w-[80%] bg-red-700 text-white font-semibold text-lg xl:text-xl 2xl:text-2xl p-4 shadow-md shadow-black border-2 border-neutral-500 hover:scale-105 hover:shadow-lg hover:shadow-black hover:border-white transition-all md:w-[60%] lg:w-[50%] max-w-[550px] ">Voglio un appuntamento</button>
       </div>
     </div>
 
@@ -182,7 +244,7 @@ mysqli_close($conn);
       <br>
       <h1 class="text-3xl  text-center">E noi facciamo tutto per darti il meglio.</h1> <br><br>
 
-      <button type="submit" onclick="effettuaChiamata()" class="w-[80%] bg-red-700 text-white font-semibold text-lg xl:text-xl 2xl:text-2xl p-4 shadow-md shadow-black border-2 border-neutral-500 hover:scale-105 hover:shadow-lg hover:shadow-black transition-all md:w-[60%] lg:w-[50%] max-w-[550px] ">Voglio un appuntamento</button>
+      <button type="submit" onclick="effettuaChiamata()" class="w-[80%] bg-red-700 text-white font-semibold text-lg xl:text-xl 2xl:text-2xl p-4 shadow-md shadow-black border-2 border-neutral-500 hover:scale-105 hover:shadow-lg hover:shadow-black hover:border-white transition-all md:w-[60%] lg:w-[50%] max-w-[550px] ">Voglio un appuntamento</button>
   <br>
 
   </div>
@@ -207,10 +269,26 @@ mysqli_close($conn);
     </div>
  
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<!-- Aggiungi questi script alla fine del tuo body -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
     <script>
       AOS.init();
   </script>
+
+<script>
+    $(document).ready(function(){
+        $('.carousel').slick({
+            dots: true, // Aggiungi i puntini di navigazione
+            infinite: true,
+            speed: 300,
+            slidesToShow: 1, // Mostra un solo immobile alla volta
+            adaptiveHeight: true,
+        });
+    });
+</script>
+
 
 <script src="index.js"></script>
 

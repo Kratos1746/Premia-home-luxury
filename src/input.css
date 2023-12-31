@@ -16,3 +16,11 @@
 
   }
 
+.carousel {
+    width: 70%; /* Imposta la larghezza desiderata per il carousel */
+    margin: auto; /* Centra il carousel */
+}
+
+.slide {
+   /* Aggiungi spaziatura tra le slide */
+}
