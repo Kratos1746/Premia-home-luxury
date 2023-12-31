@@ -23,7 +23,7 @@ var prevScrollpos = window.pageYOffset;
         document.getElementById('nav-1024').classList.add('py-8');
         document.getElementById('nav-1024').classList.add('animate-dasopra2');
         
-      } else if(currentScrollPos>100) {
+      } else if(currentScrollPos>80) {
         // Altrimenti, nascondi la barra
         document.getElementById('hamburger').classList.remove('fixed');
         document.getElementById('Logo').classList.remove('fixed');
@@ -140,3 +140,4 @@ function aggiungiImmobile() {
   // Reindirizza l'utente a new_imm.php quando il pulsante viene cliccato
   window.location.href = 'new_imm.php';
 }
+

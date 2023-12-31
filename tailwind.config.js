@@ -135,6 +135,7 @@ module.exports = {
         Unna:['Unna','serif'],
         Merriweather:['Merriweather','serif'],
         Ayer:['Ayer','serif'],
+        Grotesk:['Familjen Grotesk', 'sans-serif'],
       },
   },
   plugins: [],

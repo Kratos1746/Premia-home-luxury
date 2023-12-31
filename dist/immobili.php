@@ -36,6 +36,9 @@ if ($result)	{
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400&display=swap" rel="stylesheet">
   <link href = "/dist/font/style.css" rel = "stylesheet" type = "text/css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk&display=swap" rel="stylesheet">
 
 <!--	Title
 	=========================================================-->
@@ -53,7 +56,7 @@ if (isset($_GET['messaggio'])) {
 ?>
 
 
-<body class="overflow-x-hidden">
+<body class="overflow-x-hidden font-Grotesk tracking-wide">
 
 
 
@@ -67,7 +70,7 @@ if (isset($_GET['messaggio'])) {
 
               <div class=" w-1/3 mt-8 flex items-center">
               <div id="menu-1024" class="  space-x-8  text-lg font-semibold xl:text-xl fixed left-1/2 -translate-x-1/2 ">
-                  <a href="/dist/index.html" class=" text-white hover:scale-105 transition-all">Home</a>
+                  <a href="/dist/index.php" class=" text-white hover:scale-105 transition-all">Home</a>
                   <a href="#" class="text-green-600  underline underline-offset-4 hover:scale-105 transition-all">Immobili</a>
                   <a href="/dist/about.html" class="text-white hover:scale-105 transition-all">Chi Siamo</a>
                   <a href="/dist/contatti.html" class="text-white hover:scale-105 transition-all">Contatti</a>
@@ -181,7 +184,7 @@ if (isset($_GET['messaggio'])) {
             </div>
             <div id="menu" class="bar hidden fixed left-0 top-0 py-10 px-8 text-center bg-neutral-800 w-full z-0">
             <div class=" flex flex-col text-xl font-semibold   gap-8">
-                <a href="/dist/index.html" class="text-white hover:scale-105 transition-all ">Home</a>
+                <a href="/dist/index.php" class="text-white hover:scale-105 transition-all ">Home</a>
                 <div class=" border-b mx-12 "></div>
                 <a href="#" class="text-green-600  underline underline-offset-4 hover:scale-105 transition-all">Immobili</a>
                 <div class="border-b mx-12"></div>
@@ -261,26 +264,26 @@ if (isset($_GET['messaggio'])) {
       
     ?>
     
-    <div class="mt-12 bg-neutral-800 w-full h-fit flex text-white shadow-md shadow-black hover:shadow-lg hover:shadow-black transition-all max-lg:hidden max-h-[500px] ">
+    <div class="mt-12 bg-neutral-800 w-full h-fit flex text-white shadow-md shadow-black hover:shadow-lg hover:shadow-black transition-all max-lg:hidden max-h-[550px] ">
  <a href="dettaglio_immobile.php?id=<?php echo $row['id_immobile']; ?>" class=" flex">
  
  
         <img src="<?php echo $row['foto_principale']; ?>" alt="Anteprima" class="w-full lg:w-[45%]  xl:w-1/3">
     
         <div class="flex flex-col justify-between mt-4  gap-10  mx-6 lg:mx-16 lg:w-1/2 xl:w-2/3 xl:mx-8">
-            <h1 class="text-6xl break-all xl:text-[80px] font-Ayer uppercase tracking-wide"><?php echo $row['titolo']; ?></h1>
+            <h1 class="text-6xl break-normal xl:text-[80px] font-Ayer uppercase tracking-wide"><?php echo $row['titolo']; ?></h1>
             <p class="font-Unna text-3xl pt-2">€ <?php echo $row['prezzo']; ?></p>    
             <div class="flex justify-between">
             <div class="flex items-center max-xl:hidden  ">
     <?php
-    $maxLength = 100; // Imposta la lunghezza massima desiderata
+    $maxLength = 150; // Imposta la lunghezza massima desiderata
     $description = $row['descrizione'];
 
     if (strlen($description) > $maxLength) {
         $shortDescription = substr($description, 0, $maxLength) . '...';
-        echo '<p class="text-xl break-all" style="max-width: 90%;">' . nl2br($shortDescription) . '</p>';
+        echo '<p class="text-xl break-normal" style="max-width: 90%;">' . nl2br($shortDescription) . '</p>';
     } else {
-        echo '<p class="text-xl break-all" style="max-width: 90%;">' . nl2br($description) . '</p>';
+        echo '<p class="text-xl break-normal" style="max-width: 90%;">' . nl2br($description) . '</p>';
     }
     ?>
     </div>
