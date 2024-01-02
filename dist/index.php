@@ -88,14 +88,24 @@ include './php/db_connection.php';
 
 
 
-<div class="bg-neutral-900">
-<br>
-<br>
-<br><br>
+<div class="bg-neutral-900  ">
 
-<h1 class="text-7xl uppercase md:text-8xl lg:text-9xl xl:text-[142px] font-Ayer text-center text-white " data-aos="fade-down" data-aos-duration="600" data-aos-once="true" >In evidenza</h1> <br>
+<a href="/dist/immobili.php" class=""  > 
+            <div class="relative float-right mr-16 xl:mr-24 pt-6 md:pt-20 h-24 w-fit  hover:scale-105 transition-all text-green-700 font-semibold z-20">
+                <div class="flex flex-nowrap items-center whitespace-nowrap gap-6 animate-bounce-horizontal"> 
+                  <p class="flex text-md lg:text-lg">Scopri immobili</p>
+                   <img src="/img/freccia.svg" alt="" class="w-full lg:h-14 h-12 xl:h-16">
+                 </div>   
+            </div></a>
+
+<div class="w-[90%] mx-auto text-center flex justify-center">
+                    
+
+        <h1 class="text-7xl  uppercase md:text-8xl lg:text-9xl xl:text-[142px] font-Ayer text-center text-white " data-aos="fade-down" data-aos-duration="600" data-aos-once="true" >In evidenza</h1> <br>
+               </div>  
+                 
 <br><br>
- <div class="flex">   
+ <div class="flex ">   
 <?php
 
 
@@ -147,7 +157,8 @@ if ($result) {
 
 <div class="mx-auto bg-neutral-800 w-[31%] max-h-[700px] overflow-hidden flex rounded-sm text-white shadow-md shadow-black hover:shadow-lg hover:shadow-green-800 transition-all flex-col justify-center lg:hidden">
 
-<div class="relative w-full h-full  overflow-hidden"> <a href="dettaglio_immobile.php?id=<?php echo $row['id_immobile']; ?>" class="">
+<div class="relative w-full h-full  overflow-hidden"> 
+    <a href="dettaglio_immobile.php?id=<?php echo $row['id_immobile']; ?>" class="">
        <img src="<?php echo $row['foto_principale']; ?>" alt="Anteprima" class=" w-full h-full  object-cover rounded-t-sm">
    </div>
 

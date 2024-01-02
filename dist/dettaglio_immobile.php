@@ -53,7 +53,8 @@ if (isset($_GET['id'])) {
 <nav id="nav-1024" class="max-lg:hidden lg:block  z-10 pt-4   w-full fixed ">
           <div class="flex items-center justify-between ">
             <div class=" w-1/3 mt-12">
-              <img src="/img/logo-ombra.png" alt="Logo" id="Logo-1024" class="h-18 w-60 ml-8 mt-6 z-10 fixed top-0 left-0 ">
+            <a href="/dist/index.php" >
+              <img src="/img/logo-ombra.png" alt="Logo" id="Logo-1024" class="h-18 w-60 ml-8 mt-6 z-10 fixed top-0 left-0 "></a>
               </div>
 
               <div class=" w-1/3 mt-8 flex items-center">
@@ -120,7 +121,8 @@ if (isset($_GET['id'])) {
       <nav id="nav" class=" lg:hidden  z-10   fixed w-full   ">
         <div class="flex items-center justify-between  ">
         <div class=" w-1/3 mt-12">
-            <img src="/img/logo-ombra.png" alt="Logo" id="Logo" class="h-18 w-48 ml-8 mt-6 z-10 fixed top-0 left-0 ">
+        <a href="/dist/index.php" >
+            <img src="/img/logo-ombra.png" alt="Logo" id="Logo" class="h-18 w-48 ml-8 mt-6 z-10 fixed top-0 left-0 "></a>
         </div>
 
             <div class=" w-1/3 flex justify-center py-5  gap-10 max-md:hidden ">
@@ -473,11 +475,11 @@ if (isset($_GET['id'])) {
                     </div>
                     </div>
 
-                    
-                    <div class="flex flex-col bg-neutral-900 h-screen mt-12 w-[90%]">
+                                  <div class="flex flex-col bg-neutral-900 h-screen mt-12 w-[90%]">
                         <h1 class="uppercase text-6xl font-Ayer xl:text-9xl text-neutral-400">mappa</h1>
                         <div class="flex justify-center">
-                        
+                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3<API>5e0!3m2!1sit!2sit!4v1704111234128!5m2!1sit!2sit" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        
                     </div>
                     </div>
 

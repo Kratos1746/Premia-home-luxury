@@ -65,7 +65,8 @@ if (isset($_GET['messaggio'])) {
       <nav id="nav-1024" class="max-lg:hidden lg:block  z-10 pt-4   w-full fixed ">
           <div class="flex items-center justify-between ">
             <div class=" w-1/3 mt-12">
-              <img src="/img/logo-ombra.png" alt="Logo" id="Logo-1024" class="h-18 w-60 ml-8 mt-6 z-10 fixed top-0 left-0 ">
+            <a href="/dist/index.php" >
+              <img src="/img/logo-ombra.png" alt="Logo" id="Logo-1024" class="h-18 w-60 ml-8 mt-6 z-10 fixed top-0 left-0 "></a>
               </div>
 
               <div class=" w-1/3 mt-8 flex items-center">
@@ -132,7 +133,8 @@ if (isset($_GET['messaggio'])) {
       <nav id="nav" class=" lg:hidden  z-10   fixed w-full   ">
         <div class="flex items-center justify-between  ">
         <div class=" w-1/3 mt-12">
-            <img src="/img/logo-ombra.png" alt="Logo" id="Logo" class="h-18 w-48 ml-8 mt-6 z-10 fixed top-0 left-0 ">
+        <a href="/dist/index.php" >
+            <img src="/img/logo-ombra.png" alt="Logo" id="Logo" class="h-18 w-48 ml-8 mt-6 z-10 fixed top-0 left-0 "></a>
         </div>
 
             <div class=" w-1/3 flex justify-center py-5  gap-10 max-md:hidden ">
@@ -264,20 +266,20 @@ if (isset($_GET['messaggio'])) {
       
     ?>
     
-    <div class="mt-12 bg-neutral-800 w-full h-fit flex text-white shadow-md shadow-black hover:shadow-lg hover:shadow-green-800 transition-all max-lg:hidden max-h-[550px] ">
+    <div class="mt-12 bg-neutral-800 w-full min-h-[350px] max-h-[350px] xl:min-h-[450px] xl:max-h-[450px] flex text-white shadow-md shadow-black hover:shadow-lg hover:shadow-green-800 transition-all max-lg:hidden   ">
  <a href="dettaglio_immobile.php?id=<?php echo $row['id_immobile']; ?>" class=" flex">
  
- 
-        <img src="<?php echo $row['foto_principale']; ?>" alt="Anteprima" class="w-full lg:w-[45%]  xl:w-1/3">
-    
-        <div class="flex flex-col justify-between   gap-10   lg:w-1/2 xl:w-2/3 ">
-            <h1 class="text-4xl break-normal xl:text-5xl font-Grotesk uppercase bg-green-800 px-8 py-4 shadow-md shadow-neutral-900 "><?php echo $row['titolo']; ?></h1>
+ <div class="relative w-1/3 h-full  overflow-hidden">
+        <img src="<?php echo $row['foto_principale']; ?>" alt="Anteprima" class="w-full h-full  object-cover">
+ </div>
+        <div class="flex flex-col  justify-between   gap-6  lg:w-2/3 ">
+            <h1 class="text-5xl break-normal  font-Grotesk uppercase bg-green-800 px-8 py-4 shadow-md shadow-neutral-900 "><?php echo $row['titolo']; ?></h1>
             <div class="mx-16  ">
-            <p class="font-Unna text-3xl pt-2">€ <?php echo $row['prezzo']; ?></p>    
-            <div class="flex justify-between">
+            <p class="font-Unna text-3xl pt-2 mb-6">€ <?php echo $row['prezzo']; ?></p>    
+            <div class="flex justify-between ">
             <div class="flex items-center max-xl:hidden  ">
     <?php
-    $maxLength = 150; // Imposta la lunghezza massima desiderata
+    $maxLength = 120; // Imposta la lunghezza massima desiderata
     $description = $row['descrizione'];
 
     if (strlen($description) > $maxLength) {
@@ -312,7 +314,7 @@ if (isset($_GET['messaggio'])) {
     
 
     
-    <div class="border-t border-green-800 w-[95%] font-Merriweather text-lg mt-6  mb-8 flex   gap-8 xl:text-xl">
+    <div class="border-t border-green-800 w-[95%]  font-Merriweather text-lg mt-6  mb-8 flex  gap-8 xl:text-xl">
             
             <p class="pt-4 flex items-center gap-4 uppercase"><img src="/img/casa.svg" alt="" class="w-8 h-8"> <?php echo $row['tipo_immobile']; ?></p>
             <p class="pt-4 flex items-center gap-4 uppercase"><img src="/img/posizione.svg" alt="" class="w-8 h-8"> <?php echo $row['comune']; ?></p>

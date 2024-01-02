@@ -142,4 +142,23 @@ function aggiungiImmobile() {
 }
 
 
+$(document).ready(function() {
+  // Richiesta API per ottenere l'elenco delle province italiane
+  $.ajax({
+      url: 'https://provinceitaliane.it/api-province',
+      type: 'GET',
+      success: function(data) {
+          // Aggiungi le province al menu a tendina
+          var select = $('#provincia');
+          $.each(data, function(index, value) {
+              select.append('<option value="' + value.sigla + '">' + value.nome + '</option>');
+          });
 
+          // Inizializza il menu a tendina con Select2
+          select.select2();
+      },
+      error: function(error) {
+          console.log('Errore nella richiesta API: ' + error.statusText);
+      }
+  });
+});
