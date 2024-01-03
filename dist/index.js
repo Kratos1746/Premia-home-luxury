@@ -162,3 +162,29 @@ $(document).ready(function() {
       }
   });
 });
+
+function eliminaImm() {
+  var conferma = confirm("Sei sicuro di voler eliminare questo immobile?");
+  if (conferma) {
+    
+      
+      // Utilizza AJAX per inviare una richiesta di eliminazione al server
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "/dist/elimina_immobile.php", true);
+      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xhr.onreadystatechange = function () {
+          if (xhr.readyState == 4 && xhr.status == 200) {
+              // Gestisci la risposta del server
+              var response = xhr.responseText;
+              if (response == "success") {
+                  // Eliminazione avvenuta con successo
+                  window.location.href = "/dist/immobili.php";
+              } else {
+                  // Gestisci altri scenari, ad esempio mostrando un messaggio di errore
+                  alert("Errore durante l'eliminazione dell'immobile.");
+              }
+          }
+      };
+      xhr.send("id_immobile=" + id_immobile);
+  }
+}

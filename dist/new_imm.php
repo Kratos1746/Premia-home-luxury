@@ -2,6 +2,8 @@
 session_start();
 include './php/db_connection.php';
 
+
+
 // Verifica se l'utente è autenticato
 if (!isset($_SESSION['ID'])) {
     header("Location: login.php");
@@ -460,7 +462,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             <div class="mb-6 flex flex-col">
                 <label for="galleria_foto">Galleria Foto:</label>
-                <input type="file" name="galleria_foto[]" accept="image/*" multiple placeholder="Foto" required class="border border-white bg-neutral-800 rounded-md py-3 text-white px-2">
+                <input type="file" name="galleria_foto" accept="image/*" multiple placeholder="Foto" required class="border border-white bg-neutral-800 rounded-md py-3 text-white px-2">
             </div>
            <div class="mb-6 flex flex-col">
                 <label for="video">Video:</label>

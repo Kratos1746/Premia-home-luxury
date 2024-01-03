@@ -105,7 +105,7 @@ include './php/db_connection.php';
                </div>  
                  
 <br><br>
- <div class="flex ">   
+ <div class="flex">   
 <?php
 
 
@@ -261,16 +261,113 @@ mysqli_close($conn);
   </div>
 
 
-<div class="bg-neutral-950 py-4 px-8 flex md:justify-between   ">
-    <div class="flex flex-col">
-        <div class="border-b border-red-700">
-    <p class="text-white font-semibold">Premia Home S.P.A. - P.IVA: 06024760875 -  Viale jonio 35, Catania</p> <br>
-</div> <br>
-    <p class="text-white font-semibold">lun-ven: 9-13 / 15-19 <br>sabato: 9-13</p>
+<div class="bg-neutral-950 pt-16 border-t border-white px-4 lg:px-10   flex flex-col   ">
+ 
+<div class="mx-8">
+    <div class="flex justify-between gap-4 md:gap-0">
+<div class=" flex  flex-col items-center md:items-start gap-10 md:gap-6 lg:ml-6 w-1/3">
+           
+            <button onclick="effettuaChiamatacell()" class="flex items-center hover:scale-105 transition-all">
+                <div class=" bg-green-700 text-white px-2 py-2 rounded-full lg:px-3 lg:py-3">
+                <img src="/img/cellulare.png" alt="" class="w-6 h-6"></div> 
+                <div class="flex items-center text-white">
+                <p class="hidden ml-4 md:block lg:text-md xl:ml-8 xl:text-xl">3289086227</p></div>
+            </button>
+            
+            
+            <button onclick="effettuaChiamata()" class="flex items-center hover:scale-105 transition-all">
+                <div class=" bg-white text-white px-2 py-2 rounded-full lg:px-3 lg:py-3">
+                <svg width="24px" height="24px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
+                    <title>phone</title>
+                    <desc>Created with Sketch.</desc>
+                    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <g id="Rounded" transform="translate(-749.000000, -1263.000000)">
+                            <g id="Communication" transform="translate(100.000000, 1162.000000)">
+                                <g id="-Round-/-Communication-/-phone" transform="translate(646.000000, 98.000000)">
+                                    <g>
+                                        <polygon id="Path" points="0 0 24 0 24 24 0 24"></polygon>
+                                        <path d="M19.23,15.26 L16.69,14.97 C16.08,14.9 15.48,15.11 15.05,15.54 L13.21,17.38 C10.38,15.94 8.06,13.63 6.62,10.79 L8.47,8.94 C8.9,8.51 9.11,7.91 9.04,7.3 L8.75,4.78 C8.63,3.77 7.78,3.01 6.76,3.01 L5.03,3.01 C3.9,3.01 2.96,3.95 3.03,5.08 C3.56,13.62 10.39,20.44 18.92,20.97 C20.05,21.04 20.99,20.1 20.99,18.97 L20.99,17.24 C21,16.23 20.24,15.38 19.23,15.26 Z" id="🔹Icon-Color" fill="#1D1D1D"></path>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </svg> </div>
+                <div class="flex items-center text-white">
+                <p class="hidden ml-4 md:block lg:text-md xl:ml-8 xl:text-xl">0952274123</p></div>
+            </button>
+           
+            
+            <a href="mailto:segreteria@premiahome.it?subject=Oggetto%20della%20mail&body=Testo%20del%20messaggio" target="_blank">
+            <button class="flex items-center hover:scale-105 transition-all">
+                <div class=" bg-red-700 text-white px-2 py-2 rounded-full lg:px-3 lg:py-3">
+                <img src="/img/email.png" alt="" class="w-6 h-6"></div>
+                <div class="flex items-center text-white">
+                <p class="hidden ml-4 text-sm md:block lg:text-md xl:ml-8 xl:text-xl">segreteria@premiahome.it</p></div>
+            </button></a>
+            
+           
+        </div>
+
+        <div class="flex flex-col gap-4   text-left md:text-lg lg:text-xl transition-all uppercase w-fit mx-4 max-xl:text-center">
+    <a href="/dist/index.php"  class="text-white  mb-2">
+    <p class="">IMMOBILI IN EVIDENZA</p> 
+    </a>
+    <a href="/dist/immobili.php"  class="text-white  mb-2">
+    <p class="">cerca il tuo immobile</p> 
+    </a>
+    <a href="/dist/about.html"  class="text-white  mb-2">
+    <p class="">scopri chi siamo</p> 
+    </a>
+    <a href="/dist/contatti.html"  class="text-white ">
+    <p class="">parla con noi</p> 
+    </a>
 </div>
+
+        <div class="flex flex-col gap-4 items-center md:items-end  lg:mr-6 text-2xl md:text-lg lg:text-xl transition-all w-1/3 max-md:hidden ">
+    <a href="https://www.facebook.com/tuapagina" target="_blank" class="text-white hover:text-blue-700 hover:scale-105 mb-2">
+        <i class="fab fa-facebook "></i> Facebook
+    </a>
+    <a href="https://www.instagram.com/tuapagina" target="_blank" class="text-white hover:text-purple-700 hover:scale-105 mb-2">
+        <i class="fab fa-instagram"></i> Instagram
+    </a>
+    <a href="https://www.youtube.com/tuapagina" target="_blank" class="text-white hover:text-red-700 hover:scale-105 mb-2">
+        <i class="fab fa-youtube"></i> YouTube
+    </a>
+    <a href="https://www.linkedin.com/company/tuapagina" target="_blank" class="text-white hover:text-blue-900 hover:scale-105">
+        <i class="fab fa-linkedin"></i> LinkedIn
+    </a>
+</div>
+
+<div class="flex flex-col gap-4 items-center md:items-end  lg:mr-6 text-2xl md:text-lg lg:text-xl transition-all w-1/3 md:hidden ">
+    <a href="https://www.facebook.com/tuapagina" target="_blank" class="text-white hover:text-blue-700 hover:scale-105 mb-2">
+        <i class="fab fa-facebook "></i> <p class="hidden  ">Facebook</p>
+    </a>
+    <a href="https://www.instagram.com/tuapagina" target="_blank" class="text-white hover:text-purple-700 hover:scale-105 mb-2">
+        <i class="fab fa-instagram"></i> <p class="hidden ">Instagram</p>
+    </a>
+    <a href="https://www.youtube.com/tuapagina" target="_blank" class="text-white hover:text-red-700 hover:scale-105 mb-2">
+        <i class="fab fa-youtube"></i> <p class="hidden ">YouTube</p>
+    </a>
+    <a href="https://www.linkedin.com/company/tuapagina" target="_blank" class="text-white hover:text-blue-900 hover:scale-105">
+        <i class="fab fa-linkedin"></i> <p class="hidden ">LinkedIn</p>
+    </a>
+</div>
+
+</div>
+<br>
+<div class="flex gap-8 mt-6 lg:ml-6">
+            <p class="text-white ">Lun-Ven: 9-13 / 15-19</p>
+            <div class="border-l border-white"></div>
+            <p class="text-white ">Sabato: 9-13</p>
+        </div>
     <br>
-    <div class="flex items-end pl-8">
-    <p class="text-white text-sm font-semibold ">Website by SDT Copy Sales</p>
+    <div class="flex  justify-between items-end lg:mx-6 pb-8 border-t gap-16 border-red-700 text-sm">
+    <p class="text-white xl:text-lg  mt-6">Premia Home S.P.A. - P.IVA: 06024760875 -  Viale jonio 35, Catania (CT)</p> 
+
+    <p class="text-white  font-medium mt-6">Website by SDT Copy Sales</p>
+</div>
 </div>
 </div>
 </div>
