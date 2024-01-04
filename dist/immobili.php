@@ -4,6 +4,8 @@ session_cache_limiter(false);
 session_start();
 include './php/db_connection.php';
 
+
+
 $query = "SELECT * FROM immobili";
 $result = mysqli_query($conn, $query);
 
@@ -62,7 +64,7 @@ if (isset($_GET['messaggio'])) {
 
  
 <div class="bg-neutral-900 min-h-screen flex flex-col">
-      <nav id="nav-1024" class="max-lg:hidden lg:block  z-10 pt-4   w-full fixed ">
+      <nav id="nav-1024" class="max-lg:hidden   z-10 pt-4 fixed  w-full  ">
           <div class="flex items-center justify-between ">
             <div class=" w-1/3 mt-12">
             <a href="/dist/index.php" >
@@ -78,7 +80,7 @@ if (isset($_GET['messaggio'])) {
               </div>
               </div>
               
-              <div id="button-login" class=" w-1/3 flex items-center justify-center mt-6   gap-10 ">
+              <div  class=" w-1/3 flex items-center justify-center mt-6   gap-10 ">
               <button id="toggleLogin" onclick="toggleLogin()" class=" max-md:hidden flex items-center hover:scale-105 transition-all">
                 <div class=" bg-neutral-800  px-4 py-5 rounded-full shadow-sm shadow-black hover:shadow-md hover:shadow-black">
                 <img src="/img/user.svg" alt="" class="w-10 h-8"></div>  
@@ -259,8 +261,412 @@ if (isset($_GET['messaggio'])) {
              </div>
 
 
+             <div class="mx-3 md:mx-8 my-10 ">
 
-             
+
+             <form method="post" action="immobili.php" class="max-md:hidden">
+
+
+<div class="flex gap-6 ">
+    <div class=" rounded-lg border border-white p-2 xl:p-4">
+<label for="filtro_provincia" class="text-white">Provincia:</label>
+<select id="filtro_provincia" name="filtro_provincia" class="rounded-md bg-transparent border-none text-white">
+<option class='text-black'  value="">Tutte</option>
+    <?php
+    // Esegui la query per ottenere le province distinte dalla tabella immobili
+    $query_province = "SELECT DISTINCT provincia FROM immobili";
+    $result_province = mysqli_query($conn, $query_province);
+
+    // Popola le opzioni nel menu a discesa
+    while ($row = mysqli_fetch_assoc($result_province)) {
+        $selected = (!empty($filtroProvincia) && $row['provincia'] == $filtroProvincia) ? 'selected' : '';
+
+
+        echo "<option class='text-black' value='{$row['provincia']}'>{$row['provincia']}</option>";
+    }
+    ?>
+</select>
+</div>
+
+<div class=" rounded-lg border border-white p-2 xl:p-4">
+<label for="filtro_comune" class="text-white">Comune:</label>
+<select id="filtro_comune" name="filtro_comune" class="rounded-md bg-transparent border-none text-white">
+<option class='text-black'  value="">Tutte</option>
+    <?php
+    // Esegui la query per ottenere le province distinte dalla tabella immobili
+    $query_comune = "SELECT DISTINCT comune FROM immobili";
+    $result_comune = mysqli_query($conn, $query_comune);
+
+    // Popola le opzioni nel menu a discesa
+    while ($row = mysqli_fetch_assoc($result_comune)) {
+        echo "<option class='text-black' value='{$row['comune']}'>{$row['comune']}</option>";
+    }
+    ?>
+</select>
+<?php
+    if (!empty($filtro_comune)) {
+        echo "<a href='#' onclick=\"document.getElementById('resetComune').submit();\">Resetta</a>";
+        echo "<input type='hidden' name='reset_comune' value='1'>";
+    }
+    ?>
+</div>
+
+<div class=" rounded-lg border border-white p-2 xl:p-4">
+<label for="filtro_tipo_vendita" class="text-white">Contratto:</label>
+<select id="filtro_tipo_vendita" name="filtro_tipo_vendita" class="rounded-md bg-transparent border-none text-white">
+<option value="">Tutti</option>
+    <?php
+    // Esegui la query per ottenere i tipi di vendita distinti dalla tabella immobili
+    $query_tipo_vendita = "SELECT DISTINCT tipo_vendita FROM immobili";
+    $result_tipo_vendita = mysqli_query($conn, $query_tipo_vendita);
+
+    // Popola le opzioni nel menu a discesa
+    while ($row = mysqli_fetch_assoc($result_tipo_vendita)) {
+        echo "<option class='text-black' value='{$row['tipo_vendita']}'>{$row['tipo_vendita']}</option>";
+    }
+    ?>
+</select>
+<?php
+    if (!empty($filtro_tipo_vendita)) {
+        echo "<a href='#' onclick=\"document.getElementById('resetTipoVendita').submit();\">Resetta</a>";
+        echo "<input type='hidden' name='reset_tipo_vendita' value='1'>";
+    }
+    ?>
+</div>
+
+<div class=" rounded-lg border border-white p-2 xl:p-4">
+<label for="filtro_tipo_immobile" class="text-white">Tipologia:</label>
+<select id="filtro_tipo_immobile" name="filtro_tipo_immobile" class="rounded-md bg-transparent border-none text-white">
+    <option value="">Tutti</option> 
+    <?php
+    // Esegui la query per ottenere i tipi di immobile distinti dalla tabella immobili
+    $query_tipo_immobile = "SELECT DISTINCT tipo_immobile FROM immobili";
+    $result_tipo_immobile = mysqli_query($conn, $query_tipo_immobile);
+
+    // Popola le opzioni nel menu a discesa
+    while ($row = mysqli_fetch_assoc($result_tipo_immobile)) {
+        echo "<option class='text-black' value='{$row['tipo_immobile']}'>{$row['tipo_immobile']}</option>";
+    }
+    ?>
+</select>
+<?php
+    if (!empty($filtro_tipo_immobile)) {
+        echo "<a href='#' onclick=\"document.getElementById('resetTipoImmobile').submit();\">Resetta</a>";
+        echo "<input type='hidden' name='reset_tipo_immobile' value='1'>";
+    }
+    ?>
+</div>
+
+<input type="submit" value="Cerca" class="text-white px-6 bg-green-700 rounded-lg border-white border hover:scale-105 transition-all">
+</div>
+</form>
+
+<form id="resetFiltri" method="post" action="immobili.php">
+    <input type="hidden" name="reset_filtri" value="1">
+</form>
+
+<form method="post" action="immobili.php" class="md:hidden">
+
+
+<div class="flex gap-2 ">
+<div class="w-1/2 flex flex-col gap-4">
+    <div class="flex flex-col rounded-lg border border-white max-[500px]:p-1 p-2 xl:p-4">
+<label for="filtro_provincia" class="text-white">Provincia:</label>
+<select id="filtro_provincia" name="filtro_provincia" class="rounded-md bg-transparent border-none text-white">
+<option class='text-black'  value="">Tutte</option>
+    <?php
+    // Esegui la query per ottenere le province distinte dalla tabella immobili
+    $query_province = "SELECT DISTINCT provincia FROM immobili";
+    $result_province = mysqli_query($conn, $query_province);
+
+    // Popola le opzioni nel menu a discesa
+    while ($row = mysqli_fetch_assoc($result_province)) {
+        $selected = (!empty($filtroProvincia) && $row['provincia'] == $filtroProvincia) ? 'selected' : '';
+
+
+        echo "<option class='text-black' value='{$row['provincia']}'>{$row['provincia']}</option>";
+    }
+    ?>
+</select>
+</div>
+
+<div class="flex flex-col rounded-lg border border-white max-[500px]:p-1 p-2 xl:p-4">
+<label for="filtro_comune" class="text-white">Comune:</label>
+<select id="filtro_comune" name="filtro_comune" class="rounded-md bg-transparent border-none text-white">
+<option class='text-black'  value="">Tutte</option>
+    <?php
+    // Esegui la query per ottenere le province distinte dalla tabella immobili
+    $query_comune = "SELECT DISTINCT comune FROM immobili";
+    $result_comune = mysqli_query($conn, $query_comune);
+
+    // Popola le opzioni nel menu a discesa
+    while ($row = mysqli_fetch_assoc($result_comune)) {
+        echo "<option class='text-black' value='{$row['comune']}'>{$row['comune']}</option>";
+    }
+    ?>
+</select>
+<?php
+    if (!empty($filtro_comune)) {
+        echo "<a href='#' onclick=\"document.getElementById('resetComune').submit();\">Resetta</a>";
+        echo "<input type='hidden' name='reset_comune' value='1'>";
+    }
+    ?>
+</div>
+</div>
+<div class="w-1/2 flex flex-col gap-4">
+<div class=" flex flex-col rounded-lg border border-white max-[500px]:p-1 p-2 xl:p-4">
+<label for="filtro_tipo_vendita" class="text-white">Contratto:</label>
+<select id="filtro_tipo_vendita" name="filtro_tipo_vendita" class="rounded-md bg-transparent border-none text-white">
+<option value="">Tutti</option>
+    <?php
+    // Esegui la query per ottenere i tipi di vendita distinti dalla tabella immobili
+    $query_tipo_vendita = "SELECT DISTINCT tipo_vendita FROM immobili";
+    $result_tipo_vendita = mysqli_query($conn, $query_tipo_vendita);
+
+    // Popola le opzioni nel menu a discesa
+    while ($row = mysqli_fetch_assoc($result_tipo_vendita)) {
+        echo "<option class='text-black' value='{$row['tipo_vendita']}'>{$row['tipo_vendita']}</option>";
+    }
+    ?>
+</select>
+<?php
+    if (!empty($filtro_tipo_vendita)) {
+        echo "<a href='#' onclick=\"document.getElementById('resetTipoVendita').submit();\">Resetta</a>";
+        echo "<input type='hidden' name='reset_tipo_vendita' value='1'>";
+    }
+    ?>
+</div>
+
+<div class="flex flex-col rounded-lg border border-white  max-[500px]:p-1 p-2 xl:p-4">
+<label for="filtro_tipo_immobile" class="text-white">Tipologia:</label>
+<select id="filtro_tipo_immobile" name="filtro_tipo_immobile" class="rounded-md bg-transparent border-none text-white">
+    <option value="">Tutti</option> 
+    <?php
+    // Esegui la query per ottenere i tipi di immobile distinti dalla tabella immobili
+    $query_tipo_immobile = "SELECT DISTINCT tipo_immobile FROM immobili";
+    $result_tipo_immobile = mysqli_query($conn, $query_tipo_immobile);
+
+    // Popola le opzioni nel menu a discesa
+    while ($row = mysqli_fetch_assoc($result_tipo_immobile)) {
+        echo "<option class='text-black' value='{$row['tipo_immobile']}'>{$row['tipo_immobile']}</option>";
+    }
+    ?>
+</select>
+<?php
+    if (!empty($filtro_tipo_immobile)) {
+        echo "<a href='#' onclick=\"document.getElementById('resetTipoImmobile').submit();\">Resetta</a>";
+        echo "<input type='hidden' name='reset_tipo_immobile' value='1'>";
+    }
+    ?>
+</div>
+</div>
+<input type="submit" value="Cerca" class="text-white px-2 bg-green-700 rounded-lg border-white border hover:scale-105 transition-all">
+</div>
+</form>
+
+<form id="resetFiltri" method="post" action="immobili.php">
+    <input type="hidden" name="reset_filtri" value="1">
+</form>
+
+
+
+<?php
+// Verifica se il modulo è stato inviato
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Recupera i valori selezionati
+    $filtro_provincia = isset($_POST['filtro_provincia']) ? $_POST['filtro_provincia'] : '';
+    $filtro_comune = isset($_POST['filtro_comune']) ? $_POST['filtro_comune'] : '';
+    $filtro_tipo_vendita = isset($_POST['filtro_tipo_vendita']) ? $_POST['filtro_tipo_vendita'] : '';
+    $filtro_tipo_immobile = isset($_POST['filtro_tipo_immobile']) ? $_POST['filtro_tipo_immobile'] : '';
+
+    // Verifica se ci sono filtri selezionati prima di visualizzarli
+    if (!empty($filtro_provincia) || !empty($filtro_comune) || !empty($filtro_tipo_vendita) || !empty($filtro_tipo_immobile)) {
+        // Visualizza i filtri selezionati solo se ce ne sono
+        echo '<div class=" text-white flex  gap-4 mt-8 max-md:gap-2">';
+        echo "<p class='max-md:text-sm'>Filtri selezionati:</p>";
+        echo "<ul class='flex gap-4 max-md:gap-2'>";
+
+        echo "<div class='w-1/2 flex flex-col gap-4 max-md:gap-2'>";
+
+        if (!empty($filtro_provincia)) {
+            echo "<li class=' rounded-full bg-green-700 px-2 py-1 max-md:text-sm text-center'>Provincia:<br class='md:hidden'> {$filtro_provincia}</li>";
+        }
+
+        if (!empty($filtro_comune)) {
+            echo "<li class=' rounded-full bg-green-700 px-2 py-1 max-md:text-sm text-center'>Comune:<br class='md:hidden'> {$filtro_comune}</li>";
+        }
+        echo "</div>";
+        echo "<div class='w-1/2 flex flex-col gap-4 max-md:gap-2'>";
+        if (!empty($filtro_tipo_vendita)) {
+            echo "<li class=' rounded-full bg-green-700 px-2 py-1 max-md:text-sm text-center'>Contratto:<br class='md:hidden'> {$filtro_tipo_vendita}</li>";
+        }
+
+        if (!empty($filtro_tipo_immobile)) {
+            echo "<li class=' rounded-full bg-green-700 px-2 py-1 max-md:text-sm text-center'>Tipologia:<br class='md:hidden'> {$filtro_tipo_immobile}</li>";
+        }
+        
+
+        echo "</div>";
+echo "<li class=' text-center max-md:text-sm'><a href='#' onclick=\"document.getElementById('resetFiltri').submit();\">Resetta filtri</a></li>";
+        echo "</ul>";
+        echo "</div>";
+    }
+}
+?>
+
+
+</div>
+
+<?php
+// Gestione del submit del modulo di ricerca
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Recupera i dati dal modulo di ricerca
+    $filtroProvincia = isset($_POST['filtro_provincia']) ? mysqli_real_escape_string($conn, $_POST['filtro_provincia']) : '';
+    $filtroComune = isset($_POST['filtro_comune']) ? mysqli_real_escape_string($conn, $_POST['filtro_comune']) : '';
+    $filtroTipoVendita = isset($_POST['filtro_tipo_vendita']) ? mysqli_real_escape_string($conn, $_POST['filtro_tipo_vendita']) : '';
+    $filtroTipoImmobile = isset($_POST['filtro_tipo_immobile']) ? mysqli_real_escape_string($conn, $_POST['filtro_tipo_immobile']) : '';
+
+    // Costruisci la query di ricerca con i filtri
+    $query = "SELECT * FROM immobili WHERE 1";
+
+    if (!empty($filtroProvincia)) {
+        $query .= " AND provincia = '$filtroProvincia'";
+    }
+
+    if (!empty($filtroComune)) {
+        $query .= " AND comune = '$filtroComune'";
+    }
+
+    if (!empty($filtroTipoVendita)) {
+        $query .= " AND tipo_vendita = '$filtroTipoVendita'";
+    }
+
+    if (!empty($filtroTipoImmobile)) {
+        $query .= " AND tipo_immobile = '$filtroTipoImmobile'";
+    }
+
+    // Esegui la query e visualizza i risultati
+    // (codice successivo)
+}
+// ... (resto del codice)
+
+
+?>
+
+<?php
+
+// Esegui la query e visualizza i risultati
+$result = mysqli_query($conn, $query);
+
+// Verifica se ci sono risultati
+if ($result && mysqli_num_rows($result) > 0) {
+    // Inizia a visualizzare gli immobili
+    echo '<div class="risultati-immobili">';
+    
+    while ($row = mysqli_fetch_assoc($result)) {
+        echo '<div class="mt-12 bg-neutral-800 w-full min-h-[350px] max-h-[350px] xl:min-h-[450px] xl:max-h-[450px] flex text-white shadow-md shadow-black hover:shadow-lg hover:shadow-green-800 transition-all max-lg:hidden   ">
+            <a href="dettaglio_immobile.php?id=' . $row['id_immobile'] . '" class=" flex">
+            
+            <div class="relative w-1/3 h-full  overflow-hidden">
+                   <img src="' . $row['foto_principale'] . '" alt="Anteprima" class="w-full h-full  object-cover">
+            </div>
+                   <div class="flex flex-col  justify-between   gap-6  lg:w-2/3 ">
+                       <h1 class="text-5xl break-normal  font-Grotesk uppercase bg-green-800 px-8 py-4 shadow-md shadow-neutral-900 ">' . $row['titolo'] . '</h1>
+                       <div class="mx-16  ">
+                       <p class="font-Unna text-3xl pt-2 mb-6">€ ' . $row['prezzo'] . '</p>    
+                       <div class="flex justify-between ">
+                       <div class="flex items-center max-xl:hidden  ">';
+        
+        $maxLength = 120; // Imposta la lunghezza massima desiderata
+        $description = $row['descrizione'];
+        
+        if (strlen($description) > $maxLength) {
+            $shortDescription = substr($description, 0, $maxLength) . '...';
+            echo '<p class="text-xl break-normal" style="max-width: 90%;">' . nl2br($shortDescription) . '</p>';
+        } else {
+            echo '<p class="text-xl break-normal" style="max-width: 90%;">' . nl2br($description) . '</p>';
+        }
+        
+        echo '</div>
+        
+        <div class="flex justify-end mx-20 px-8 gap-12 max-xl:hidden text-xl  ">
+            <div class="flex-col">
+                <p class="py-4 flex gap-4"><img src="/img/camere2.svg" alt="" class="w-12 h-10">' . $row['camere'] . '</p>
+                <p class="pt-4 flex gap-4"><img src="/img/bagni2.svg" alt="" class="w-12 h-10">' . $row['bagni'] . '</p>
+            </div>
+            <div class="flex-col">
+                <p class="py-4 flex gap-4"><img src="/img/mq.svg" alt="" class="w-10 h-10">' . $row['metri_quadrati'] . 'M²</p>
+                <p class="pt-4 flex gap-4"><img src="/img/piani.svg" alt="" class="w-12 h-10">' . $row['piani'] . '</p>
+            </div>
+        </div>
+    </div>';
+        
+        echo '<div class="flex   max-sm:justify-center justify-end items-center w-full px-4  gap-8 xl:hidden text-xl ">
+                           
+        <p class="flex items-center justify-center gap-4"><img src="/img/camere2.svg" alt="" class="w-8 h-8">' . $row['camere'] . '</p>
+        <p class=" flex items-center justify-center gap-4"><img src="/img/bagni2.svg" alt="" class="w-8 h-8">' . $row['bagni'] . '</p>
+        <p class=" flex items-center justify-center gap-4"><img src="/img/mq.svg" alt="" class="w-8 h-8">' . $row['metri_quadrati'] . 'M²</p>
+        <p class=" flex items-center justify-center gap-4"><img src="/img/piani.svg" alt="" class="w-8 h-8">' . $row['piani'] . '</p>
+    </div>';
+        
+        echo '<div class="border-t border-green-800 w-[95%]  font-Merriweather text-lg mt-6  mb-8 flex  gap-8 xl:text-xl">
+                
+        <p class="pt-4 flex items-center gap-4 uppercase"><img src="/img/casa.svg" alt="" class="w-8 h-8"> ' . $row['tipo_immobile'] . '</p>
+        <p class="pt-4 flex items-center gap-4 uppercase"><img src="/img/posizione.svg" alt="" class="w-8 h-8"> ' . $row['comune'] . '</p>
+        <p class="pt-4 ml-auto">Rif. ' . $row['id_immobile'] . '</p>
+    </div>';
+        
+        echo '<!-- Aggiungi altri dettagli dell\'immobile che desideri mostrare -->
+    </div>
+    </div>
+    </div>
+        
+    <div class="mx-auto mb-10 bg-neutral-800 w-[80%] max-h-[700px] overflow-hidden flex rounded-sm text-white shadow-md shadow-black hover:shadow-lg hover:shadow-green-800 transition-all flex-col justify-center lg:hidden">
+        
+    <div class="relative w-full h-full  overflow-hidden"> <a href="dettaglio_immobile.php?id=' . $row['id_immobile'] . '" class="">
+        <img src="' . $row['foto_principale'] . '" alt="Anteprima" class=" w-full h-full  object-cover rounded-t-sm">
+    </div>
+        
+    <div class="flex flex-col gap-4  min-h-[300px] ">
+    <div class="bg-green-800 px-8 py-4 shadow-md shadow-neutral-900">
+        <h1 class="text-2xl break-normal uppercase sm:text-3xl md:text-4xl ">' . $row['titolo'] . '</h1>
+    </div>
+    <div class="mx-8">
+        <p class="font-Unna text-3xl ">€ ' . $row['prezzo'] . '</p>
+        
+        <div class="flex justify-between gap-4">
+            <p class="pt-4 flex flex-col justify-end  items-start gap-4 uppercase"><img src="/img/casa.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6 "> ' . $row['tipo_immobile'] . '</p>
+            
+            <div class="flex justify-end px-2 gap-4  text-md  ">
+            <div class="flex-col">
+                <p class="py-4 flex gap-2"><img src="/img/camere2.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6 ">' . $row['camere'] . '</p>
+                <p class="pt-4 flex gap-2"><img src="/img/bagni2.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6 ">' . $row['bagni'] . '</p>
+            </div>
+            <div class="flex-col">
+                <p class="py-4 flex gap-2"><img src="/img/mq.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6 ">' . $row['metri_quadrati'] . 'M²</p>
+                <p class="pt-4 flex gap-2"><img src="/img/piani.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6">' . $row['piani'] . '</p>
+            </div>
+        </div>
+            </div>
+        <div class="border-t border-green-700 w-[95%] mt-4 font-Merriweather text-md pb-8 flex gap-8">
+            
+            <p class="pt-4 flex items-center gap-4 uppercase"><img src="/img/posizione.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6"> ' . $row['comune'] . '</p>
+            <p class="pt-4 ml-auto">Rif. ' . $row['id_immobile'] . '</p>
+        </div>
+    </div>
+    </div>
+    </div>
+    </a>';
+    }
+    
+    
+    echo '</div>';
+} else {
+
+    echo "<p class=' text-white mt-6 mx-8'>Nessun risultato trovato.</p>";
+}
+
+             ?>
 
 
              <?php
@@ -270,7 +676,7 @@ if (isset($_GET['messaggio'])) {
       
     ?>
     
-    <div class="mt-12 bg-neutral-800 w-full min-h-[350px] max-h-[350px] xl:min-h-[450px] xl:max-h-[450px] flex text-white shadow-md shadow-black hover:shadow-lg hover:shadow-green-800 transition-all max-lg:hidden   ">
+  <!--  <div class="mt-12 bg-neutral-800 w-full min-h-[350px] max-h-[350px] xl:min-h-[450px] xl:max-h-[450px] flex text-white shadow-md shadow-black hover:shadow-lg hover:shadow-green-800 transition-all max-lg:hidden   ">
  <a href="dettaglio_immobile.php?id=<?php echo $row['id_immobile']; ?>" class=" flex">
  
  <div class="relative w-1/3 h-full  overflow-hidden">
@@ -283,7 +689,7 @@ if (isset($_GET['messaggio'])) {
             <div class="flex justify-between ">
             <div class="flex items-center max-xl:hidden  ">
     <?php
-    $maxLength = 120; // Imposta la lunghezza massima desiderata
+   /* $maxLength = 120; // Imposta la lunghezza massima desiderata
     $description = $row['descrizione'];
 
     if (strlen($description) > $maxLength) {
@@ -291,7 +697,7 @@ if (isset($_GET['messaggio'])) {
         echo '<p class="text-xl break-normal" style="max-width: 90%;">' . nl2br($shortDescription) . '</p>';
     } else {
         echo '<p class="text-xl break-normal" style="max-width: 90%;">' . nl2br($description) . '</p>';
-    }
+    }*/
     ?>
     </div>
 
@@ -327,7 +733,7 @@ if (isset($_GET['messaggio'])) {
         
 
             
-            <!-- Aggiungi altri dettagli dell'immobile che desideri mostrare -->
+            
         </div>
     </div>
 </div>
@@ -368,7 +774,7 @@ if (isset($_GET['messaggio'])) {
    </div>
 </div>
 </div>
-    </a>
+    </a>-->
     <?php
     }
     ?>
@@ -503,10 +909,7 @@ if (isset($_GET['messaggio'])) {
 </html>
 
 <?php
-} else {
-    // Gestisci eventuali errori nella query
-    echo "Errore nella query: " . mysqli_error($conn);
-}
+} 
 
 // Chiudi la connessione al database
 mysqli_close($conn);

@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 include './php/db_connection.php';
 
 if (isset($_GET['id'])) {
@@ -11,8 +11,6 @@ if (isset($_GET['id'])) {
     if ($result) {
         $row = mysqli_fetch_assoc($result);
 
-        include './php/db_connection.php';
-        
         // Verifica se è stata inviata una richiesta di modifica o eliminazione
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_POST['edit'])) {
@@ -99,6 +97,9 @@ if (isset($_GET['id'])) {
   <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
 
 
 </head>
@@ -106,9 +107,9 @@ if (isset($_GET['id'])) {
 <body class="overflow-x-hidden font-Grotesk">
     
 <div class="bg-neutral-900 min-h-screen h-full flex flex-col">
-<nav id="nav-1024" class="max-lg:hidden lg:block  z-10 pt-4   w-full fixed ">
-          <div class="flex items-center justify-between ">
-            <div class=" w-1/3 mt-12">
+<nav id="nav-1024" class="max-lg:hidden z-10 pt-4   w-full fixed ">
+          <div class="flex items-center justify-between  ">
+            <div class=" w-1/3 mt-12 ">
             <a href="/dist/index.php" >
               <img src="/img/logo-ombra.png" alt="Logo" id="Logo-1024" class="h-18 w-60 ml-8 mt-6 z-10 fixed top-0 left-0 "></a>
               </div>
@@ -299,20 +300,32 @@ if (isset($_GET['id'])) {
 <div class=" text-white flex  justify-between  w-[90%] mx-auto py-4 ">
 
         <a href="/dist/immobili.php" class=""  > 
-            <button class="relative float-left   w-fit  hover:scale-105 transition-all  font-semibold z-20">
+            <button class="   w-fit  hover:scale-105 transition-all  font-semibold ">
                 <div class="flex flex-nowrap items-center whitespace-nowrap gap-6 hover:animate-bounce-horizontal-reverse p-4 "> 
                  
                    <img src="/img/freccia-back.png" alt="" class="w-full lg:h-10 h-12 xl:h-10">
                  </div>   
             </button>
         </a>
+       
+       
+        <?php
+// Controlla se l'utente è autenticato
+if (isset($_SESSION['ID'])) {
+ 
 
-    <button class="w-10 flex  " id="opzioniButton"><img src="/img/dot.svg" alt=""></button>
+
+    // L'utente è autenticato, mostra il bottone delle opzioni
+    echo '<button class="w-10 flex" id="opzioniButton"><img src="/img/dot.svg" alt=""></button>';
     
-    <div id="opzioniMenu" style="display: none;" class=" absolute  right-10 px-6 bg-neutral-700 shadow-md shadow-black rounded-xl ">
-        <a href="#" onclick="modificaImm();" class="flex pt-4 pb-2 hover:text-green-600">Modifica</a>
-        <a href="#" onclick="eliminaImm();" class="flex pb-4 pt-2 hover:text-green-600">Elimina</a>
-    </div>
+    // Mostra il menu delle opzioni
+    echo '<div id="opzioniMenu" class="absolute right-10 px-6 bg-neutral-700 shadow-md shadow-black rounded-xl">';
+    echo '<a href="#" onclick="modificaImm();" class="flex pt-4 pb-2 hover:text-green-600">Modifica</a>';
+    echo '<a href="#" onclick="eliminaImm();" class="flex pb-4 pt-2 hover:text-green-600">Elimina</a>';
+    echo '</div>';
+}
+?>
+
 </div>
 
 
@@ -321,12 +334,12 @@ if (isset($_GET['id'])) {
             <div class="flex flex-col w-full  items-center bg-neutral-900 h-screen text-white ">
                 <div class="w-[90%] h-[70%] overflow-hidden p-2 mt-10 rounded-t-xl border-b-0 border border-white ">
                     <img src="<?php echo $row['foto_principale']; ?>" alt="Anteprima" class="w-full h-full object-cover rounded-t-lg shadow-md shadow-black">
-                    <h1 class="font-Ayer text-6xl uppercase text-center break-normal xl:text-7xl 2xl:text-8xl max-w-xs  xl:max-w-2xl absolute top-full left-1/2 transform -translate-x-1/2 -translate-y-full   ">
+                    <h1 class="font-Ayer text-6xl uppercase text-center break-normal xl:text-7xl 2xl:text-8xl max-w-xs  xl:max-w-2xl absolute top-[115%] left-1/2 transform -translate-x-1/2 -translate-y-full   ">
                         <?php echo $row['titolo']; ?>
                     </h1>
                     
                 
-                <div class="my-10 absolute  top-full left-1/2 transform -translate-x-1/2">
+                <div class="my-10 absolute  top-[115%] left-1/2 transform -translate-x-1/2">
                 <p class=" text-4xl tracking-wide">€ <?php echo $row['prezzo']; ?></p>
                 </div>
             </div>
@@ -499,7 +512,7 @@ if (isset($_GET['id'])) {
                             <h1 class="uppercase text-6xl font-Ayer  xl:text-9xl text-neutral-400">Galleria</h1>
                                             <div class="grid grid-cols-3 gap-3 mt-4">
                                             <?php
-// Verifica se è stato passato un ID immobile
+
 if (isset($_GET['id'])) {
     $id_immobile = $_GET['id'];
 
@@ -512,7 +525,7 @@ if (isset($_GET['id'])) {
         // Ottieni i dati dell'immobile
         $row = mysqli_fetch_assoc($result);
 
-        // Verifica se l'immobile ha una foto principale
+     /*   // Verifica se l'immobile ha una foto principale
         if ($row && isset($row['foto_principale'])) {
             echo '<img src="' . $row['foto_principale'] . '" alt="Anteprima" class="w-full h-auto object-cover rounded-t-lg shadow-md shadow-black">';
             echo '<img src="' . $row['foto_principale'] . '" alt="Anteprima" class="w-full h-auto object-cover rounded-t-lg shadow-md shadow-black">';
@@ -529,8 +542,25 @@ if (isset($_GET['id'])) {
     } else {
         echo 'Nessun risultato trovato per l\'ID immobile specificato';
     }
+}*/
+
+
+// ... Altre parti della pagina dettaglio_immobile.php ...
+
+// Verifica se ci sono immagini nella galleria
+if (!empty($galleriaFiles)) {
+    echo '<div class="galleria-foto">';
+    foreach ($galleriaFiles as $foto) {
+        echo '<img src="' .'.' . $foto . '" alt="Foto Galleria">';
+    }
+    echo '</div>';
+} else {
+    echo '<p>Nessuna foto disponibile nella galleria.</p>';
 }
 ?>
+
+<!-- Altri contenuti della pagina dettaglio_immobile.php -->
+
 
 
                             </div>
@@ -549,21 +579,107 @@ if (isset($_GET['id'])) {
                     <div class="flex flex-col bg-neutral-900 h-screen mt-12 w-[90%]">
                         <h1 class="uppercase text-6xl font-Ayer xl:text-9xl text-neutral-400">video</h1>
                         <div class="flex justify-center items-center">
-                        <video controls  class=" max-w-[80%] max-h-[80%] rounded-md">
-                            <source src="<?php echo $videoUrl; ?>" type="video/mp4" >
-                            <!-- Aggiungi altri formati video supportati se necessario -->
-                            Il tuo browser non supporta il tag video.
-                        </video>
-                    </div>
-                    </div>
 
-                                  <div class="flex flex-col bg-neutral-900 h-screen mt-12 w-[90%]">
-                        <h1 class="uppercase text-6xl font-Ayer xl:text-9xl text-neutral-400">mappa</h1>
-                        <div class="flex justify-center">
-                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3<API>5e0!3m2!1sit!2sit!4v1704111234128!5m2!1sit!2sit" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        
+                      
+
+                        <video class="w-[90%] h-[70%] max-w-[1000px] max-h-[800px]" controls>
+                            <source src="<?php echo '.'.$videoUrl; ?>" type="video/mp4">
+                                Il tuo browser non supporta il tag video.
+                        </video>
+
                     </div>
                     </div>
+                    <?php
+// Assume che $conn sia la tua connessione al database
+// $immobileId è l'ID dell'immobile per il quale vuoi ottenere le coordinate
+if (isset($_GET['id'])) {
+    $id_immobile = $_GET['id']; // Cambia con l'ID effettivo dell'immobile
+
+$query = "SELECT * FROM immobili WHERE id_immobile = $id_immobile";
+$result = mysqli_query($conn, $query);
+
+if ($result) {
+    $row = mysqli_fetch_assoc($result);
+
+    if ($row) {
+        $indirizzo = urlencode($row['indirizzo']);
+        $comune = urlencode($row['comune']);
+
+        echo "<script>
+                var indirizzo = '$indirizzo';
+                var comune = '$comune';
+              </script>";
+
+              echo "<script>
+                var indirizzo = '$indirizzo, $comune'; // Unisci indirizzo e comune
+              </script>";
+    } else {
+        echo "Nessun risultato trovato per l'ID immobile specificato.";
+    }
+} else {
+    echo "Errore nella query: " . mysqli_error($conn);
+}}
+?>
+
+
+<div class="flex flex-col bg-neutral-900 h-screen mt-12 w-[90%]">
+    <h1 class="uppercase text-6xl font-Ayer xl:text-9xl text-neutral-400">Mappa</h1>
+    <div class="flex justify-center">
+        <!-- Aggiungi un elemento div con un id univoco per ogni mappa -->
+        <div id="map1" style="height: 600px; width: 100%;"></div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+    // Codice JavaScript per creare la mappa dinamica
+    var map1 = L.map('map1');
+
+    $.ajax({
+        url: `https://nominatim.openstreetmap.org/search?format=json&q=${indirizzo},${comune}`,
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            if (data.length > 0) {
+                var coords = [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+                map1.setView(coords, 17);
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map1);
+
+                // Definisci un'icona personalizzata
+                var customIcon = L.icon({
+    iconUrl: '/img/iconamappa.png',
+    iconSize: [60, 60],
+    iconAnchor: [25, 50]
+});
+
+// Aggiungi un segnaposto alla mappa utilizzando l'icona personalizzata
+var marker = L.marker(coords, { icon: customIcon }).addTo(map1);
+
+// Assegna l'evento click al marker
+marker.on('click', function () {
+    // Costruisci l'URL di Google Maps con l'indirizzo
+    var googleMapsUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(indirizzo + ', ' + comune);
+
+    // Apri la nuova finestra del browser con l'URL di Google Maps
+    window.open(googleMapsUrl, '_blank');
+});
+
+            } else {
+                console.error('Coordinate non trovate per l\'indirizzo specificato.');
+            }
+        },
+        error: function () {
+            console.error('Errore nella richiesta AJAX per ottenere le coordinate.');
+        }
+    });
+</script>
+
+
 
                     <div class="flex flex-col bg-neutral-900 h-screen mt-12 w-[90%]">
                         <h1 class="uppercase text-6xl font-Ayer xl:text-9xl text-neutral-400">contattaci</h1>
@@ -776,14 +892,10 @@ document.addEventListener("click", function(event) {
 
         
         </body>
-
-</html>
 <?php
     
     } else {
         echo "Errore nella query: " . mysqli_error($conn);
-    }
-} else {
-    echo "ID immobile non valido";
-}
+    }}}}
 ?>
+</html>

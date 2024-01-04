@@ -1,4 +1,5 @@
 <?php
+session_start();
 include './php/db_connection.php';
 
 $errors = [];

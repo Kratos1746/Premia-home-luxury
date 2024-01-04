@@ -1,10 +1,10 @@
 var prevScrollpos = window.pageYOffset;
-    window.onscroll = function() {
-      var currentScrollPos = window.pageYOffset;
+window.onscroll = function() {
+    var currentScrollPos = window.pageYOffset;
 
-      // Controlla la direzione dello scorrimento
-      if (prevScrollpos > currentScrollPos ) {
-        // Se si sta risalendo la pagina, mostra la barra
+    // Controlla la direzione dello scorrimento
+    if (prevScrollpos > currentScrollPos ) {
+        // Se si sta risalendo la pagina, mostra le barre
         document.getElementById('hamburger').classList.add('fixed');
         document.getElementById('Logo').classList.add('fixed');
         document.getElementById('nav').classList.add('fixed');
@@ -22,9 +22,12 @@ var prevScrollpos = window.pageYOffset;
         document.getElementById('nav-1024').classList.add('bg-neutral-900');
         document.getElementById('nav-1024').classList.add('py-8');
         document.getElementById('nav-1024').classList.add('animate-dasopra2');
-        
-      } else if(currentScrollPos>80) {
-        // Altrimenti, nascondi la barra
+
+        // Aggiungi qui le stesse operazioni per la barra di navigazione mobile (se presente)
+        // ...
+
+    } else if(currentScrollPos > 80) {
+        // Altrimenti, nascondi le barre
         document.getElementById('hamburger').classList.remove('fixed');
         document.getElementById('Logo').classList.remove('fixed');
         document.getElementById('nav').classList.remove('fixed');    
@@ -40,21 +43,25 @@ var prevScrollpos = window.pageYOffset;
         document.getElementById('nav').classList.remove('animate-dasopra2');
         document.getElementById('nav-1024').classList.remove('animate-dasopra2');
         document.getElementById('nav-1024').classList.remove('bg-neutral-900');
-      }
-      if(currentScrollPos < 30){
-        
+
+        // Aggiungi qui le stesse operazioni per la barra di navigazione mobile (se presente)
+        // ...
+    }
+
+    if(currentScrollPos < 30){
         document.getElementById('nav').classList.remove('bg-neutral-900');
-       
         document.getElementById('nav').classList.remove('animate-dasopra2');
         document.getElementById('nav-1024').classList.remove('bg-neutral-900');
         nav.classList.remove('md:px-14');
         nav.classList.remove('p-4');
-        
 
-      }
-   
-      prevScrollpos = currentScrollPos;
-    };
+        // Aggiungi qui le stesse operazioni per la barra di navigazione mobile (se presente)
+        // ...
+    }
+
+    prevScrollpos = currentScrollPos;
+};
+
 
  
 

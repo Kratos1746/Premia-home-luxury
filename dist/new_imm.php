@@ -41,49 +41,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $condizioni = mysqli_real_escape_string($conn, $_POST['condizioni']);
     $inEvidenza = isset($_POST['in_evidenza']) ? 1 : 0;
 
-    // Verifica se il campo 'foto_princ' è stato definito nell'array $_FILES
+
     if (isset($_FILES['foto_princ']) && $_FILES['foto_princ']['error'] === UPLOAD_ERR_OK) {
-        // Gestione dell'upload della foto principale
+
         $uploadDir = './imgphp/';
         $uploadFile = $uploadDir . basename($_FILES['foto_princ']['name']);
 
         if (move_uploaded_file($_FILES['foto_princ']['tmp_name'], $uploadFile)) {
-            // File caricato con successo, ora puoi memorizzare il percorso nel database o fare altre operazioni necessarie
             $percorsoFotoPrincipale = $uploadFile;
+
         } else {
             $errors[] = "Errore durante il caricamento della foto principale.";
         }
     } else {
-        // L'array $_FILES['foto_princ'] non è impostato o non ci sono file caricati
         $errors[] = "Foto principale non specificata o errore nel caricamento.";
     }
 
-    // Verifica se il campo 'galleria_foto' è stato definito nell'array $_FILES
-    if (isset($_FILES['galleria_foto']) && !empty($_FILES['galleria_foto']['name'][0])) {
-        // Gestione dell'upload delle immagini della galleria
-        $uploadDirGalleria = '/dist/imgphp/';
-        $galleriaFiles = array();
+  // Verifica se il campo 'foto_princ' è stato definito nell'array $_FILES
+if (isset($_FILES['galleria_foto']) && !empty($_FILES['galleria_foto']['name'][0])) {
+    // Gestione dell'upload delle foto principali
+    $uploadDir = 'imgphp/galleria/';
+    $galleriaFiles = array();
 
-        foreach ($_FILES['galleria_foto']['tmp_name'] as $key => $tmp_name) {
-            $galleriaFile = $uploadDirGalleria . '/' . basename($_FILES['galleria_foto']['name'][$key]);
+    foreach ($_FILES['galleria_foto']['tmp_name'] as $key => $tmp_name) {
+        $galleriaFile = $uploadDir . basename($_FILES['galleria_foto']['name'][$key]);
 
-            if (move_uploaded_file($tmp_name, $galleriaFile)) {
-                $galleriaFiles[] = $galleriaFile;
-            } else {
-                $errors[] = "Errore durante il caricamento di una foto della galleria.";
-            }
+        if (move_uploaded_file($tmp_name, $galleriaFile)) {
+            $galleriaFiles = $galleriaFile;
+        } else {
+            $errors[] = "Errore durante il caricamento di una foto principale.";
         }
-    } else {
-        // L'array $_FILES['galleria_foto'] non è impostato o non ci sono file caricati
-        $errors[] = "Galleria foto non specificata o errore nel caricamento.";
     }
+
+    // Ora $fotoPrincipaliFiles contiene i percorsi di tutte le foto principali caricate con successo
+
+    // Puoi memorizzare i percorsi delle foto nel database o fare altre operazioni necessarie
+    // Esempio: $percorsoFotoPrincipale = implode(',', $fotoPrincipaliFiles);
+} else {
+    // L'array $_FILES['foto_princ'] non è impostato o non ci sono file caricati
+    $errors[] = "Foto principali non specificate o errore nel caricamento.";
+}
+
 
 // Verifica se è stato effettuato il submit del modulo
 
     // Controlla se il file è stato caricato correttamente
     if (isset($_FILES['video']) && $_FILES['video']['error'] === UPLOAD_ERR_OK) {
         // Directory di destinazione per i video caricati
-        $uploadDir = '/dist/video/';
+        $uploadDir = 'video/';
         // Crea la directory se non esiste
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0755, true);
