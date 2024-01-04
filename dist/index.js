@@ -1,3 +1,23 @@
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Controlla se l'animazione è già stata visualizzata utilizzando un cookie
+  if (document.cookie.includes('loading_animation_shown=true')) {
+      // Se è già stata visualizzata, nascondi l'overlay immediatamente
+      document.getElementById('loading-overlay').style.display = 'none';
+  } else {
+      // Se l'animazione non è stata visualizzata, mostra l'overlay di caricamento
+      setTimeout(function() {
+        document.getElementById('loading-overlay').classList.add('animate-ritira2');
+        document.getElementById('loading-spinner').classList.add('animate-ritira2');
+          setTimeout(function() {
+              document.getElementById('loading-overlay').style.display = 'none';
+              // Imposta un cookie per indicare che l'animazione è stata visualizzata
+              document.cookie = 'loading_animation_shown=true; path=/'; // Cookie valido per la sessione
+          }, 500); // Dopo che l'animazione di dissolvenza è completa
+      }, 2000); // Imposta la durata del caricamento simulato (2 secondi nell'esempio)
+  }
+});
+
 var prevScrollpos = window.pageYOffset;
 window.onscroll = function() {
     var currentScrollPos = window.pageYOffset;
@@ -22,6 +42,7 @@ window.onscroll = function() {
         document.getElementById('nav-1024').classList.add('bg-neutral-900');
         document.getElementById('nav-1024').classList.add('py-8');
         document.getElementById('nav-1024').classList.add('animate-dasopra2');
+  
 
         // Aggiungi qui le stesse operazioni per la barra di navigazione mobile (se presente)
         // ...
@@ -47,11 +68,13 @@ window.onscroll = function() {
         // Aggiungi qui le stesse operazioni per la barra di navigazione mobile (se presente)
         // ...
     }
+    
 
     if(currentScrollPos < 30){
         document.getElementById('nav').classList.remove('bg-neutral-900');
         document.getElementById('nav').classList.remove('animate-dasopra2');
         document.getElementById('nav-1024').classList.remove('bg-neutral-900');
+        document.getElementById('nav-1024').classList.remove('animate-ritira');
         nav.classList.remove('md:px-14');
         nav.classList.remove('p-4');
 
@@ -194,4 +217,47 @@ function eliminaImm() {
       };
       xhr.send("id_immobile=" + id_immobile);
   }
+}
+
+function mostraPoliticaPrivacy() {
+  document.getElementById('privacy-box').style.display = 'block';
+  document.getElementById('overlay').style.display = 'block';
+}
+
+// Funzione per chiudere il riquadro della Politica sulla Privacy
+function chiudiPoliticaPrivacy() {
+  document.getElementById('privacy-box').style.display = 'none';
+  document.getElementById('overlay').style.display = 'none';
+  document.removeEventListener('click', chiudiPoliticaPrivacyEsterno);
+
+}
+
+function chiudiPoliticaPrivacyEsterno(event) {
+  if (!document.getElementById('privacy-box').contains(event.target)) {
+      chiudiPoliticaPrivacy();
+  }
+}
+
+// Funzione per nascondere il banner e il fondo semitrasparente e salvare lo stato del consenso nei cookie
+function accettaCookie() {
+  document.getElementById('cookie-banner').style.display = 'none';
+  document.getElementById('overlay').style.display = 'none';
+  setCookie('cookie_consent', 'true', 365); // Imposta il cookie di consenso per 365 giorni
+}
+
+// Funzione per impostare un cookie
+function setCookie(name, value, days) {
+  var expires = "";
+  if (days) {
+      var date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      expires = "; expires=" + date.toUTCString();
+  }
+  document.cookie = name + "=" + value + expires + "; path=/";
+}
+
+// Verifica se il consenso è già stato dato, se no, mostra il banner e il fondo semitrasparente
+if (!document.cookie.includes('cookie_consent=true')) {
+  document.getElementById('cookie-banner').style.display = 'block';
+  document.getElementById('overlay').style.display = 'block';
 }

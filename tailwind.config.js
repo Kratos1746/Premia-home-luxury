@@ -8,6 +8,8 @@ module.exports = {
     'scompari':'scompari  .2s linear',
     'dasopra':'dasopra  .4s linear',
     'dasopra2':'dasopra2  .3s ease-in',
+    'ritira':'ritira .3s ease-in',
+    'ritira2':'ritira2 .5s linear',
     'dasinistra':'dasinistra  1s linear',
     'bounce':'bounce 1s infinite',
     'pulse':'pulse 1s infinite',
@@ -66,6 +68,27 @@ module.exports = {
       '100%': {
         transform: 'translateY(0px)',
         opacity:'1',
+      },
+    },
+
+    'ritira' :{
+      '0%': {
+        transform: 'translateY(20px)',
+        opacity:'0',
+      },
+      '100%': {
+        transform: 'translateY(0px)',
+        opacity:'1',
+      },
+    },
+    'ritira2' :{
+      '0%': {
+        transform: 'translateY(0px)',
+        opacity:'1',
+      },
+      '100%': {
+        transform: 'translateY(50px)',
+        opacity:'0',
       },
     },
 

@@ -1,5 +1,5 @@
 <?php 
-
+session_start();
 include './php/db_connection.php';
 
 			
@@ -29,9 +29,14 @@ include './php/db_connection.php';
 
 <body class="overflow-x-hidden font-Grotesk tracking-wide">
 
-  
+<div id="loading-overlay" class="fixed top-0 left-0 w-full h-full bg-neutral-900  flex justify-center items-center z-50 transition-all ease-in-out duration-1000">
+        <div id="loading-spinner" class=" animate-ritira"><img src="/img/logo-ombra.png" alt="Logo" id="Logo-1024" class="w-[80%] xl:w-[120%] mx-auto z-10 "></div>
+    </div>
+
+<div id="overlay" class="fixed inset-0 bg-black opacity-50 z-50 hidden"></div>
+
   <div class="bg-neutral-900 min-h-screen flex flex-col">
-      <nav id="nav-1024" class="max-lg:hidden lg:block  z-10   w-full fixed py-10 "data-aos="fade-down" data-aos-duration="600" data-aos-once="true">
+      <nav id="nav-1024" class="max-lg:hidden  z-10   w-full fixed py-10 "data-aos="fade-down" data-aos-duration="600" data-aos-once="true">
           <div class="flex items-center justify-between ">
               <img src="/img/logo-ombra.png" alt="Logo" id="Logo-1024" class="h-18 w-60 ml-8 mt-6 z-10 fixed top-0 left-0 ">
               
@@ -71,9 +76,64 @@ include './php/db_connection.php';
     </nav>
   
       
-          <video src="/img/video-home.mp4" class="absolute h-full w-full object-cover brightness-50 " autoplay loop>
+          <video src="/img/video-home.mp4" class="absolute h-full w-full object-cover brightness-50 " autoplay loop muted playsinline>
            
           </video>
+
+          <div id="cookie-banner" class="fixed bottom-3 lg:left-3 max-lg:left-1/2 transform max-lg:-translate-x-1/2 w-2/3 lg:w-1/3 bg-neutral-300 shadow-xl rounded-lg shadow-black  p-6 hidden z-50">
+          <img src="/img/cookie.svg" alt="" class="w-full lg:h-36 h-32 xl:h-40">
+        <p class="text-center">
+            Questo sito utilizza i cookie per migliorare l'esperienza dell'utente. <a href="#" onclick="mostraPoliticaPrivacy()" class="text-green-700 hover:text-green-800">Leggi la nostra Politica sulla Privacy</a>.
+        </p>
+        <button onclick="accettaCookie()" class="relative bg-green-700 hover:bg-green-800 mx-auto lg:float-right rounded-lg text-white px-5 py-3 max-lg:w-full mt-4">Accetta</button>
+    </div>
+
+    <div id="privacy-box" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 shadow-lg rounded-xl z-50 hidden overflow-y-auto max-h-[80%] ">
+        <h2 class="text-2xl font-semibold mb-4">Cookies Policy</h2>
+        <p>
+Questo sito web raccoglie dati dei navigatori e degli utenti interessati ai servizi accessibili tramite il sito. Inoltre può raccogliere alcuni dati personali dei soggetti che espressamente hanno accettato i cookie di profilazione.
+<br><br>
+<b>Trattamento dei dati personali</b><br>
+I dati personali (che includono i dati identificativi, di recapito, di navigazione e di eventuale scelte effettuate tramite il sito), da ora in poi definiti come "dati", forniti dall'interessato o raccolti automaticamente dal presente sito web , anche mediante sistemi automatizzati, sono trattati per le finalità e sono trattati secondo le modalità di seguito riportate.
+<br><br>
+<b>Tipologie dei dati trattati</b><br>
+<span class="text-md">Dati di navigazione</span> <br>
+I sistemi informatici e le procedure software preposte al funzionamento di questo sito acquisiscono nel normale esercizio, alcuni dati personali che vengono poi trasmessi implicitamente nell'uso dei protocolli di comunicazione Internet. Si tratta di informazioni che per loro natura potrebbero, mediante associazioni ed elaborazioni con dati detenuti da terzi, permettere di identificare gli utenti/visitatori (ad esempio l'indirizzo IP della connessione ad internet). Questi dati vengono utilizzati solo per informazioni di tipo statistico (quindi sono anonimi) e per controllarne il corretto funzionamento del sito.
+<br><br>
+<span class="text-md">Dati forniti volontariamente dall'utente</span><br>
+L'invio facoltativo, esplicito e volontario di posta elettronica agli indirizzi indicati su questo sito, anche tramite form precompilati, comporta la successiva acquisizione dell'indirizzo del mittente, necessario per rispondere alle richieste, nonchè degli eventuali altri dati personali inseriti nella missiva.
+<br>
+Specifiche informative di sintesi sono riportate o visualizzate nei form suddetti.
+<br><br>
+<b>I cookie</b><br>
+<span class="text-md">Uso dei cookie</span><br>
+Al fine di rendere i propri servizi il più possibile efficienti e semplici da utilizzare questo Sito può fare uso di cookies. Pertanto, quando un visitatore accede e visita il Sito, viene inserita una quantità minima di informazioni nel dispositivo dell'Utente, come piccoli file di testo chiamati "cookie" che vengono salvati sul computer dell’utente al fine di memorizzare i dati relativi ad uno specifico sito.
+<br><br>
+Tutti i browser hanno la possibilità di impedire ai siti il salvataggio e l’utilizzo dei cookie. In tal modo però potrebbe risultare impedito il completo o corretto funzionamento del sito stesso.
+<br><br>
+I cookie utilizzati hanno funzionalità di statistiche oppure di content-sharing (tipo su piattaforme come Facebook, Google+, X, ecc). Tuttavia, a discrezione dell'agenzia potrebbero essere installati dei cookie di profilazione. Per maggiori informazioni leggere il paragrafo successivo.
+<br><br>
+Al fine di offrire la migliore esperienza potranno essere aggiunti al nostro sito nuovi servizi che utilizzano cookie di natura diversa.
+<br><br>
+<span class="text-md">Le tipologie di cookie</span><br>
+La legge riconosce 3 tipi di cookie che possono essere installati sul browser del navigatore:
+<br><br>
+<b>TECNICI</b> <br>
+sono fondamentali per ricordarsi le credenziali di autenticazione senza stare a reimmetterle nuovamente oppure per tracciare le visite dei clienti (ad esempio per chi usa Google Analytics o similari)
+<br><br>
+Questi ultimi permettono di monitorare come gli utenti utilizzano il Sito attraverso statistiche anonime sul numero di persone che visitano il Sito, da dove provengono e quali pagine visitano, e con quale hardware e software.
+<br><br>
+<b>DI PROFILAZIONE</b><br>
+sono quelli "presi di mira" da questa legge poichè salvano le preferenze di acquisti, monitorando e profilando gli utenti durante la navigazione. Essi permettono di studiare le abitudini di chi naviga e possono essere letti da siti esterni per creare delle campagne mirate sui precedenti acquisti.
+<br><br>
+<b>DI TERZE PARTI</b><br>
+sono cookie creati da altri soggetti e quindi installati direttamente da loro tramite apposite procedure. Sono i cookie di terze parti ad esempio quelli che coinvolgono le parti "social" e quindi lo share di Facebook, X, Google ecc.
+<br><br>
+<b>Gestione dei cookie</b><br>
+La scelta di quali cookie attivare e quali impedire apparirà sotto forma di banner alla prima visita, tuttavia, successivamente l'utente potrà cambiare il proprio consenso cliccando su un apposito pulsante che apparirà nelle visite successive.</p>
+ <br>       <button onclick="chiudiPoliticaPrivacy()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 cursor-pointer">X</button>
+    </div>
+
       <div class="absolute top-0 z-0">
       <div class="relative flex flex-col justify-center items-center min-h-screen text-center font-Ayer mx-4 text-white z-10">  
         <h1 class="text-7xl uppercase md:text-[112px] lg:text-9xl xl:text-[142px]  2xl:text-[160px]">Dai <span class="font-semibold"><span class="text-green-800">va</span>lo<span class="text-red-800">re</span></span> al tuo immobile</h1> <br>
@@ -91,7 +151,7 @@ include './php/db_connection.php';
 <div class="bg-neutral-900  ">
 
 <a href="/dist/immobili.php" class=""  > 
-            <div class="relative float-right mr-16 xl:mr-24 pt-6 md:pt-20 h-24 w-fit  hover:scale-105 transition-all text-green-700 font-semibold z-20">
+            <div class="relative float-right mr-12 xl:mr-24 pt-6 md:pt-20 h-24 w-fit  hover:scale-105 transition-all text-green-700 font-semibold z-20">
                 <div class="flex flex-nowrap items-center whitespace-nowrap gap-6 animate-bounce-horizontal"> 
                   <p class="flex text-md lg:text-lg">Scopri immobili</p>
                    <img src="/img/freccia.svg" alt="" class="w-full lg:h-14 h-12 xl:h-16">
@@ -117,7 +177,7 @@ if ($result) {
     // Itera sui risultati della query
     while ($row = mysqli_fetch_assoc($result)) {
       ?>
- <br><br> <div class="mx-auto mb-10 bg-neutral-800 w-[31%] max-h-[700px] overflow-hidden flex rounded-sm text-white shadow-md shadow-black hover:shadow-lg hover:shadow-green-800 transition-all flex-col justify-center max-lg:hidden">
+  <div class="mx-auto mb-10 bg-neutral-800 w-[31%] max-h-[700px] overflow-hidden flex rounded-sm text-white shadow-md shadow-black hover:shadow-lg hover:shadow-green-800 transition-all flex-col justify-center max-lg:hidden">
 
 <div class="relative w-full h-full  overflow-hidden"> <a href="dettaglio_immobile.php?id=<?php echo $row['id_immobile']; ?>" class="">
        <img src="<?php echo $row['foto_principale']; ?>" alt="Anteprima" class=" w-full h-full  object-cover rounded-t-sm">
@@ -163,36 +223,36 @@ if ($result) {
 
 ?>
 
-
+</div>
 <?php
 
 
 // Query per ottenere gli immobili in evidenza
-$query = "SELECT * FROM immobili WHERE in_evidenza = 1 LIMIT 2";
+$query = "SELECT * FROM immobili WHERE in_evidenza = 1 LIMIT 3";
 $result = mysqli_query($conn, $query);
 
 if ($result) {
     // Itera sui risultati della query
     while ($row = mysqli_fetch_assoc($result)) {
       ?>
-<div class="mx-auto bg-neutral-800 w-[31%] max-h-[700px] overflow-hidden flex rounded-sm text-white shadow-md shadow-black hover:shadow-lg hover:shadow-green-800 transition-all flex-col justify-center lg:hidden">
+   <div class="mx-auto mb-10 bg-neutral-800 w-[90%] max-h-[700px] overflow-hidden flex rounded-sm text-white shadow-md shadow-black hover:shadow-lg hover:shadow-green-800 transition-all flex-col justify-center lg:hidden">
 
 <div class="relative w-full h-full  overflow-hidden"> <a href="dettaglio_immobile.php?id=<?php echo $row['id_immobile']; ?>" class="">
-       <img src="<?php echo $row['foto_principale']; ?>" alt="Anteprima" class=" w-full h-full  object-cover rounded-t-sm">
+       <img src="<?php echo $row['foto_principale']; ?>" alt="Anteprima" class=" w-full max-sm:h-[300px] h-[400px]  object-cover rounded-t-sm">
    </div>
 
    <div class="flex flex-col gap-4  min-h-[300px] ">
     <div class="bg-green-800 px-8 py-4 shadow-md shadow-neutral-900">
        <h1 class="text-2xl break-normal uppercase sm:text-3xl md:text-4xl "><?php echo $row['titolo']; ?></h1>
     </div>
-    <div class="mx-8">
-       <p class="font-Unna text-3xl ">€ <?php echo $row['prezzo']; ?></p>
+    <div class="max-[425px]:mx-6 mx-8">
+       <p class="font-Unna text-2xl ">€ <?php echo $row['prezzo']; ?></p>
 
       
        <div class="flex justify-between gap-4">
-       <p class="pt-4 flex flex-col justify-end max-xl:text-sm  items-start gap-4 uppercase"><img src="/img/casa.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6 "> <?php echo $row['tipo_immobile']; ?></p>
+       <p class="pt-4 flex flex-col justify-end max-[425px]:text-sm  items-start gap-4 uppercase"><img src="/img/casa.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6 "> <?php echo $row['tipo_immobile']; ?></p>
    
-       <div class="flex justify-end px-2 gap-4  text-md  ">
+       <div class="flex justify-end px-2 gap-4  text-sm sm:text-lg ">
        <div class="flex-col">
            <p class="py-4 flex gap-2"><img src="/img/camere2.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6 "><?php echo $row['camere']; ?></p>
            <p class="pt-4 flex gap-2"><img src="/img/bagni2.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6 "><?php echo $row['bagni']; ?></p>
@@ -211,6 +271,7 @@ if ($result) {
    </div>
 </div>
 </div>
+    </a>
 <?php 
     }
 } else {
@@ -221,12 +282,10 @@ if ($result) {
 
 ?>
 
-</div> 
-
-
  
 
 
+   
   
     <?php 
 
@@ -240,7 +299,7 @@ mysqli_close($conn);
  
 <br>
 <div class="border border-white w-[90%] mt-10 mx-auto"></div>
-</div>
+
        <div class=" px-5 pt-10 flex flex-col justify-center items-center bg-neutral-900 text-white md:px-10 lg:px-12 lg:py-14 xl:px-32"> <br>
         <h1 class="text-7xl uppercase md:text-8xl lg:text-9xl xl:text-[142px] font-Ayer text-center " data-aos="fade-down" data-aos-duration="600" data-aos-once="true" >Premia Home</h1> <br><br><br>
         <p class="text-base md:text-lg lg:text-xl xl:text-2xl  font-Grotesk tracking-wide ">

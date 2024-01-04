@@ -554,230 +554,182 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <?php
+// Configurazione per la connessione al database (assicurati di averla)
+// ...
 
-// Esegui la query e visualizza i risultati
+// Numero di risultati per pagina
+$limit = 5;
+
+// Pagina corrente, default è la prima pagina
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+// Calcola l'offset per la query
+$offset = ($page - 1) * $limit;
+
+// Query per ottenere gli immobili con paginazione
+$query = "SELECT * FROM immobili LIMIT $limit OFFSET $offset";
 $result = mysqli_query($conn, $query);
 
-// Verifica se ci sono risultati
+// Query per ottenere il numero totale di risultati
+$countQuery = "SELECT COUNT(*) as total FROM immobili";
+$countResult = mysqli_query($conn, $countQuery);
+
+// Calcola il numero totale di pagine
+if ($countResult) {
+    $row = mysqli_fetch_assoc($countResult);
+    $totalResults = $row['total'];
+    $totalPages = ceil($totalResults / $limit);
+} else {
+    $totalPages = 0;
+}
+
+// Visualizza gli immobili
 if ($result && mysqli_num_rows($result) > 0) {
-    // Inizia a visualizzare gli immobili
     echo '<div class="risultati-immobili">';
     
     while ($row = mysqli_fetch_assoc($result)) {
+        // Il tuo codice per mostrare gli immobili rimane invariato
+                
+
         echo '<div class="mt-12 bg-neutral-800 w-full min-h-[350px] max-h-[350px] xl:min-h-[450px] xl:max-h-[450px] flex text-white shadow-md shadow-black hover:shadow-lg hover:shadow-green-800 transition-all max-lg:hidden   ">
-            <a href="dettaglio_immobile.php?id=' . $row['id_immobile'] . '" class=" flex">
-            
-            <div class="relative w-1/3 h-full  overflow-hidden">
-                   <img src="' . $row['foto_principale'] . '" alt="Anteprima" class="w-full h-full  object-cover">
-            </div>
-                   <div class="flex flex-col  justify-between   gap-6  lg:w-2/3 ">
-                       <h1 class="text-5xl break-normal  font-Grotesk uppercase bg-green-800 px-8 py-4 shadow-md shadow-neutral-900 ">' . $row['titolo'] . '</h1>
-                       <div class="mx-16  ">
-                       <p class="font-Unna text-3xl pt-2 mb-6">€ ' . $row['prezzo'] . '</p>    
-                       <div class="flex justify-between ">
-                       <div class="flex items-center max-xl:hidden  ">';
-        
+        <a href="dettaglio_immobile.php?id=' . $row['id_immobile'] . '" class=" flex">
+
+        <div class="relative w-1/3 h-full  overflow-hidden">
+            <img src="' . $row['foto_principale'] . '" alt="Anteprima" class="w-full h-full  object-cover">
+        </div>
+            <div class="flex flex-col  justify-between   gap-6  lg:w-2/3 ">
+                <h1 class="text-5xl break-normal  font-Grotesk uppercase bg-green-800 px-8 py-4 shadow-md shadow-neutral-900 ">' . $row['titolo'] . '</h1>
+                <div class="mx-16  ">
+                <p class="font-Unna text-3xl pt-2 mb-6">€ ' . $row['prezzo'] . '</p>    
+                <div class="flex justify-between ">
+                <div class="flex items-center max-xl:hidden  ">';
+
         $maxLength = 120; // Imposta la lunghezza massima desiderata
         $description = $row['descrizione'];
-        
+
         if (strlen($description) > $maxLength) {
-            $shortDescription = substr($description, 0, $maxLength) . '...';
-            echo '<p class="text-xl break-normal" style="max-width: 90%;">' . nl2br($shortDescription) . '</p>';
+        $shortDescription = substr($description, 0, $maxLength) . '...';
+        echo '<p class="text-xl break-normal" style="max-width: 90%;">' . nl2br($shortDescription) . '</p>';
         } else {
-            echo '<p class="text-xl break-normal" style="max-width: 90%;">' . nl2br($description) . '</p>';
+        echo '<p class="text-xl break-normal" style="max-width: 90%;">' . nl2br($description) . '</p>';
         }
-        
+
         echo '</div>
-        
+
         <div class="flex justify-end mx-20 px-8 gap-12 max-xl:hidden text-xl  ">
-            <div class="flex-col">
-                <p class="py-4 flex gap-4"><img src="/img/camere2.svg" alt="" class="w-12 h-10">' . $row['camere'] . '</p>
-                <p class="pt-4 flex gap-4"><img src="/img/bagni2.svg" alt="" class="w-12 h-10">' . $row['bagni'] . '</p>
-            </div>
-            <div class="flex-col">
-                <p class="py-4 flex gap-4"><img src="/img/mq.svg" alt="" class="w-10 h-10">' . $row['metri_quadrati'] . 'M²</p>
-                <p class="pt-4 flex gap-4"><img src="/img/piani.svg" alt="" class="w-12 h-10">' . $row['piani'] . '</p>
-            </div>
+        <div class="flex-col">
+            <p class="py-4 flex gap-4"><img src="/img/camere2.svg" alt="" class="w-12 h-10">' . $row['camere'] . '</p>
+            <p class="pt-4 flex gap-4"><img src="/img/bagni2.svg" alt="" class="w-12 h-10">' . $row['bagni'] . '</p>
         </div>
-    </div>';
-        
+        <div class="flex-col">
+            <p class="py-4 flex gap-4"><img src="/img/mq.svg" alt="" class="w-10 h-10">' . $row['metri_quadrati'] . 'M²</p>
+            <p class="pt-4 flex gap-4"><img src="/img/piani.svg" alt="" class="w-12 h-10">' . $row['piani'] . '</p>
+        </div>
+        </div>
+        </div>';
+
         echo '<div class="flex   max-sm:justify-center justify-end items-center w-full px-4  gap-8 xl:hidden text-xl ">
-                           
+                    
         <p class="flex items-center justify-center gap-4"><img src="/img/camere2.svg" alt="" class="w-8 h-8">' . $row['camere'] . '</p>
         <p class=" flex items-center justify-center gap-4"><img src="/img/bagni2.svg" alt="" class="w-8 h-8">' . $row['bagni'] . '</p>
         <p class=" flex items-center justify-center gap-4"><img src="/img/mq.svg" alt="" class="w-8 h-8">' . $row['metri_quadrati'] . 'M²</p>
         <p class=" flex items-center justify-center gap-4"><img src="/img/piani.svg" alt="" class="w-8 h-8">' . $row['piani'] . '</p>
-    </div>';
-        
+        </div>';
+
         echo '<div class="border-t border-green-800 w-[95%]  font-Merriweather text-lg mt-6  mb-8 flex  gap-8 xl:text-xl">
-                
+            
         <p class="pt-4 flex items-center gap-4 uppercase"><img src="/img/casa.svg" alt="" class="w-8 h-8"> ' . $row['tipo_immobile'] . '</p>
         <p class="pt-4 flex items-center gap-4 uppercase"><img src="/img/posizione.svg" alt="" class="w-8 h-8"> ' . $row['comune'] . '</p>
         <p class="pt-4 ml-auto">Rif. ' . $row['id_immobile'] . '</p>
-    </div>';
-        
+        </div>';
+
         echo '<!-- Aggiungi altri dettagli dell\'immobile che desideri mostrare -->
-    </div>
-    </div>
-    </div>
-        
-    <div class="mx-auto mb-10 bg-neutral-800 w-[80%] max-h-[700px] overflow-hidden flex rounded-sm text-white shadow-md shadow-black hover:shadow-lg hover:shadow-green-800 transition-all flex-col justify-center lg:hidden">
-        
-    <div class="relative w-full h-full  overflow-hidden"> <a href="dettaglio_immobile.php?id=' . $row['id_immobile'] . '" class="">
+        </div>
+        </div>
+        </div>
+
+        <div class="mx-auto mb-10 bg-neutral-800 w-[80%] max-h-[700px] overflow-hidden flex rounded-sm text-white shadow-md shadow-black hover:shadow-lg hover:shadow-green-800 transition-all flex-col justify-center lg:hidden">
+
+        <div class="relative w-full h-full  overflow-hidden"> <a href="dettaglio_immobile.php?id=' . $row['id_immobile'] . '" class="">
         <img src="' . $row['foto_principale'] . '" alt="Anteprima" class=" w-full h-full  object-cover rounded-t-sm">
-    </div>
-        
-    <div class="flex flex-col gap-4  min-h-[300px] ">
-    <div class="bg-green-800 px-8 py-4 shadow-md shadow-neutral-900">
+        </div>
+
+        <div class="flex flex-col gap-4  min-h-[300px] ">
+        <div class="bg-green-800 px-8 py-4 shadow-md shadow-neutral-900">
         <h1 class="text-2xl break-normal uppercase sm:text-3xl md:text-4xl ">' . $row['titolo'] . '</h1>
-    </div>
-    <div class="mx-8">
-        <p class="font-Unna text-3xl ">€ ' . $row['prezzo'] . '</p>
-        
+        </div>
+        <div class="mx-8">
+        <p class="font-Unna text-2xl sm:text-3xl ">€ ' . $row['prezzo'] . '</p>
+
         <div class="flex justify-between gap-4">
-            <p class="pt-4 flex flex-col justify-end  items-start gap-4 uppercase"><img src="/img/casa.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6 "> ' . $row['tipo_immobile'] . '</p>
-            
-            <div class="flex justify-end px-2 gap-4  text-md  ">
-            <div class="flex-col">
-                <p class="py-4 flex gap-2"><img src="/img/camere2.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6 ">' . $row['camere'] . '</p>
-                <p class="pt-4 flex gap-2"><img src="/img/bagni2.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6 ">' . $row['bagni'] . '</p>
-            </div>
-            <div class="flex-col">
-                <p class="py-4 flex gap-2"><img src="/img/mq.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6 ">' . $row['metri_quadrati'] . 'M²</p>
-                <p class="pt-4 flex gap-2"><img src="/img/piani.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6">' . $row['piani'] . '</p>
-            </div>
+        <p class="pt-4 flex flex-col justify-end text-sm sm:text-lg items-start gap-4 uppercase"><img src="/img/casa.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6 "> ' . $row['tipo_immobile'] . '</p>
+
+        <div class="flex justify-end px-2 gap-4  text-sm sm:text-lg ">
+        <div class="flex-col">
+            <p class="py-4 flex gap-2"><img src="/img/camere2.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6 ">' . $row['camere'] . '</p>
+            <p class="pt-4 flex gap-2"><img src="/img/bagni2.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6 ">' . $row['bagni'] . '</p>
         </div>
-            </div>
+        <div class="flex-col">
+            <p class="py-4 flex gap-2"><img src="/img/mq.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6 ">' . $row['metri_quadrati'] . 'M²</p>
+            <p class="pt-4 flex gap-2"><img src="/img/piani.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6">' . $row['piani'] . '</p>
+        </div>
+        </div>
+        </div>
         <div class="border-t border-green-700 w-[95%] mt-4 font-Merriweather text-md pb-8 flex gap-8">
-            
-            <p class="pt-4 flex items-center gap-4 uppercase"><img src="/img/posizione.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6"> ' . $row['comune'] . '</p>
-            <p class="pt-4 ml-auto">Rif. ' . $row['id_immobile'] . '</p>
+
+        <p class="pt-4 flex items-center gap-4 uppercase"><img src="/img/posizione.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6"> ' . $row['comune'] . '</p>
+        <p class="pt-4 ml-auto">Rif. ' . $row['id_immobile'] . '</p>
         </div>
-    </div>
-    </div>
-    </div>
-    </a>';
+        </div>
+        </div>
+        </div>
+        </a>';
+    }
+
+    echo '</div>';
+
+    echo '<div class="pagination mt-8 relative float-right">';
+
+    // Numero fisso di pagine da mostrare inizialmente
+    $visiblePages = 3;
+    
+    // Calcola il range di pagine da visualizzare
+    $startPage = max(1, $page - $visiblePages + 1);
+    $endPage = min($totalPages, $startPage + $visiblePages - 1);
+    
+    // Aggiungi il link per visualizzare tutte le pagine precedenti
+    if ($startPage > 1) {
+        echo '<a href="?page=1" class="ml-4 px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800">1</a>';
+        if ($startPage > 2) {
+            echo '<span class="ml-4 px-4 py-2 text-gray-500">...</span>';
+        }
     }
     
+    // Visualizza i link di navigazione per il range di pagine
+    for ($i = $startPage; $i <= $endPage; $i++) {
+        echo '<a href="?page=' . $i . '" class="ml-4 px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800">' . $i . '</a>';
+    }
+    
+    // Aggiungi il link per visualizzare l'ultima pagina
+    if ($endPage < $totalPages) {
+        if ($endPage < $totalPages - 1) {
+            echo '<span class="ml-4 px-4 py-2 text-gray-500">...</span>';
+        }
+        echo '<a href="?page=' . $totalPages . '" class="ml-4 px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800">' . $totalPages . '</a>';
+    }
     
     echo '</div>';
-} else {
+    
 
-    echo "<p class=' text-white mt-6 mx-8'>Nessun risultato trovato.</p>";
+} else {
+    echo "<p class='text-white mt-6 mx-8'>Nessun risultato trovato.</p>";
 }
 
-             ?>
+// Chiudi la connessione al database
+mysqli_close($conn);
+?>
 
 
-             <?php
-    // Itera sui risultati della query
-   
-    while ($row = mysqli_fetch_assoc($result)) {
-      
-    ?>
-    
-  <!--  <div class="mt-12 bg-neutral-800 w-full min-h-[350px] max-h-[350px] xl:min-h-[450px] xl:max-h-[450px] flex text-white shadow-md shadow-black hover:shadow-lg hover:shadow-green-800 transition-all max-lg:hidden   ">
- <a href="dettaglio_immobile.php?id=<?php echo $row['id_immobile']; ?>" class=" flex">
- 
- <div class="relative w-1/3 h-full  overflow-hidden">
-        <img src="<?php echo $row['foto_principale']; ?>" alt="Anteprima" class="w-full h-full  object-cover">
- </div>
-        <div class="flex flex-col  justify-between   gap-6  lg:w-2/3 ">
-            <h1 class="text-5xl break-normal  font-Grotesk uppercase bg-green-800 px-8 py-4 shadow-md shadow-neutral-900 "><?php echo $row['titolo']; ?></h1>
-            <div class="mx-16  ">
-            <p class="font-Unna text-3xl pt-2 mb-6">€ <?php echo $row['prezzo']; ?></p>    
-            <div class="flex justify-between ">
-            <div class="flex items-center max-xl:hidden  ">
-    <?php
-   /* $maxLength = 120; // Imposta la lunghezza massima desiderata
-    $description = $row['descrizione'];
-
-    if (strlen($description) > $maxLength) {
-        $shortDescription = substr($description, 0, $maxLength) . '...';
-        echo '<p class="text-xl break-normal" style="max-width: 90%;">' . nl2br($shortDescription) . '</p>';
-    } else {
-        echo '<p class="text-xl break-normal" style="max-width: 90%;">' . nl2br($description) . '</p>';
-    }*/
-    ?>
-    </div>
-
-    <div class="flex justify-end mx-20 px-8 gap-12 max-xl:hidden text-xl  ">
-        <div class="flex-col">
-            <p class="py-4 flex gap-4"><img src="/img/camere2.svg" alt="" class="w-12 h-10"><?php echo $row['camere']; ?></p>
-            <p class="pt-4 flex gap-4"><img src="/img/bagni2.svg" alt="" class="w-12 h-10"><?php echo $row['bagni']; ?></p>
-        </div>
-        <div class="flex-col">
-            <p class="py-4 flex gap-4"><img src="/img/mq.svg" alt="" class="w-10 h-10"><?php echo $row['metri_quadrati']; ?>M²</p>
-            <p class="pt-4 flex gap-4"><img src="/img/piani.svg" alt="" class="w-12 h-10"><?php echo $row['piani']; ?></p>
-        </div>
-    </div>
-</div>
-
-<div class="flex   max-sm:justify-center justify-end items-center w-full px-4  gap-8 xl:hidden text-xl ">
-                
-                <p class="flex items-center justify-center gap-4"><img src="/img/camere2.svg" alt="" class="w-8 h-8"><?php echo $row['camere']; ?></p>
-                <p class=" flex items-center justify-center gap-4"><img src="/img/bagni2.svg" alt="" class="w-8 h-8"><?php echo $row['bagni']; ?></p>
-                <p class=" flex items-center justify-center gap-4"><img src="/img/mq.svg" alt="" class="w-8 h-8"><?php echo $row['metri_quadrati']; ?>M²</p>
-                <p class=" flex items-center justify-center gap-4"><img src="/img/piani.svg" alt="" class="w-8 h-8"><?php echo $row['piani']; ?></p>
-        
-            </div>
-    
-
-    
-    <div class="border-t border-green-800 w-[95%]  font-Merriweather text-lg mt-6  mb-8 flex  gap-8 xl:text-xl">
-            
-            <p class="pt-4 flex items-center gap-4 uppercase"><img src="/img/casa.svg" alt="" class="w-8 h-8"> <?php echo $row['tipo_immobile']; ?></p>
-            <p class="pt-4 flex items-center gap-4 uppercase"><img src="/img/posizione.svg" alt="" class="w-8 h-8"> <?php echo $row['comune']; ?></p>
-            <p class="pt-4 ml-auto">Rif. <?php echo $row['id_immobile']; ?></p>
-        </div>
-        
-
-            
-            
-        </div>
-    </div>
-</div>
-
-    <div class="mx-auto mb-10 bg-neutral-800 w-[80%] max-h-[700px] overflow-hidden flex rounded-sm text-white shadow-md shadow-black hover:shadow-lg hover:shadow-green-800 transition-all flex-col justify-center lg:hidden">
-
-<div class="relative w-full h-full  overflow-hidden"> <a href="dettaglio_immobile.php?id=<?php echo $row['id_immobile']; ?>" class="">
-       <img src="<?php echo $row['foto_principale']; ?>" alt="Anteprima" class=" w-full h-full  object-cover rounded-t-sm">
-   </div>
-
-   <div class="flex flex-col gap-4  min-h-[300px] ">
-    <div class="bg-green-800 px-8 py-4 shadow-md shadow-neutral-900">
-       <h1 class="text-2xl break-normal uppercase sm:text-3xl md:text-4xl "><?php echo $row['titolo']; ?></h1>
-    </div>
-    <div class="mx-8">
-       <p class="font-Unna text-3xl ">€ <?php echo $row['prezzo']; ?></p>
-
-      
-       <div class="flex justify-between gap-4">
-       <p class="pt-4 flex flex-col justify-end  items-start gap-4 uppercase"><img src="/img/casa.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6 "> <?php echo $row['tipo_immobile']; ?></p>
-   
-       <div class="flex justify-end px-2 gap-4  text-md  ">
-       <div class="flex-col">
-           <p class="py-4 flex gap-2"><img src="/img/camere2.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6 "><?php echo $row['camere']; ?></p>
-           <p class="pt-4 flex gap-2"><img src="/img/bagni2.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6 "><?php echo $row['bagni']; ?></p>
-       </div>
-       <div class="flex-col">
-           <p class="py-4 flex gap-2"><img src="/img/mq.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6 "><?php echo $row['metri_quadrati']; ?>M²</p>
-           <p class="pt-4 flex gap-2"><img src="/img/piani.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6"><?php echo $row['piani']; ?></p>
-       </div>
-   </div>
-         </div>
-       <div class="border-t border-green-700 w-[95%] mt-4 font-Merriweather text-md pb-8 flex gap-8">
-         
-           <p class="pt-4 flex items-center gap-4 uppercase"><img src="/img/posizione.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6"> <?php echo $row['comune']; ?></p>
-           <p class="pt-4 ml-auto">Rif. <?php echo $row['id_immobile']; ?></p>
-       </div>
-   </div>
-</div>
-</div>
-    </a>-->
-    <?php
-    }
-    ?>
     
 
 
@@ -910,7 +862,4 @@ if ($result && mysqli_num_rows($result) > 0) {
 
 <?php
 } 
-
-// Chiudi la connessione al database
-mysqli_close($conn);
 ?>
