@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // Verifica se il campo 'foto_princ' è stato definito nell'array $_FILES
 if (isset($_FILES['galleria_foto']) && !empty($_FILES['galleria_foto']['name'][0])) {
     // Gestione dell'upload delle foto principali
-    $uploadDir = 'imgphp/galleria/';
+    $uploadDir = './imgphp/galleria/';
     $galleriaFiles = array();
 
     foreach ($_FILES['galleria_foto']['tmp_name'] as $key => $tmp_name) {
@@ -85,40 +85,45 @@ if (isset($_FILES['galleria_foto']) && !empty($_FILES['galleria_foto']['name'][0
 
 // Verifica se è stato effettuato il submit del modulo
 
-    // Controlla se il file è stato caricato correttamente
-    if (isset($_FILES['video']) && $_FILES['video']['error'] === UPLOAD_ERR_OK) {
-        // Directory di destinazione per i video caricati
-        $uploadDir = 'video/';
-        // Crea la directory se non esiste
-        if (!is_dir($uploadDir)) {
-            mkdir($uploadDir, 0755, true);
-        }
+// Controlla se è stato fornito un URL del video
+if (isset($_POST['video']) && !empty($_POST['video'])) {
+    // Ottieni l'URL del video
+    $youtubeUrl = $_POST['video'];
 
-        // Genera un nome univoco per il file
-        $videoFileName = uniqid('video_', true) . '.' . pathinfo($_FILES['video']['name'], PATHINFO_EXTENSION);
+    // Esegui ulteriori verifiche sull'URL se necessario
 
-        // Percorso completo del file
-        $videoFilePath = $uploadDir . $videoFileName;
+    // Salva l'URL del video nel tuo database
+    // Assicurati di utilizzare le funzioni di sicurezza per evitare attacchi SQL injection
+    $query = "INSERT INTO immobili (video) VALUES ('$youtubeUrl')";
 
-        // Sposta il file dalla directory temporanea a quella di destinazione
-        move_uploaded_file($_FILES['video']['tmp_name'], $videoFilePath);
+    // Esegui la query nel tuo database
+    $result = mysqli_query($conn, $query);
 
-        // Ora puoi salvare il percorso del file nel tuo database
-        // Assicurati di utilizzare le funzioni di sicurezza per evitare attacchi SQL injection
-        $videoUrl = '/video/' . $videoFileName;
-
-        // Salva $videoUrl nel tuo database
-        // ...
-
-        // Esegui altre operazioni necessarie
-        // ...
-
-        echo 'Il video è stato caricato con successo.';
+    if ($result) {
+        echo 'L\'URL del video è stato salvato nel database con successo.';
     } else {
-        echo 'Si è verificato un errore durante il caricamento del video.';
+        echo 'Si è verificato un errore nel salvataggio dell\'URL del video nel database: ' . mysqli_error($conn);
     }
+} else {
+    echo 'Si è verificato un errore: l\'URL del video non è stato fornito.';
+}
 
   
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $pdfFileName = $_FILES['pdf_file']['name'];
+    $pdfTmpName = $_FILES['pdf_file']['tmp_name'];
+    $pdfType = $_FILES['pdf_file']['type'];
+
+    // Controlla se è un file PDF
+    if ($pdfType === 'application/pdf') {
+        // Leggi il contenuto del file PDF
+        $pdfContent = file_get_contents($pdfTmpName);
+
+        // Escapa il contenuto del file per evitare SQL injection
+        $escapedContent = mysqli_real_escape_string($conn, $pdfContent);
+
+    }
+}
 
 
 
@@ -129,8 +134,8 @@ if (isset($_FILES['galleria_foto']) && !empty($_FILES['galleria_foto']['name'][0
         $galleriaFilesJSON = json_encode($galleriaFiles);
 
         // Query per l'inserimento nel database
-        $query = "INSERT INTO immobili (titolo, prezzo, tipo_immobile, tipo_vendita, vani, camere, bagni, provincia, comune, indirizzo, piani, giardino, balcone, classe_energetica, descrizione, metri_quadrati, foto_principale, galleria_foto, video, anno_costruzione, parcheggio, cucina, EPI, riscaldamento, soggiorno, condizioni, in_evidenza) 
-                  VALUES ('$titolo', '$prezzo', '$tipo_immobile', '$tipo_vendita', '$vani', '$camere', '$bagni', '$provincia', '$comune', '$indirizzo', '$piani', '$giardino', '$balcone', '$classe_energetica', '$descrizione', '$metri_quadrati', '$percorsoFotoPrincipale', '$galleriaFilesJSON', '$videoUrl', '$anno_costruzione', '$parcheggio', '$cucina', '$EPI', '$riscaldamento', '$soggiorno', '$condizioni', '$in_evidenza')";
+        $query = "INSERT INTO immobili (titolo, prezzo, tipo_immobile, tipo_vendita, vani, camere, bagni, provincia, comune, indirizzo, piani, giardino, balcone, classe_energetica, descrizione, metri_quadrati, foto_principale, galleria_foto, video, anno_costruzione, parcheggio, cucina, EPI, riscaldamento, soggiorno, condizioni, in_evidenza, nome_file, tipo_contenuto, dati) 
+                  VALUES ('$titolo', '$prezzo', '$tipo_immobile', '$tipo_vendita', '$vani', '$camere', '$bagni', '$provincia', '$comune', '$indirizzo', '$piani', '$giardino', '$balcone', '$classe_energetica', '$descrizione', '$metri_quadrati', '$percorsoFotoPrincipale', '$galleriaFilesJSON', '$youtubeUrl', '$anno_costruzione', '$parcheggio', '$cucina', '$EPI', '$riscaldamento', '$soggiorno', '$condizioni', '$in_evidenza', '$pdfFileName', '$pdfType', '$escapedContent')";
 
         $result = mysqli_query($conn, $query);
 
@@ -249,14 +254,8 @@ if (isset($_FILES['galleria_foto']) && !empty($_FILES['galleria_foto']['name'][0
             </div>
             <div class="mb-6 flex flex-col">
             <label for="tipo_immobile">Tipo Immobile:</label>
-            <select name="tipo_immobile" required class="border border-white bg-neutral-800 rounded-md py-3 text-white px-2">
-            <option value="" disabled selected hidden>Seleziona il tipo</option>
-                <option value="casa">Casa</option>
-                <option value="appartamento">Appartamento</option>
-                <option value="villa">Villa</option>
-        
-            </select>
-        </div>
+            <input type="text" name="tipo_immobile" placeholder="Tipologia" required class="border border-white bg-neutral-800 rounded-md py-3 text-white px-2">
+            </div>
 
             <div class="mb-6 flex flex-col">
                 <label for="tipo_vendita">Contratto:</label>
@@ -304,6 +303,10 @@ if (isset($_FILES['galleria_foto']) && !empty($_FILES['galleria_foto']['name'][0
                 <label for="EPI">EPI:</label>
                 <input type="text" name="EPI" placeholder="EPI"  class="border border-white bg-neutral-800 rounded-md py-3 text-white px-2">
             </div>
+            <div class="mb-6">
+            <label for="in_evidenza" class="block text-white text-sm font-medium mb-2">In evidenza</label>
+            <input type="checkbox" id="in_evidenza" name="in_evidenza" class="ml-2">      
+        </div>
             </div>
 
         <div class="md:w-1/2 ">
@@ -469,16 +472,17 @@ if (isset($_FILES['galleria_foto']) && !empty($_FILES['galleria_foto']['name'][0
                 <label for="galleria_foto">Galleria Foto:</label>
                 <input type="file" name="galleria_foto" accept="image/*" multiple placeholder="Foto" required class="border border-white bg-neutral-800 rounded-md py-3 text-white px-2">
             </div>
-           <div class="mb-6 flex flex-col">
-                <label for="video">Video:</label>
-                <input type="file" name="video" accept="video/*" required class="border border-white bg-neutral-800 rounded-md py-3 text-white px-2">
+            <div class="mb-6 flex flex-col">
+                <label for="video">URL del Video (YouTube):</label>
+                <input type="text" name="video" placeholder="Inserisci l'URL del video di YouTube" required class="border border-white bg-neutral-800 rounded-md py-3 text-white px-2">
             </div>
-            <div class="mb-6">
-            <label for="in_evidenza" class="block text-white text-sm font-medium mb-2">In evidenza</label>
-            <input type="checkbox" id="in_evidenza" name="in_evidenza" class="ml-2">
-            
-        </div>
 
+            <div class="mb-6 flex flex-col">
+            <label for="pdf" class="block text-white text-sm font-medium mb-2">PDF:</label>
+            <input type="file" name="pdf_file" accept=".pdf" placeholder="Inserisci PDF" class="border border-white bg-neutral-800 rounded-md py-3 text-white px-2" >
+            </div>
+            
+            
             
         </div>
         </div>

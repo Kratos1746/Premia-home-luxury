@@ -9,7 +9,7 @@ include './php/db_connection.php';
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="output.css" rel="stylesheet">
+  <link href="/dist/output.css" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500&display=swap">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -27,7 +27,7 @@ include './php/db_connection.php';
 
 
 
-<body class="overflow-x-hidden font-Grotesk tracking-wide">
+<body class="overflow-x-hidden font-Grotesk tracking-wide" >
 
 <div id="loading-overlay" class="fixed top-0 left-0 w-full h-full bg-neutral-900  flex justify-center items-center z-50 transition-all ease-in-out duration-1000">
         <div id="loading-spinner" class=" animate-ritira"><img src="/img/logo-ombra.png" alt="Logo" id="Logo-1024" class="w-[80%] xl:w-[120%] mx-auto z-10 "></div>
@@ -38,8 +38,9 @@ include './php/db_connection.php';
   <div class="bg-neutral-900 min-h-screen flex flex-col">
       <nav id="nav-1024" class="max-lg:hidden  z-10   w-full fixed py-10 "data-aos="fade-down" data-aos-duration="600" data-aos-once="true">
           <div class="flex items-center justify-between ">
-              <img src="/img/logo-ombra.png" alt="Logo" id="Logo-1024" class="h-18 w-60 ml-8 mt-6 z-10 fixed top-0 left-0 ">
-              
+            <div class="h-32 w-60 ml-10 mt-4 z-10 fixed top-0 left-5" id="Logo-1024">
+              <img src="/img/logo-lux.png" alt="Logo"  class=" h-full ">
+              </div>
               <div id="menu-1024" class="  space-x-8  text-lg font-semibold xl:text-xl fixed left-1/2 -translate-x-1/2 ">
                   <a href="#" class="text-green-600  underline underline-offset-4 hover:scale-105 transition-all">Home</a>
                   <a href="/dist/immobili.php" class="text-white hover:scale-105 transition-all">Immobili</a>
@@ -49,8 +50,11 @@ include './php/db_connection.php';
               
               <img src="/img/logo-ombra.png" alt="Logo" class="h-18 w-52 mr-2 opacity-0 pointer-events-none">
           </div>
+     
+    
       </nav>
 
+        <button onclick="translateSite()">Traduci il sito in Inglese</button>
       <nav id="nav" class=" lg:hidden p-4 z-10  min-[1780px]:py-6 md:px-14 fixed w-full py-16  "data-aos="fade-down" data-aos-duration="600" data-aos-once="true">
         <div class="flex items-center justify-between  ">
             <img src="/img/logo-ombra.png" alt="Logo" id="Logo" class="h-18 w-48 ml-8 mt-6 z-10 fixed top-0 left-0 ">
@@ -134,7 +138,7 @@ La scelta di quali cookie attivare e quali impedire apparirà sotto forma di ban
  <br>       <button onclick="chiudiPoliticaPrivacy()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 cursor-pointer">X</button>
     </div>
 
-      <div class="absolute top-0 z-0">
+      <div class="absolute top-0 z-0" id="content">
       <div class="relative flex flex-col justify-center items-center min-h-screen text-center font-Ayer mx-4 text-white z-10">  
         <h1 class="text-7xl uppercase md:text-[112px] lg:text-9xl xl:text-[142px]  2xl:text-[160px]">Dai <span class="font-semibold"><span class="text-green-800">va</span>lo<span class="text-red-800">re</span></span> al tuo immobile</h1> <br>
         <p class="text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl tracking-wide ">Premia Home Luxury: agenzia per immobili di lusso</p>
@@ -151,9 +155,9 @@ La scelta di quali cookie attivare e quali impedire apparirà sotto forma di ban
 <div class="bg-neutral-900  ">
 
 <a href="/dist/immobili.php" class=""  > 
-            <div class="relative float-right mr-12 xl:mr-24 pt-6 md:pt-20 h-24 w-fit  hover:scale-105 transition-all text-green-700 font-semibold z-20">
+            <div class="relative float-right mr-12 xl:mr-24 pt-6 md:pt-20 h-24 w-fit  hover:scale-105 transition-all text-green-600 font-semibold z-20">
                 <div class="flex flex-nowrap items-center whitespace-nowrap gap-6 animate-bounce-horizontal"> 
-                  <p class="flex text-md lg:text-lg">Scopri immobili</p>
+                  <p class="flex text-md lg:text-2xl">Scopri immobili</p>
                    <img src="/img/freccia.svg" alt="" class="w-full lg:h-14 h-12 xl:h-16">
                  </div>   
             </div></a>
@@ -263,7 +267,7 @@ if ($result) {
        </div>
    </div>
          </div>
-       <div class="border-t border-green-700 w-[95%] mt-4 font-Merriweather text-md pb-8 flex gap-8">
+       <div class="border-t border-orange-500 w-[95%] mt-4 font-Merriweather text-md pb-8 flex gap-8">
          
            <p class="pt-4 flex items-center gap-4 uppercase"><img src="/img/posizione.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6"> <?php echo $row['comune']; ?></p>
            <p class="pt-4 ml-auto">Rif. <?php echo $row['id_immobile']; ?></p>
@@ -321,8 +325,7 @@ mysqli_close($conn);
         <div class="w-1 bg-white z-10"></div>
         <div class="w-1/2 px-4 text-center lg:px-16  " data-aos="fade-right" data-aos-duration="600" data-aos-once="true">
         <p class="text-4xl md:text-6xl lg:text-7xl xl:text-7xl 2xl:text-8xl text-center font-medium font-Ayer uppercase">Voglio vendere casa</p> <br><br>
-        <p class="text-base md:text-lg lg:text-xl xl:text-4xl font-Grotesk tracking-wide ">Mettiamo a disposizione gli strumenti e le competenze per vendere <b>rapidamente</b> casa tua al prezzo più alto di mercato.
-          Il nostro team è composto da professionisti del settore che ti seguiranno in ogni aspetto della vendita: analisi dei documenti, studio del mercato e strategia di sponsorizzazione <b>esclusiva</b> per la tua casa</p>
+        <p class="text-base md:text-lg lg:text-xl xl:text-4xl font-Grotesk tracking-wide ">Vendiamo casa tua al prezzo di mercato più alto . Il nostro team ti seguirà in ogni aspetto della vendita: analisi dei documenti, studio del mercato e strategia di sponsorizzazione <b>esclusiva</b> per la tua casa.</p>
        </div>
       </div>
       <br><br><br>
@@ -342,6 +345,36 @@ mysqli_close($conn);
   <br>
 
   </div>
+
+  
+  <script>
+        async function translateText(text, targetLanguage) {
+            try {
+                const response = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=it|${targetLanguage}`);
+                const data = await response.json();
+
+                return data.responseData && data.responseData.translatedText
+                    ? data.responseData.translatedText
+                    : text;
+            } catch (error) {
+                console.error('Si è verificato un errore durante la richiesta di traduzione:', error);
+                return text;
+            }
+        }
+
+        async function translateSite() {
+            const targetLanguage = 'en'; // Lingua di destinazione: Inglese
+            const siteContent = document.getElementById('content');
+
+            // Itera su tutti gli elementi di testo nel contenuto del sito
+            const textElements = siteContent.querySelectorAll(':not(script):not(style):not(noscript):not([data-notranslate])');
+            for (const element of textElements) {
+                const originalText = element.innerText;
+                const translatedText = await translateText(originalText, targetLanguage);
+                element.innerText = translatedText;
+            }
+        }
+    </script>
 
 
 <div class="bg-neutral-950 pt-16 border-t border-white px-4 lg:px-10   flex flex-col   ">
@@ -458,7 +491,7 @@ mysqli_close($conn);
 
 
     </div>
- 
+ <script src="index.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 <!-- Aggiungi questi script alla fine del tuo body -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -481,7 +514,7 @@ mysqli_close($conn);
 </script>
 
 
-<script src="index.js"></script>
+
 
 </body>
 </html>

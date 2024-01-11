@@ -34,6 +34,7 @@ window.onscroll = function() {
         document.getElementById('nav').classList.remove('hidden'); 
         document.getElementById('menu-1024').classList.remove('mt-12');
         document.getElementById('nav-1024').classList.add('p-4');
+        
         nav.classList.add('p-4');
         nav.classList.add('md:px-14');
         document.getElementById('nav').classList.add('bg-neutral-900');
@@ -42,6 +43,9 @@ window.onscroll = function() {
         document.getElementById('nav-1024').classList.add('bg-neutral-900');
         document.getElementById('nav-1024').classList.add('py-8');
         document.getElementById('nav-1024').classList.add('animate-dasopra2');
+        
+        
+   
   
 
         // Aggiungi qui le stesse operazioni per la barra di navigazione mobile (se presente)
@@ -64,9 +68,8 @@ window.onscroll = function() {
         document.getElementById('nav').classList.remove('animate-dasopra2');
         document.getElementById('nav-1024').classList.remove('animate-dasopra2');
         document.getElementById('nav-1024').classList.remove('bg-neutral-900');
-
-        // Aggiungi qui le stesse operazioni per la barra di navigazione mobile (se presente)
-        // ...
+        document.getElementById('Logo-1024').classList.remove('h-full');
+   
     }
     
 
@@ -77,7 +80,8 @@ window.onscroll = function() {
         document.getElementById('nav-1024').classList.remove('animate-ritira');
         nav.classList.remove('md:px-14');
         nav.classList.remove('p-4');
-
+        document.getElementById('Logo-1024').classList.add('h-full');
+        document.getElementById('Logo-1024').classList.remove('h-24');
         // Aggiungi qui le stesse operazioni per la barra di navigazione mobile (se presente)
         // ...
     }
@@ -157,6 +161,49 @@ window.onscroll = function() {
       
       
     }
+    
+  }
+
+
+  function toggleUser() {
+    var button = document.getElementById('toggleUser');
+    var button2 = document.getElementById('Xuser2');
+    var button3 = document.getElementById('Xuser3');
+    var menu = document.getElementById('userInfo');
+    var buttonmini = document.getElementById('toggleUserMini');
+    var buttonmini2 = document.getElementById('toggleUserMini2');
+    var button2mini = document.getElementById('Xuser');
+    var menumini = document.getElementById('userInfoMini');
+    var menumini2 = document.getElementById('userInfoMini2');
+   
+
+    if (menu.classList.contains('hidden')) {
+      // Se la barra è nascosta, mostra la barra e nascondi il bottone
+      menu.classList.remove('hidden');
+      button2.classList.remove('hidden');
+      button3.classList.remove('hidden');
+      menumini.classList.remove('hidden');
+      menumini2.classList.remove('hidden');
+      button2mini.classList.remove('hidden');
+   
+    
+      
+    } else {
+      // Se la barra è visibile, nascondi la barra e mostra il bottone
+      menu.classList.add('hidden');
+      button2.classList.add('hidden');
+      button.classList.remove('hidden');
+      button3.classList.remove('hidden');
+      buttonmini.classList.remove('hidden');
+      buttonmini2.classList.remove('hidden');
+      button2mini.classList.add('hidden');
+      menumini.classList.add('hidden');
+      menumini2.classList.add('hidden');
+    
+      
+      
+    }
+    
   }
 
   setTimeout(function() {
@@ -261,3 +308,4 @@ if (!document.cookie.includes('cookie_consent=true')) {
   document.getElementById('cookie-banner').style.display = 'block';
   document.getElementById('overlay').style.display = 'block';
 }
+

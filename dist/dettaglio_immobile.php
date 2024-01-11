@@ -2,6 +2,7 @@
 session_start();
 include './php/db_connection.php';
 
+
 if (isset($_GET['id'])) {
     $id_immobile = $_GET['id'];
 
@@ -11,6 +12,22 @@ if (isset($_GET['id'])) {
     if ($result) {
         $row = mysqli_fetch_assoc($result);
 
+      
+        
+            // Query per estrarre il ruolo dalla tabella users
+            $query_ruolo = "SELECT * FROM users ";
+            $result_ruolo = mysqli_query($conn, $query_ruolo);
+        
+            // Se la query ha successo
+            if ($result_ruolo) {
+                $row_ruolo = mysqli_fetch_assoc($result_ruolo);
+
+                    if (isset($_SESSION['ID'])) {
+        
+                      $row_ruolo['ID'] = $_SESSION['ID']  ;
+                       $row_ruolo['Email'] = $_SESSION['Email'] ; 
+                       $row_ruolo['ruolo'] = $_SESSION['ruolo']  ;  
+                    }}
         // Verifica se è stata inviata una richiesta di modifica o eliminazione
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_POST['edit'])) {
@@ -107,7 +124,7 @@ if (isset($_GET['id'])) {
 <body class="overflow-x-hidden font-Grotesk">
     
 <div class="bg-neutral-900 min-h-screen h-full flex flex-col">
-<nav id="nav-1024" class="max-lg:hidden z-10 pt-4   w-full fixed ">
+<nav id="nav-1024" class="max-lg:hidden z-50 pt-4   w-full fixed ">
           <div class="flex items-center justify-between  ">
             <div class=" w-1/3 mt-12 ">
             <a href="/dist/index.php" >
@@ -117,33 +134,77 @@ if (isset($_GET['id'])) {
               <div class=" w-1/3 mt-8 flex items-center">
               <div id="menu-1024" class="  space-x-8  text-lg font-semibold xl:text-xl fixed left-1/2 -translate-x-1/2 ">
                   <a href="/dist/index.php" class=" text-white hover:scale-105 transition-all">Home</a>
-                  <a href="#" class="text-green-600  underline underline-offset-4 hover:scale-105 transition-all">Immobili</a>
+                  <a href="/dist/immobili.php" class="text-green-600  underline underline-offset-4 hover:scale-105 transition-all">Immobili</a>
                   <a href="/dist/about.html" class="text-white hover:scale-105 transition-all">Chi Siamo</a>
                   <a href="/dist/contatti.html" class="text-white hover:scale-105 transition-all">Contatti</a>
               </div>
               </div>
               
               <div id="button-login" class=" w-1/3 flex items-center justify-center mt-6   gap-10 ">
+              <?php  if (!isset($_SESSION['ID'])) { ?>
               <button id="toggleLogin" onclick="toggleLogin()" class=" max-md:hidden flex items-center hover:scale-105 transition-all">
                 <div class=" bg-neutral-800  px-4 py-5 rounded-full shadow-sm shadow-black hover:shadow-md hover:shadow-black">
                 <img src="/img/user.svg" alt="" class="w-10 h-8"></div>  
                
             </button>
+            <?php } ?>
+
+            <?php  if (isset($_SESSION['ID'])) { ?>
+            <button id="toggleUser" onclick="toggleUser()" class=" max-md:hidden flex items-center hover:scale-105 transition-all">
+                <div class=" bg-neutral-800  px-4 py-5 rounded-full shadow-sm shadow-black hover:shadow-md hover:shadow-black">
+                <img src="/img/user.svg" alt="" class="w-10 h-8"></div>  
+               
+            </button>
+
+            <?php } ?>
             <?php
 
      
             // Controlla se l'utente è autenticato
             if (isset($_SESSION['ID'])) {
+                if (isset($row_ruolo['ruolo']) && $row_ruolo['ruolo'] === 'admin') {
                 // L'utente è autenticato, mostra il bottone per aggiungere gli immobili
                 echo '<button onclick="aggiungiImmobile()" class="bg-green-800 rounded-full p-4 py-5 text-white shadow-sm shadow-black hover:scale-105 hover:shadow-md hover:shadow-black transition-all">';
                 echo '<img src="/img/piu.svg" alt="" class="w-10 h-8">';
                 echo '</button>';
-        
+                }
             }
             ?>
 
         </div>
          
+        <?php
+
+     
+        // Controlla se l'utente è autenticato
+        if (isset($_SESSION['ID'])) {
+            ?>
+                <!-- Questa sezione contiene le informazioni dell'utente -->
+        <div id="userInfo" class="hidden text-white  bg-neutral-700 py-6 px-6 pt-6 fixed top-16 right-4 rounded-lg shadow-lg shadow-black 2xl:right-32 animate-dasopra2" >
+
+        <img src="/img/x.png" alt="Logo" id="Xuser" onclick="toggleUser()" class="hidden h-8 w-8 relative float-right z-10 cursor-pointer">
+           
+            <p class=" mb-2 text-sm">Email: <br> <span id="userEmail"></span></p>
+            <p class=" mb-2 text-sm">Ruolo: <br> <span id="userRole"></span></p>
+            <form action="./php/logout.php" method="POST">
+            <?php if (isset($row_ruolo['ruolo']) && $row_ruolo['ruolo'] === 'admin') {?>
+            <div class="mb-6">
+            <label class="block text-white text-sm font-medium mb-2">
+                Vuoi creare un account? <a href="registrazione.php" class="text-green-500 hover:underline">Clicca qui.</a>
+            </label>
+        </div>
+        <?php } ?>
+                <input type="submit" value="Logout" class="bg-white text-black font-medium text-lg w-full py-2 rounded-md shadow-md shadow-neutral-900 hover:bg-green-800 hover:scale-105 hover:text-white duration-75 md:px-10 xl:text-xl">
+            </form>
+        </div>
+        <?php 
+        } ?>
+
+<?php
+        // Verifica se l'utente è autenticato
+        if (!isset($_SESSION['ID'])) {
+            // L'utente non è autenticato, mostra il form di login
+            ?>
            
             <form action="./php/login.php" method="POST" id="login" class="hidden bg-neutral-700 py-6 px-6 pt-6 fixed top-16 right-4 rounded-lg shadow-lg shadow-black 2xl:right-32 animate-dasopra2">
 
@@ -159,11 +220,7 @@ if (isset($_GET['id'])) {
                 <input type="password" id="password" name="password" class="w-full p-2 pr-6 border rounded-md bg-neutral-800 text-white shadow-md shadow-neutral-900" required>
             </div>
 
-            <div class="mb-6">
-                <label class="block text-white text-sm font-medium mb-2">
-                    Non hai un account? <a href="registrazione.php" class="text-green-500 hover:underline">Crealo ora.</a>
-                </label>
-            </div>
+            
 
            
             <input type="submit" value="Accedi" class="bg-white float-right text-black font-medium text-lg w-full py-2 rounded-md shadow-md shadow-neutral-900 hover:bg-green-800 hover:scale-105 hover:text-white duration-75 md:px-10 xl:text-xl">
@@ -171,11 +228,14 @@ if (isset($_GET['id'])) {
 
             
              <!-- <img src="/img/logo-ombra.png" alt="Logo" class="h-18 w-52 mr-2 opacity-0 pointer-events-none">-->
-             
+             <?php
+}
+?>
+ 
           
       </nav>
 
-      <nav id="nav" class=" lg:hidden  z-10   fixed w-full   ">
+      <nav id="nav" class=" lg:hidden  z-50  fixed w-full   ">
         <div class="flex items-center justify-between  ">
         <div class=" w-1/3 mt-12">
         <a href="/dist/index.php" >
@@ -183,22 +243,69 @@ if (isset($_GET['id'])) {
         </div>
 
             <div class=" w-1/3 flex justify-center py-5  gap-10 max-md:hidden ">
-            <button id="toggleLoginMini" onclick="toggleLogin()" class="  flex items-center hover:scale-105 transition-all">
+            <?php  if (!isset($_SESSION['ID'])) { ?>
+              <button id="toggleLoginMini" onclick="toggleLogin()" class=" flex items-center hover:scale-105 transition-all">
                 <div class=" bg-neutral-800  px-4 py-5 rounded-full shadow-sm shadow-black hover:shadow-md hover:shadow-black">
                 <img src="/img/user.svg" alt="" class="w-10 h-8"></div>  
+               
+            </button>
+            <?php } ?>
+
+            <?php  if (isset($_SESSION['ID'])) { ?>
+            <button id="toggleUserMini" onclick="toggleUser()" class="  flex items-center hover:scale-105 transition-all">
+                <div class=" bg-neutral-800  px-4 py-5 rounded-full shadow-sm shadow-black hover:shadow-md hover:shadow-black">
+                <img src="/img/user.svg" alt="" class="w-10 h-8"></div>  
+               
+            </button>
+
+            <?php } ?>
+               
                 <?php
 
            
             if (isset($_SESSION['ID'])) {
+                if (isset($row_ruolo['ruolo']) && $row_ruolo['ruolo'] === 'admin') {
                 // L'utente è autenticato, mostra il bottone per aggiungere gli immobili
                 echo '<button onclick="aggiungiImmobile()" class="bg-green-800 rounded-full p-4 py-5 text-white shadow-sm shadow-black hover:scale-105 hover:shadow-md hover:shadow-black transition-all">';
                 echo '<img src="/img/piu.svg" alt="" class="w-10 h-8">';
                 echo '</button>';
-        
+                }
             }
                 ?>
 
-            </button>
+
+            <?php
+
+     
+// Controlla se l'utente è autenticato
+if (isset($_SESSION['ID'])) {
+    ?>
+        <!-- Questa sezione contiene le informazioni dell'utente -->
+<div id="userInfoMini" class="hidden text-white  bg-neutral-700 py-6 px-6 pt-6 fixed top-32 left-1/5 mx-4 z-10 rounded-lg shadow-lg shadow-black 2xl:right-32 animate-dasopra2" >
+
+<img src="/img/x.png" alt="Logo" id="Xuser2" onclick="toggleUser()" class="hidden h-8 w-8 relative float-right z-10 cursor-pointer">
+   
+    <p class=" mb-2 text-sm">Email: <br> <span id="userEmail2"></span></p>
+    <p class=" mb-2 text-sm">Ruolo: <br> <span id="userRole2"></span></p>
+    <form action="./php/logout.php" method="POST">
+    <?php if (isset($row_ruolo['ruolo']) && $row_ruolo['ruolo'] === 'admin') {?>
+            <div class="mb-6">
+            <label class="block text-white text-sm font-medium mb-2">
+                Vuoi creare un account? <a href="registrazione.php" class="text-green-500 hover:underline">Clicca qui.</a>
+            </label>
+        </div>
+        <?php } ?>
+        <input type="submit" value="Logout" class="bg-green-800 text-white font-medium text-lg w-full py-2 rounded-md shadow-md shadow-neutral-900 duration-75 md:px-10 xl:text-xl">
+    </form>
+</div>
+<?php 
+} ?>
+
+            <?php
+        // Verifica se l'utente è autenticato
+        if (!isset($_SESSION['ID'])) {
+            // L'utente non è autenticato, mostra il form di login
+            ?>
             <form action="./php/login.php" method="POST" id="loginMini" class=" hidden bg-neutral-700 py-6 px-8 pt-4 fixed top-40 left-1/5 mx-4 rounded-lg  shadow-lg shadow-black md:top-24 animate-dasopra2">
             
               <img src="/img/x.png" alt="Logo" id="Xmini2" onclick="toggleLogin()" class="hidden h-8 w-8 relative float-right z-10 cursor-pointer ">
@@ -213,13 +320,13 @@ if (isset($_GET['id'])) {
                 <input type="password" id="password" name="password" class="w-full p-2 border rounded-md bg-neutral-800 text-white shadow-md shadow-neutral-900" required>
             </div>
    
-            <div class="mb-6">
-    <label class="block text-white text-sm font-medium mb-2">
-        Non hai un account? <a href="registrazione.php" class="text-green-500 hover:underline">Crealo ora.</a>
-    </label>
-</div>
+ 
             <button type="submit" class="bg-white float-right text-black font-medium text-lg w-full py-2 rounded-md shadow-md shadow-neutral-900 hover:bg-green-800 hover:scale-105 hover:text-white duration-75 md:px-10  xl:text-xl">Invia</button>
         </form>
+
+        <?php
+}
+?>
             </div>
 
             <div class=" w-1/3 mt-12">
@@ -233,7 +340,7 @@ if (isset($_GET['id'])) {
             <div class=" flex flex-col text-xl font-semibold   gap-8">
                 <a href="/dist/index.php" class="text-white hover:scale-105 transition-all ">Home</a>
                 <div class=" border-b mx-12 "></div>
-                <a href="#" class="text-green-600  underline underline-offset-4 hover:scale-105 transition-all">Immobili</a>
+                <a href="/dist/immobili.php" class="text-green-600  underline underline-offset-4 hover:scale-105 transition-all">Immobili</a>
                 <div class="border-b mx-12"></div>
                 <a href="/dist/about.html" class="text-white hover:scale-105 transition-all">Chi Siamo</a>
                 <div class="border-b mx-12"></div>
@@ -249,20 +356,63 @@ if (isset($_GET['id'])) {
     <br><br><br>
         <div class="flex items-center justify-center flex-row gap-10 mt-16 md:hidden "> 
           
-        <button id="toggleMini" onclick="toggleLogin()" class="flex items-center hover:scale-105 transition-all">
+        <?php  if (!isset($_SESSION['ID'])) { ?>
+              <button id="toggleMini" onclick="toggleLogin()" class=" flex items-center hover:scale-105 transition-all">
                 <div class=" bg-neutral-800  px-4 py-5 rounded-full shadow-sm shadow-black hover:shadow-md hover:shadow-black">
                 <img src="/img/user.svg" alt="" class="w-10 h-8"></div>  
+               
             </button>
+            <?php } ?>
+
+            <?php  if (isset($_SESSION['ID'])) { ?>
+            <button id="toggleUserMini2" onclick="toggleUser()" class="  flex items-center hover:scale-105 transition-all">
+                <div class=" bg-neutral-800  px-4 py-5 rounded-full shadow-sm shadow-black hover:shadow-md hover:shadow-black">
+                <img src="/img/user.svg" alt="" class="w-10 h-8"></div>  
+               
+            </button>
+
+            <?php } ?>
             <?php
 
             // Controlla se l'utente è autenticato
             if (isset($_SESSION['ID'])) {
+                if (isset($row_ruolo['ruolo']) && $row_ruolo['ruolo'] === 'admin') {
                 // L'utente è autenticato, mostra il bottone per aggiungere gli immobili
                 echo '<button onclick="aggiungiImmobile()" class="bg-green-800 rounded-full p-4 py-5 text-white shadow-sm shadow-black hover:scale-105 hover:shadow-md hover:shadow-black transition-all">';
                 echo '<img src="/img/piu.svg" alt="" class="w-10 h-8">';
                 echo '</button>';
-
+                }
             }
+            ?>
+
+<?php
+if (isset($_SESSION['ID'])) {
+    ?>
+        <!-- Questa sezione contiene le informazioni dell'utente -->
+<div id="userInfoMini2" class="hidden text-white  bg-neutral-700 py-6 px-6 pt-6 fixed top-40 left-1/5 mx-4 rounded-lg z-10 shadow-lg shadow-black 2xl:right-32 animate-dasopra2" >
+
+<img src="/img/x.png" alt="Logo" id="Xuser3" onclick="toggleUser()" class="hidden h-8 w-8 relative float-right z-10 cursor-pointer">
+   
+    <p class=" mb-2 text-sm">Email: <br> <span id="userEmail3"></span></p>
+    <p class=" mb-2 text-sm">Ruolo: <br> <span id="userRole3"></span></p>
+    <form action="./php/logout.php" method="POST">
+    <?php if (isset($row_ruolo['ruolo']) && $row_ruolo['ruolo'] === 'admin') {?>
+            <div class="mb-6">
+            <label class="block text-white text-sm font-medium mb-2">
+                Vuoi creare un account? <a href="registrazione.php" class="text-green-500 hover:underline">Clicca qui.</a>
+            </label>
+        </div>
+        <?php } ?>
+        <input type="submit" value="Logout" class="bg-green-800 text-white font-medium text-lg w-full py-2 rounded-md shadow-md shadow-neutral-900 duration-75 md:px-10 xl:text-xl">
+    </form>
+</div>
+<?php 
+} ?>
+
+<?php
+        // Verifica se l'utente è autenticato
+        if (!isset($_SESSION['ID'])) {
+            // L'utente non è autenticato, mostra il form di login
             ?>
 
 <form action="./php/login.php" method="POST" id="loginMini2" class=" hidden bg-neutral-700 py-6 px-8 pt-4 fixed top-40 left-1/5 mx-4 rounded-lg z-10 shadow-lg shadow-black md:top-24 animate-dasopra2">
@@ -279,14 +429,10 @@ if (isset($_GET['id'])) {
               <input type="password" id="password" name="password" class="w-full p-2 border rounded-md bg-neutral-800 text-white shadow-md shadow-neutral-900" required>
           </div>
  
-          <div class="mb-6">
-  <label class="block text-white text-sm font-medium mb-2">
-      Non hai un account? <a href="registrazione.php" class="text-green-500 hover:underline">Crealo ora.</a>
-  </label>
-</div>
+ 
           <button type="submit" class="bg-white float-right text-black font-medium text-lg w-full py-2 rounded-md shadow-md shadow-neutral-900 hover:bg-green-800 hover:scale-105 hover:text-white duration-75 md:px-10  xl:text-xl">Invia</button>
       </form>
-        
+      <?php } ?>  
           
 </div> 
 
@@ -303,7 +449,7 @@ if (isset($_GET['id'])) {
             <button class="   w-fit  hover:scale-105 transition-all  font-semibold ">
                 <div class="flex flex-nowrap items-center whitespace-nowrap gap-6 hover:animate-bounce-horizontal-reverse p-4 "> 
                  
-                   <img src="/img/freccia-back.png" alt="" class="w-full lg:h-10 h-12 xl:h-10">
+                   <img src="/img/freccia-back.png" alt="" class="w-full lg:h-10 h-8 xl:h-10">
                  </div>   
             </button>
         </a>
@@ -312,72 +458,81 @@ if (isset($_GET['id'])) {
         <?php
 // Controlla se l'utente è autenticato
 if (isset($_SESSION['ID'])) {
+    $id_utente = $_SESSION['ID'];
+
  
 
 
-    // L'utente è autenticato, mostra il bottone delle opzioni
-    echo '<button class="w-10 flex" id="opzioniButton"><img src="/img/dot.svg" alt=""></button>';
-    
-    // Mostra il menu delle opzioni
-    echo '<div id="opzioniMenu" class="absolute right-10 px-6 bg-neutral-700 shadow-md shadow-black rounded-xl">';
-    echo '<a href="#" onclick="modificaImm();" class="flex pt-4 pb-2 hover:text-green-600">Modifica</a>';
-    echo '<a href="#" onclick="eliminaImm();" class="flex pb-4 pt-2 hover:text-green-600">Elimina</a>';
-    echo '</div>';
+  
+    // Verifica se la chiave 'ruolo' è definita nella sessione
+    if (isset($row_ruolo['ruolo']) && $row_ruolo['ruolo'] === 'admin') {
+        
+        // L'utente è autenticato ed è admin, mostra il bottone delle opzioni
+        echo '<button class="w-10 flex" id="opzioniButton" onclick="toggleOpzioniMenu()"><img src="/img/dot.svg" alt=""></button>';
+        
+        // Mostra il menu delle opzioni
+        echo '<div id="opzioniMenu" class="absolute hidden right-10 px-6 bg-neutral-700 shadow-md shadow-black rounded-xl">';
+        echo '<a href="#" onclick="modificaImm();" class="flex pt-4 pb-2 hover:text-green-600">Modifica</a>';
+        echo '<a href="#" onclick="eliminaImm();" class="flex pb-4 pt-2 hover:text-green-600">Elimina</a>';
+        echo '</div>';
+    }
 }
 ?>
+
+
 
 </div>
 
 
 
 
-            <div class="flex flex-col w-full  items-center bg-neutral-900 h-screen text-white ">
+            <div class="flex flex-col w-full  items-center bg-neutral-900 h-screen min-h-[700px] text-white ">
                 <div class="w-[90%] h-[70%] overflow-hidden p-2 mt-10 rounded-t-xl border-b-0 border border-white ">
                     <img src="<?php echo $row['foto_principale']; ?>" alt="Anteprima" class="w-full h-full object-cover rounded-t-lg shadow-md shadow-black">
-                    <h1 class="font-Ayer text-6xl uppercase text-center break-normal xl:text-7xl 2xl:text-8xl max-w-xs  xl:max-w-2xl absolute top-[115%] left-1/2 transform -translate-x-1/2 -translate-y-full   ">
-                        <?php echo $row['titolo']; ?>
-                    </h1>
+                    <div class="mb-10 absolute left-1/2 transform -translate-x-1/2 -translate-y-10 ">
+                        <div class="min-h-[500px] relative flex flex-col mb-4">
+                    <h1 class="font-Ayer text-7xl uppercase text-center break-normal md:text-[86px]  2xl:text-9xl max-w-lg md:max-w-xl lg:max-w-3xl   xl:max-w-6xl    ">
+                        <?php echo $row['titolo']; ?></h1>
+                        <br>
                     
-                
-                <div class="my-10 absolute  top-[115%] left-1/2 transform -translate-x-1/2">
-                <p class=" text-4xl tracking-wide">€ <?php echo $row['prezzo']; ?></p>
-                </div>
+                <p class=" text-2xl md:text-3xl lg:text-4xl text-center tracking-wide">€ <?php echo $row['prezzo']; ?></p>
+                </div></div>
             </div>
         </div>
 
-        <div class="flex flex-col w-full  items-center bg-neutral-900 min-h-screen text-white ">
+        <div class="flex flex-col w-[95%] mx-auto lg:w-full  items-center bg-neutral-900  text-white ">
 
-        <div class="border-b border-white w-[90%] font-Merriweather text-lg    mb-8 flex   gap-10 xl:text-2xl">
+        <div class="border-b border-white w-[90%] font-Merriweather text-lg    my-10 flex   gap-10 xl:text-2xl">
             
             <p class="pb-4 flex items-center gap-4 uppercase"><img src="/img/casa.svg" alt="" class="w-8 h-8"> <?php echo $row['tipo_immobile']; ?></p>
             <p class="pb-4 flex items-center gap-4 uppercase"><img src="/img/posizione.svg" alt="" class="w-8 h-8"> <?php echo $row['comune']; ?></p>
             <p class="pb-4 ml-auto">Rif. <?php echo $row['id_immobile']; ?></p>
         </div>
-                <div class="flex gap-5 mt-6 ">
-                <div class="flex flex-col justify-center border border-white rounded-xl gap-3 w-[185px] ">  
-                    <p class="flex justify-start pt-3 pl-4 pr-20 text-2xl uppercase font-Grotesk">Camere</p>
-                    <p class="flex  justify-end pl-20 pb-3 pr-4 text-4xl font-Ayer tracking-wider"><?php echo $row['camere']; ?></p>
+                <div class="flex gap-3 lg:gap-5 mt-6 ">
+                <div class="flex flex-col justify-center border border-white rounded-xl gap-3 w-1/3 lg:w-[185px] ">  
+                    <p class="flex justify-start pt-3 pl-2 min-[400px]:pl-4  pr-8 min-[400px]:pr-12 lg:pr-20 text-lg lg:text-2xl uppercase font-Grotesk">Camere</p>
+                    <p class="flex  justify-end pl-8 min-[400px]:pl-12 lg:pl-20 pb-3 pr-2 min-[400px]:pr-4 text-3xl lg:text-4xl font-Ayer tracking-wider"><?php echo $row['camere']; ?></p>
                 </div>
-                <div class="flex flex-col justify-center border border-white rounded-xl gap-3 w-[185px] ">  
-                    <p class="flex justify-start pt-3 pl-4 pr-20 text-2xl uppercase font-Grotesk">bagni</p>
-                    <p class="flex  justify-end pl-20 pb-3 pr-4 text-4xl font-Ayer tracking-wider"><?php echo $row['bagni']; ?></p>
+                <div class="flex flex-col justify-center border border-white rounded-xl gap-3 w-1/3 lg:w-[185px] ">  
+                    <p class="flex justify-start pt-3 pl-2 min-[400px]:pl-4  pr-8 min-[400px]:pr-12 lg:pr-20 text-lg lg:text-2xl uppercase font-Grotesk">bagni</p>
+                    <p class="flex  justify-end pl-8 min-[400px]:pl-12 lg:pl-20 pb-3 pr-2 min-[400px]:pr-4 text-3xl lg:text-4xl font-Ayer tracking-wider"><?php echo $row['bagni']; ?></p>
                 </div>
-                <div class="flex flex-col justify-center border border-white rounded-xl gap-3 w-[185px] ">  
-                    <p class="flex justify-start pt-3 pl-4 pr-20 text-2xl uppercase font-Grotesk">M²</p>
-                    <p class="flex  justify-end pl-20 pb-3 pr-4 text-4xl font-Ayer tracking-wider"><?php echo $row['metri_quadrati']; ?></p>
+                <div class="flex flex-col justify-center border border-white rounded-xl gap-3 w-1/3 lg:w-[185px] ">  
+                    <p class="flex justify-start pt-3 pl-2 min-[400px]:pl-4  pr-8 min-[400px]:pr-12 lg:pr-20 text-lg lg:text-2xl uppercase font-Grotesk">M²</p>
+                    <p class="flex  justify-end pl-8 min-[400px]:pl-12 lg:pl-20 pb-3 pr-2 min-[400px]:pr-4 text-3xl lg:text-4xl font-Ayer tracking-wider"><?php echo $row['metri_quadrati']; ?></p>
                 </div>
       </div>
             <br><br><br>
-                <div class="flex w-[90%] justify-between mt-16">
+                <div class="flex max-lg:flex-col w-[90%] justify-between mt-16">
 
-                <h1 class="uppercase text-6xl font-Ayer  xl:text-9xl text-neutral-400">Descrizione</h1>
-                <p class="flex items-end text-xl max-w-[50%] break-normal font-Grotesk"><?php echo nl2br($row['descrizione']); ?></p>
+                <h1 class="uppercase text-6xl font-Ayer  xl:text-9xl text-neutral-400 mb-4">Descrizione</h1>
+                <p class="flex items-end text-xl max-lg:w-full lg:max-w-[50%] break-normal font-Grotesk"><?php echo nl2br($row['descrizione']); ?></p>
                 
                 </div>
 
                 <br><br><br>
-                <div class="flex  w-[90%] justify-between mt-16">
-                <div class="flex flex-col w-1/3">
+                <div class="flex max-lg:flex-col  w-[90%] min-lg:justify-between mt-16">
+                <div class="flex flex-col max-lg:w-full lg:w-1/3 max-lg:mb-16">
                 <h1 class="uppercase text-6xl font-Ayer  xl:text-9xl text-neutral-400">info</h1>
                 <div class="flex ">
                 
@@ -401,7 +556,11 @@ if (isset($_SESSION['ID'])) {
 
 
 
-
+                echo '<tr class="border-b border-white">';
+                // Modifica i nomi dei campi e i valori in base al tuo schema del database
+                echo '<td class="pb-2 pt-6  font-bold">'.'Contratto' . '</td>';
+                echo '<td class="pb-2 pt-6 pl-4 border-l border-white mx-4 ">' . $row['tipo_vendita'] . '</td>';
+                echo '</tr>';
 
                 echo '<tr class="border-b border-white">';
                 // Modifica i nomi dei campi e i valori in base al tuo schema del database
@@ -508,10 +667,24 @@ if (isset($_SESSION['ID'])) {
   
 
 
-                        <div class="flex flex-col w-2/3 pl-32">
-                            <h1 class="uppercase text-6xl font-Ayer  xl:text-9xl text-neutral-400">Galleria</h1>
-                                            <div class="grid grid-cols-3 gap-3 mt-4">
-                                            <?php
+            <div class="flex flex-col max-lg:w-full max-lg:mt-8  lg:w-2/3 lg:pl-32">
+                <div class=" flex gap-8">
+                <h1 class="uppercase text-6xl font-Ayer  xl:text-9xl text-neutral-400">Galleria</h1>
+                <?php
+
+
+    if (isset($_SESSION['ID'])) {
+        if (isset($row_ruolo['ruolo']) && $row_ruolo['ruolo'] === 'admin') {
+        // L'utente è autenticato, mostra il bottone per aggiungere gli immobili
+        echo '<button onclick="aggiungiFoto()" class="bg-green-800 rounded-full p-4 py-5 text-white shadow-sm shadow-black hover:scale-105 hover:shadow-md hover:shadow-black transition-all">';
+        echo '<img src="/img/piu.svg" alt="" class="w-10 h-8">';
+        echo '</button>';
+        }
+    }
+        ?>
+        </div>
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mt-8">
+    <?php
 
 if (isset($_GET['id'])) {
     $id_immobile = $_GET['id'];
@@ -525,15 +698,20 @@ if (isset($_GET['id'])) {
         // Ottieni i dati dell'immobile
         $row = mysqli_fetch_assoc($result);
 
-     /*   // Verifica se l'immobile ha una foto principale
+      // Verifica se l'immobile ha una foto principale
         if ($row && isset($row['foto_principale'])) {
-            echo '<img src="' . $row['foto_principale'] . '" alt="Anteprima" class="w-full h-auto object-cover rounded-t-lg shadow-md shadow-black">';
-            echo '<img src="' . $row['foto_principale'] . '" alt="Anteprima" class="w-full h-auto object-cover rounded-t-lg shadow-md shadow-black">';
-
-            echo '<img src="' . $row['foto_principale'] . '" alt="Anteprima" class="w-full h-auto object-cover rounded-t-lg shadow-md shadow-black">';
-            echo '<img src="' . $row['foto_principale'] . '" alt="Anteprima" class="w-full h-auto object-cover rounded-t-lg shadow-md shadow-black">';
-            echo '<img src="' . $row['foto_principale'] . '" alt="Anteprima" class="w-full h-auto object-cover rounded-t-lg shadow-md shadow-black">';
-            echo '<img src="' . $row['foto_principale'] . '" alt="Anteprima" class="w-full h-auto object-cover rounded-t-lg shadow-md shadow-black">';
+            echo '<img src="' . $row['foto_principale'] . '" alt="Anteprima" class="w-full h-auto object-cover rounded-lg shadow-md shadow-black">';
+            echo '<img src="' . $row['foto_principale'] . '" alt="Anteprima" class="w-full h-auto object-cover rounded-lg shadow-md shadow-black">';
+            echo '<img src="' . $row['foto_principale'] . '" alt="Anteprima" class="w-full h-auto object-cover rounded-lg shadow-md shadow-black">';
+            echo '<img src="' . $row['foto_principale'] . '" alt="Anteprima" class="w-full h-auto object-cover rounded-lg shadow-md shadow-black">';
+            echo '<img src="' . $row['foto_principale'] . '" alt="Anteprima" class="w-full h-auto object-cover rounded-lg shadow-md shadow-black">';
+            echo '<img src="' . $row['foto_principale'] . '" alt="Anteprima" class="w-full h-auto object-cover rounded-lg shadow-md shadow-black">';
+            echo '<img src="' . $row['foto_principale'] . '" alt="Anteprima" class="w-full h-auto object-cover rounded-lg shadow-md shadow-black">';
+            echo '<img src="' . $row['foto_principale'] . '" alt="Anteprima" class="w-full h-auto object-cover rounded-lg shadow-md shadow-black">';
+            echo '<img src="' . $row['foto_principale'] . '" alt="Anteprima" class="w-full h-auto object-cover rounded-lg shadow-md shadow-black">';
+            echo '<img src="' . $row['foto_principale'] . '" alt="Anteprima" class="w-full h-auto object-cover rounded-lg shadow-md shadow-black">';
+            echo '<img src="' . $row['foto_principale'] . '" alt="Anteprima" class="w-full h-auto object-cover rounded-lg shadow-md shadow-black">';
+            echo '<img src="' . $row['foto_principale'] . '" alt="Anteprima" class="w-full h-auto object-cover rounded-lg shadow-md shadow-black">';
 
             // Continua con il codice per le altre foto o dati
         } else {
@@ -542,21 +720,21 @@ if (isset($_GET['id'])) {
     } else {
         echo 'Nessun risultato trovato per l\'ID immobile specificato';
     }
-}*/
+}
 
-
+/*
 // ... Altre parti della pagina dettaglio_immobile.php ...
 
 // Verifica se ci sono immagini nella galleria
 if (!empty($galleriaFiles)) {
     echo '<div class="galleria-foto">';
     foreach ($galleriaFiles as $foto) {
-        echo '<img src="' .'.' . $foto . '" alt="Foto Galleria">';
+        echo '<img src="' .'./' . $foto . '" alt="Foto Galleria">';
     }
     echo '</div>';
 } else {
     echo '<p>Nessuna foto disponibile nella galleria.</p>';
-}
+}*/
 ?>
 
 <!-- Altri contenuti della pagina dettaglio_immobile.php -->
@@ -569,26 +747,22 @@ if (!empty($galleriaFiles)) {
                     </div>
                     <br><br><br>
 
-                    <?php
-                    // Assume che $row sia il risultato della tua query
-                    // Assicurati che il campo nel database contenga l'URL del video
-                    $videoUrl = $row['video'];
-                    
-                    ?>
+<?php
+// Assume che $row sia il risultato della tua query
+// Assicurati che il campo nel database contenga l'URL del video di YouTube
+$youtubeUrl = $row['video'];
+?>
 
-                    <div class="flex flex-col bg-neutral-900 h-screen mt-12 w-[90%]">
-                        <h1 class="uppercase text-6xl font-Ayer xl:text-9xl text-neutral-400">video</h1>
-                        <div class="flex justify-center items-center">
+<div class="flex flex-col bg-neutral-900 my-16 w-[90%]">
+    <h1 class="uppercase text-6xl font-Ayer xl:text-9xl text-neutral-400">Video</h1>
+    <br>
+    <div class="flex justify-center items-center">
+        <!-- Utilizza l'iframe di YouTube per incorporare il video -->
+        <iframe width="920" height="640" src="<?php echo $youtubeUrl; ?>" frameborder="0" allowfullscreen></iframe>
+    </div>
+</div>
 
-                      
 
-                        <video class="w-[90%] h-[70%] max-w-[1000px] max-h-[800px]" controls>
-                            <source src="<?php echo '.'.$videoUrl; ?>" type="video/mp4">
-                                Il tuo browser non supporta il tag video.
-                        </video>
-
-                    </div>
-                    </div>
                     <?php
 // Assume che $conn sia la tua connessione al database
 // $immobileId è l'ID dell'immobile per il quale vuoi ottenere le coordinate
@@ -619,11 +793,14 @@ if ($result) {
 } else {
     echo "Errore nella query: " . mysqli_error($conn);
 }}
+
 ?>
 
 
-<div class="flex flex-col bg-neutral-900 h-screen mt-12 w-[90%]">
+
+<div class="flex flex-col bg-neutral-900  my-12 w-[90%] z-10">
     <h1 class="uppercase text-6xl font-Ayer xl:text-9xl text-neutral-400">Mappa</h1>
+    <br>
     <div class="flex justify-center">
         <!-- Aggiungi un elemento div con un id univoco per ogni mappa -->
         <div id="map1" style="height: 600px; width: 100%;"></div>
@@ -634,82 +811,103 @@ if ($result) {
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <script>
-    // Codice JavaScript per creare la mappa dinamica
-    var map1 = L.map('map1');
-
-    $.ajax({
-        url: `https://nominatim.openstreetmap.org/search?format=json&q=${indirizzo},${comune}`,
-        type: 'GET',
-        dataType: 'json',
-        success: function (data) {
-            if (data.length > 0) {
-                var coords = [parseFloat(data[0].lat), parseFloat(data[0].lon)];
-                map1.setView(coords, 17);
-
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '© OpenStreetMap contributors'
-                }).addTo(map1);
-
-                // Definisci un'icona personalizzata
-                var customIcon = L.icon({
-    iconUrl: '/img/iconamappa.png',
-    iconSize: [60, 60],
-    iconAnchor: [25, 50]
+var map1 = L.map('map1', {
+    scrollWheelZoom: false
 });
 
-// Aggiungi un segnaposto alla mappa utilizzando l'icona personalizzata
-var marker = L.marker(coords, { icon: customIcon }).addTo(map1);
+$.ajax({
+    url: `https://nominatim.openstreetmap.org/search?format=json&q=${indirizzo},${comune}`,
+    type: 'GET',
+    dataType: 'json',
+    success: function (data) {
+        if (data.length > 0) {
+            var coords = [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+            map1.setView(coords, 17);
 
-// Assegna l'evento click al marker
-marker.on('click', function () {
-    // Costruisci l'URL di Google Maps con l'indirizzo
-    var googleMapsUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(indirizzo + ', ' + comune);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map1);
 
-    // Apri la nuova finestra del browser con l'URL di Google Maps
-    window.open(googleMapsUrl, '_blank');
-});
+            // Definisci un'icona personalizzata
+            var customIcon = L.icon({
+                iconUrl: '/img/iconamappa.png',
+                iconSize: [60, 60],
+                iconAnchor: [25, 50]
+            });
 
-            } else {
-                console.error('Coordinate non trovate per l\'indirizzo specificato.');
-            }
-        },
-        error: function () {
-            console.error('Errore nella richiesta AJAX per ottenere le coordinate.');
+            // Aggiungi un segnaposto alla mappa utilizzando l'icona personalizzata
+            var marker = L.marker(coords, { icon: customIcon }).addTo(map1);
+
+            // Assegna l'evento click al marker
+            marker.on('click', function () {
+                // Costruisci l'URL di Google Maps con l'indirizzo
+                var googleMapsUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(indirizzo + ', ' + comune);
+
+                // Apri la nuova finestra del browser con l'URL di Google Maps
+                window.open(googleMapsUrl, '_blank');
+            });
+
+        } else {
+            console.error('Coordinate non trovate per l\'indirizzo specificato.');
         }
-    });
+    },
+    error: function () {
+        console.error('Errore nella richiesta AJAX per ottenere le coordinate.');
+    }
+});
+
 </script>
 
 
+            <?php
 
-                    <div class="flex flex-col bg-neutral-900 h-screen mt-12 w-[90%]">
+            if (isset($_SESSION['ID'])) {
+         
+        ?>
+
+        <div class="flex  w-[80%] my-5  ">
+            <div class="flex relative float-left p-4 items-center gap-5   border border-white rounded-lg hover:text-green-700">
+            <img src="/img/pdf.svg" alt="" class="w-full h-10">
+        <?php
+            echo '<a href="data:' . $row['tipo_contenuto'] . ';base64,' . base64_encode($row['dati']) . '" download="' . $row['nome_file'] . '">Documentazione</a>';
+                                        
+        ?>
+        </div>
+        </div>
+        <?php
+           
+                                        }
+        ?>
+
+                    <div class="flex flex-col bg-neutral-900  my-16 w-[90%]">
                         <h1 class="uppercase text-6xl font-Ayer xl:text-9xl text-neutral-400">contattaci</h1>
+                        <br>
                         <div class="flex justify-center">
 
-                        <form action="#" method="post" class="md:w-1/2 md:mr-12 lg:mx-10 lg:mr-16 ">
+             
+            <form action="./php/send.php" method="post" class="w-full md:w-2/3 lg:w-1/2 md:mr-12 lg:mx-10 lg:mr-16 ">
+
             <div class="mb-4">
-                <label for="nome" class="block text-white text-sm font-medium mb-2">Nome</label>
+                <label for="nome" class="block text-white text-sm font-medium mb-2">Nome *</label>
                 <input type="text" id="nome" name="nome" class="w-full p-2 border rounded-md bg-neutral-800 text-white shadow-md shadow-neutral-900" required>
             </div>
-
             <div class="mb-4">
-                <label for="cognome" class="block text-white text-sm font-medium mb-2">Cognome</label>
-                <input type="text" id="cognome" name="cognome" class="w-full p-2 border rounded-md bg-neutral-800 text-white shadow-md shadow-neutral-900" required>
-            </div>
-
-            <div class="mb-4">
-                <label for="email" class="block text-white text-sm font-medium mb-2">Email</label>
+                <label for="email" class="block text-white text-sm font-medium mb-2">Email *</label>
                 <input type="email" id="email" name="email" class="w-full p-2 border rounded-md bg-neutral-800 text-white shadow-md shadow-neutral-900" required>
+            </div>
+            <div class="mb-4">
+                <label for="telefono" class="block text-white text-sm font-medium mb-2">Numero di Telefono *</label>
+                <input type="tel" id="telefono" name="telefono" class="w-full p-2 border rounded-md bg-neutral-800 text-white shadow-md shadow-neutral-900" required>
             </div>
 
             <?php echo '<div class="mb-4">
-    <label for="messaggio" class="block text-white text-sm font-medium mb-2">Messaggio</label>
-    <textarea id="mex" name="messaggio" rows="4" class="w-full p-2 border rounded-md bg-neutral-800 text-white shadow-md shadow-neutral-900" required>Spett.le PREMIA HOME S.R.L., Vi chiedo ulteriori informazioni sul Vostro annuncio Rif.' . $id_immobile . '</textarea>
-</div>'; ?>
+                <label for="messaggio" class="block text-white text-sm font-medium mb-2">Messaggio *</label>
+                <textarea id="mex" name="messaggio" rows="4" class="w-full p-2 border rounded-md bg-neutral-800 text-white shadow-md shadow-neutral-900" required>Spett.le PREMIA HOME S.R.L., Vi chiedo ulteriori informazioni sul Vostro annuncio Rif.' . $id_immobile . '</textarea>
+            </div>'; ?>
 
-
-
-            <button type="submit" class="bg-white float-right text-black font-medium text-lg px-8 py-2 rounded-md shadow-md shadow-neutral-900 hover:bg-green-800 hover:scale-105 hover:text-white duration-75 md:px-10 lg:px-16 xl:px-20 xl:py-3 xl:text-xl">Invia</button>
-        </form>
+            <button type="submit" class=" bg-green-800 lg:bg-white float-right max-lg:w-full text-white lg:text-black font-medium text-lg px-8 py-2 rounded-md shadow-md shadow-neutral-900 lg:hover:bg-green-800 hover:scale-105 lg:hover:text-white duration-75 md:px-10 lg:px-16 xl:px-20 xl:py-3 xl:text-xl">Invia</button>
+            
+            </form>
                         
                     </div>
                     </div>
@@ -837,15 +1035,46 @@ marker.on('click', function () {
         AOS.init();
         </script>
 
+<script>
+    // JavaScript per gestire l'interazione tra le sezioni
+    document.addEventListener('DOMContentLoaded', function () {
+        // Ottieni le informazioni dell'utente
+        
+        var emailUtente = '<?php echo $_SESSION['Email']; ?>';
+        var ruoloUtente = '<?php echo $_SESSION['ruolo']; ?>';
+
+        var emailUtente2 = '<?php echo $_SESSION['Email']; ?>';
+        var ruoloUtente2 = '<?php echo $_SESSION['ruolo']; ?>';
+
+        var emailUtente3 = '<?php echo $_SESSION['Email']; ?>';
+        var ruoloUtente3 = '<?php echo $_SESSION['ruolo']; ?>';
+
+   
+
+        // Mostra le informazioni dell'utente e nascondi il form di login
+       
+        document.getElementById('userEmail').textContent = emailUtente;
+        document.getElementById('userRole').textContent = ruoloUtente;
+        document.getElementById('userEmail2').textContent = emailUtente2;
+        document.getElementById('userRole2').textContent = ruoloUtente2;
+        document.getElementById('userEmail3').textContent = emailUtente3;
+        document.getElementById('userRole3').textContent = ruoloUtente3;
+        document.getElementById('loginForm').classList.add('hidden');
+    });
+</script>
+
         <script src="index.js"></script>
 
         <script>
    var button = document.getElementById("opzioniButton");
 var menu = document.getElementById("opzioniMenu");
 
-button.addEventListener("click", function() {
-    menu.style.display = (menu.style.display === "block") ? "none" : "block";
-});
+function toggleOpzioniMenu() {
+    var opzioniMenu = document.getElementById('opzioniMenu');
+    opzioniMenu.style.display = opzioniMenu.style.display === 'none' ? 'block' : 'none';
+}
+
+
 
 document.addEventListener("click", function(event) {
     var isClickInsideButton = button.contains(event.target);
@@ -896,6 +1125,6 @@ document.addEventListener("click", function(event) {
     
     } else {
         echo "Errore nella query: " . mysqli_error($conn);
-    }}}}
+    }}
 ?>
 </html>

@@ -64,8 +64,69 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $riscaldamento = mysqli_real_escape_string($conn, $_POST['riscaldamento']);
         $soggiorno = mysqli_real_escape_string($conn, $_POST['soggiorno']);
         $condizioni = mysqli_real_escape_string($conn, $_POST['condizioni']);
+        $videoUrl = mysqli_real_escape_string($conn, $_POST['video']);
         $inEvidenza = isset($_POST['in_evidenza']) ? 1 : 0;
         // Altri campi del modulo
+
+        if (isset($_FILES['foto_princ']) && $_FILES['foto_princ']['error'] === UPLOAD_ERR_OK) {
+
+            $uploadDir = './imgphp/';
+            $uploadFile = $uploadDir . basename($_FILES['foto_princ']['name']);
+    
+            if (move_uploaded_file($_FILES['foto_princ']['tmp_name'], $uploadFile)) {
+                $percorsoFotoPrincipale = $uploadFile;
+    
+            } else {
+                $errors[] = "Errore durante il caricamento della foto principale.";
+            }
+        } else {
+            $errors[] = "Foto principale non specificata o errore nel caricamento.";
+        }
+    
+      // Verifica se il campo 'foto_princ' è stato definito nell'array $_FILES
+    if (isset($_FILES['galleria_foto']) && !empty($_FILES['galleria_foto']['name'][0])) {
+        // Gestione dell'upload delle foto principali
+        $uploadDir = './imgphp/galleria/';
+        $galleriaFiles = array();
+    
+        foreach ($_FILES['galleria_foto']['tmp_name'] as $key => $tmp_name) {
+            $galleriaFile = $uploadDir . basename($_FILES['galleria_foto']['name'][$key]);
+    
+            if (move_uploaded_file($tmp_name, $galleriaFile)) {
+                $galleriaFiles = $galleriaFile;
+            } else {
+                $errors[] = "Errore durante il caricamento di una foto principale.";
+            }
+        }
+    
+        // Ora $fotoPrincipaliFiles contiene i percorsi di tutte le foto principali caricate con successo
+    
+        // Puoi memorizzare i percorsi delle foto nel database o fare altre operazioni necessarie
+        // Esempio: $percorsoFotoPrincipale = implode(',', $fotoPrincipaliFiles);
+    } else {
+        // L'array $_FILES['foto_princ'] non è impostato o non ci sono file caricati
+        $errors[] = "Foto principali non specificate o errore nel caricamento.";
+    }
+    
+    
+    
+    
+      
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $pdfFileName = $_FILES['pdf_file']['name'];
+        $pdfTmpName = $_FILES['pdf_file']['tmp_name'];
+        $pdfType = $_FILES['pdf_file']['type'];
+    
+        // Controlla se è un file PDF
+        if ($pdfType === 'application/pdf') {
+            // Leggi il contenuto del file PDF
+            $pdfContent = file_get_contents($pdfTmpName);
+    
+            // Escapa il contenuto del file per evitare SQL injection
+            $escapedContent = mysqli_real_escape_string($conn, $pdfContent);
+    
+        }
+    }
 
         // Esegui la query di aggiornamento utilizzando un prepared statement
         $query = "UPDATE immobili 
@@ -92,13 +153,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               riscaldamento = ?, 
               soggiorno = ?, 
               condizioni = ?, 
-              in_evidenza = ? 
+              in_evidenza = ?, 
+              foto_principale = ?,
+              galleria_foto = ?, 
+              video = ?, 
+              nome_file = ?, 
+              tipo_contenuto = ?, 
+              dati = ?
           WHERE id_immobile = ?";
 
         $stmt = mysqli_prepare($conn, $query);
 
         if ($stmt) {
-            mysqli_stmt_bind_param($stmt, "ssdssiiisssisssdissssssii", $titolo, $descrizione, $prezzo, $tipo_immobile, $tipo_vendita, $vani, $camere, $bagni, $provincia, $comune, $indirizzo, $piani, $giardino, $balcone, $classe_energetica, $metri_quadrati, $anno_costruzione, $parcheggio, $cucina, $EPI, $riscaldamento, $soggiorno, $condizioni, $inEvidenza, $id_immobile);
+            mysqli_stmt_bind_param($stmt, "ssdssiiisssisssdissssssisssssbi", $titolo, $descrizione, $prezzo, $tipo_immobile, $tipo_vendita, $vani, $camere, $bagni, $provincia, $comune, $indirizzo, $piani, $giardino, $balcone, $classe_energetica, $metri_quadrati, $anno_costruzione, $parcheggio, $cucina, $EPI, $riscaldamento, $soggiorno, $condizioni, $inEvidenza, $percorsoFotoPrincipale, $galleriaFiles, $videoUrl, $pdfFileName , $pdfType, $escapedContent, $id_immobile);
             $result = mysqli_stmt_execute($stmt);
 
             if ($result) {
@@ -181,14 +248,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <div class="mb-6 flex flex-col">
             <label for="tipo_immobile">Tipo Immobile:</label>
-            <select name="tipo_immobile" required class="border border-white bg-neutral-800 rounded-md py-3 text-white px-2">
-    <option value="" disabled hidden>Seleziona il tipo</option>
-    <option value="casa" <?php echo ($immobile['tipo_immobile'] == 'casa') ? 'selected' : ''; ?>>Casa</option>
-    <option value="appartamento" <?php echo ($immobile['tipo_immobile'] == 'appartamento') ? 'selected' : ''; ?>>Appartamento</option>
-    <option value="villa" <?php echo ($immobile['tipo_immobile'] == 'villa') ? 'selected' : ''; ?>>Villa</option>
-</select>
-
-        </div>
+            <input type="text" name="tipo_immobile" placeholder="Tipologia" value="<?php echo $immobile['tipo_immobile']; ?>" required class="border border-white bg-neutral-800 rounded-md py-3 text-white px-2">
+            </div>
 
             <div class="mb-6 flex flex-col">
                 <label for="tipo_vendita">Contratto:</label>
@@ -236,6 +297,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label for="EPI">EPI:</label>
                 <input type="text" name="EPI" placeholder="EPI" value="<?php echo $immobile['EPI']; ?>"  class="border border-white bg-neutral-800 rounded-md py-3 text-white px-2">
             </div>
+            <div class="mb-6">
+            <label for="in_evidenza" class="block text-white text-sm font-medium mb-2">In evidenza</label>
+            <input type="checkbox" id="in_evidenza" name="in_evidenza" class="ml-2" <?php echo $immobile['in_evidenza'] == 1 ? 'checked' : ''; ?>>
+
+            
+        </div>
             </div>
 
         <div class="md:w-1/2 ">
@@ -401,16 +468,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label for="galleria_foto">Galleria Foto:</label>
                 <input type="file" name="galleria_foto[]" accept="image/*" multiple placeholder="Foto"  class="border border-white bg-neutral-800 rounded-md py-3 text-white px-2">
             </div>
-           <div class="mb-6 flex flex-col">
-                <label for="video">Video:</label>
-                <input type="file" name="video" accept="video/*" value="<?php echo $immobile['video']; ?>" class="border border-white bg-neutral-800 rounded-md py-3 text-white px-2">
+            <div class="mb-6 flex flex-col">
+                <label for="video">URL del Video (YouTube):</label>
+                <input type="text" name="video" placeholder="Inserisci l'URL del video di YouTube" value="<?php echo $immobile['video']; ?>" required class="border border-white bg-neutral-800 rounded-md py-3 text-white px-2">
             </div>
-            <div class="mb-6">
-            <label for="in_evidenza" class="block text-white text-sm font-medium mb-2">In evidenza</label>
-            <input type="checkbox" id="in_evidenza" name="in_evidenza" class="ml-2" <?php echo $immobile['in_evidenza'] == 1 ? 'checked' : ''; ?>>
-
-            
-        </div>
+            <div class="mb-6 flex flex-col">
+            <label for="pdf" class="block text-white text-sm font-medium mb-2">PDF:</label>
+            <input type="file" name="pdf_file" accept=".pdf" placeholder="Inserisci PDF" class="border border-white bg-neutral-800 rounded-md py-3 text-white px-2" >
+            </div>
+           
 
             
         </div>
@@ -431,3 +497,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </div>
 </body>
 </html>
+
+
+
+
+

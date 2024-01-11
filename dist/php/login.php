@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $email = mysqli_real_escape_string($conn, $_POST['email']);
         $password = $_POST['password']; // Non è necessario usare mysqli_real_escape_string per password hashed
 
-        $query = "SELECT * FROM users WHERE email=?";
+        $query = "SELECT * FROM users WHERE Email=?";
         $stmt = mysqli_prepare($conn, $query);
 
         if ($stmt) {
@@ -24,7 +24,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         // Password corretta
                         $messaggio = "Accesso effettuato";
                 
-                        $_SESSION['ID'] = $user['ID']; 
+                        $_SESSION['ID'] = $user['ID'];
+                        $_SESSION['Email'] = $user['Email']; 
+                        $_SESSION['ruolo'] = $user['ruolo'];  
 
                         header("Location: /dist/immobili.php?messaggio=" . urlencode($messaggio));
                         exit();

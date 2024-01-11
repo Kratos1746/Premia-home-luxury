@@ -8,6 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Convalida e sanifica l'input (ad esempio, usa mysqli_real_escape_string)
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
+    $ruolo = mysqli_real_escape_string($conn, $_POST['ruolo']);
 
 
     // Esegui l'hash della password
@@ -26,7 +27,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     // Query per inserire l'utente nel database
-    $query = "INSERT INTO users (email, password) VALUES ('$email', '$hashedPassword')";
+    $query = "INSERT INTO users (email, password, ruolo) VALUES ('$email', '$hashedPassword', '$ruolo')";
+
+
 
     // Esegui la query e gestisci il risultato
     if (mysqli_query($conn, $query)) {
@@ -104,6 +107,14 @@ mysqli_close($conn);
                 <label for="confirm_password" class="block text-white text-sm font-medium mb-2">Conferma Password:</label>
                 <input type="password" id="confirm_password" name="confirm_password" class=" p-2 max-md:w-[250px] w-[300px]  border rounded-md bg-neutral-800 text-white shadow-md shadow-neutral-900" required>
             </div>
+            <div class="mb-4">
+            <label for="ruolo" class="block text-white text-sm font-medium mb-2">Ruolo:</label>
+            <select id="ruolo" name="ruolo" class="p-2 max-md:w-[250px] w-[300px] border rounded-md bg-neutral-800 text-white shadow-md shadow-neutral-900">
+                <option value="utente">Utente</option>
+                <option value="admin">Admin</option>
+            </select>
+</div>
+
 <br>        
             <button type="submit" class="bg-green-800 text-white lg:bg-white float-right  lg:text-black font-medium text-lg w-full py-2  max-md:max-w-[250px] max-w-[300px]  rounded-md shadow-md shadow-neutral-900 hover:bg-green-800 hover:scale-105 hover:text-white duration-75  xl:py-3 xl:text-xl">Registrati</button>
     
