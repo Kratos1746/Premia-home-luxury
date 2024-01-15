@@ -32,11 +32,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         exit();
                     } else {
                         // Password errata
-                        echo "Credenziali non valide";
+                        $messaggio2 = "Credenziali non valide";
+                        header("Location: /dist/immobili.php?messaggio2=" . urlencode($messaggio2));
                     }
                 } else {
                     // Utente non trovato
-                    echo "Credenziali non valide";
+                  
+                    $messaggio2 = "Credenziali non valide";
+                        header("Location: /dist/immobili.php?messaggio2=" . urlencode($messaggio2));
                 }
             } else {
                 // Gestisci il fallimento della query

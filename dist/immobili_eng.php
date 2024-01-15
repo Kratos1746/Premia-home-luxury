@@ -28,7 +28,9 @@ $result = mysqli_query($conn, $query);
             }
 // Verifica se ci sono risultati
 if ($result)	{	
-    
+
+ 
+
    
 ?>
 <!DOCTYPE html>
@@ -88,235 +90,219 @@ if (isset($_GET['messaggio'])) {
 
  
 <div class="bg-neutral-900 min-h-screen flex flex-col">
-      <nav id="nav-1024-imm" class="max-lg:hidden   z-10 pt-4 fixed  w-full  ">
-          <div class="flex items-center justify-between ">
-            <div class=" w-1/3 mt-12">
-            <a href="/dist/index.php" >
-            <div id="Logo-1024" class=" h-[90px] xl:h-[100px] w-60 ml-10 mt-5 z-10 fixed top-0 left-5 xl:left-10" >
-              <img src="/img/logo-lux.png" alt="Logo"  class=" h-full ">
-              </div></a>
-              </div>
+    <nav id="nav-1024-imm" class="max-lg:hidden z-10 pt-4 fixed w-full">
+        <div class="flex items-center justify-between">
+            <div class="w-1/3 mt-12">
+                <a href="/dist/index_eng.php">
+                    <div id="Logo-1024" class="h-[90px] xl:h-[100px] w-60 ml-10 mt-5 z-10 fixed top-0 left-5 xl:left-10">
+                        <img src="/img/logo-lux.png" alt="Logo" class="h-full">
+                    </div>
+                </a>
+            </div>
 
-              <div class=" w-1/3 mt-8 flex items-center">
-              <div id="menu-1024" class="  space-x-8  text-lg font-semibold xl:text-xl fixed left-1/2 -translate-x-1/2 ">
-                  <a href="/dist/index.php" class=" text-white hover:text-orange-300 hover:scale-105 transition-all">Home</a>
-                  <a href="#" class="text-orange-300  underline underline-offset-4 hover:scale-105 transition-all">Immobili</a>
-                  <a href="/dist/about.html" class="text-white hover:text-orange-300 hover:scale-105 transition-all">Chi Siamo</a>
-                  <a href="/dist/contatti.html" class="text-white hover:text-orange-300 hover:scale-105 transition-all">Contatti</a>
-              </div>
-              </div>
-            
-              
-              <div  class=" w-1/3 flex items-center justify-center mt-6   gap-10 ">
-                <?php  if (!isset($_SESSION['ID'])) { ?>
-              <button id="toggleLogin" onclick="toggleLogin()" class=" max-md:hidden flex items-center hover:scale-105 transition-all">
-                <div class=" bg-neutral-800  px-4 py-5 rounded-full shadow-sm shadow-black hover:shadow-md hover:shadow-black">
-                <img src="/img/user.svg" alt="" class="w-10 h-8"></div>  
-               
-            </button>
-            <?php } ?>
+            <div class="w-1/3 mt-8 flex items-center">
+                <div id="menu-1024" class="space-x-8 text-lg font-semibold xl:text-xl fixed left-1/2 -translate-x-1/2">
+                    <a href="/dist/index_eng.php" class="text-white hover:text-orange-300 hover:scale-105 transition-all">Home</a>
+                    <a href="#" class="text-orange-300 underline underline-offset-4 hover:scale-105 transition-all">Properties</a>
+                    <a href="/dist/about_eng.html" class="text-white hover:text-orange-300 hover:scale-105 transition-all">About Us</a>
+                    <a href="/dist/contatti_eng.html" class="text-white hover:text-orange-300 hover:scale-105 transition-all">Contact</a>
+                </div>
+            </div>
 
-            <?php  if (isset($_SESSION['ID'])) { ?>
-            <button id="toggleUser" onclick="toggleUser()" class=" max-md:hidden flex items-center hover:scale-105 transition-all">
-                <div class=" bg-neutral-800  px-4 py-5 rounded-full shadow-sm shadow-black hover:shadow-md hover:shadow-black">
-                <img src="/img/user.svg" alt="" class="w-10 h-8"></div>  
-               
-            </button>
+            <div class="w-1/3 flex items-center justify-center mt-6 gap-10">
+                <?php if (!isset($_SESSION['ID'])) { ?>
+                    <button id="toggleLogin" onclick="toggleLogin()" class="max-md:hidden flex items-center hover:scale-105 transition-all">
+                        <div class="bg-neutral-800 px-4 py-5 rounded-full shadow-sm shadow-black hover:shadow-md hover:shadow-black">
+                            <img src="/img/user.svg" alt="" class="w-10 h-8">
+                        </div>
+                    </button>
+                <?php } ?>
 
-            <?php } ?>
+                <?php if (isset($_SESSION['ID'])) { ?>
+                    <button id="toggleUser" onclick="toggleUser()" class="max-md:hidden flex items-center hover:scale-105 transition-all">
+                        <div class="bg-neutral-800 px-4 py-5 rounded-full shadow-sm shadow-black hover:shadow-md hover:shadow-black">
+                            <img src="/img/user.svg" alt="" class="w-10 h-8">
+                        </div>
+                    </button>
+                <?php } ?>
 
-            <?php
-            // Controlla se l'utente è autenticato
-            if (isset($_SESSION['ID'])) {
-                if (isset($row_ruolo['ruolo']) && $row_ruolo['ruolo'] === 'admin') {
-                // L'utente è autenticato, mostra il bottone per aggiungere gli immobili
-                echo '<button onclick="aggiungiImmobile()" class="bg-green-800 rounded-full p-4 py-5 text-white shadow-sm shadow-black hover:scale-105 hover:shadow-md hover:shadow-black transition-all">';
-                echo '<img src="/img/piu.svg" alt="" class="w-10 h-8">';
-                echo '</button>';
-                }
-            }
-            ?>
-                        <div class=" text-white text-xl flex gap-1 ml-1 mr-8 mt-12 z-10 cursor-pointer fixed top-0 right-5 ">
-                        <button id="translateButtonIt" onclick="translateSiteToIta()"class="underline underline-offset-4 text-orange-300" >It</button>
-                        <p>-</p>
-                        <button id="translateButtonEng" onclick="translateSiteToEng()" ><a href="immobili_eng.php">En</a></button>
-                        </div><script>saveStateToCookies();</script>  
-        </div>
-         
-
-        <?php
-
-     
-        // Controlla se l'utente è autenticato
-        if (isset($_SESSION['ID'])) {
-            ?>
-                <!-- Questa sezione contiene le informazioni dell'utente -->
-        <div id="userInfo" class="hidden text-white  bg-neutral-700 py-6 px-6 pt-6 fixed top-16 right-4 rounded-lg shadow-lg shadow-black 2xl:right-32 animate-dasopra2" >
-
-        <img src="/img/x.png" alt="Logo" id="Xuser" onclick="toggleUser()" class="hidden h-8 w-8 relative float-right z-10 cursor-pointer">
-           
-            <p class=" mb-2 text-sm">Email: <br> <span id="userEmail"></span></p>
-            <p class=" mb-2 text-sm">Ruolo: <br><span id="userRole"></span></p>
-            <form action="./php/logout.php" method="POST">
-           <?php if (isset($row_ruolo['ruolo']) && $row_ruolo['ruolo'] === 'admin') {?>
-            <div class="mb-6">
-            <label class="block text-white text-sm font-medium mb-2">
-                Vuoi creare un account? <a href="registrazione.php" class="text-green-500 hover:underline">Clicca qui.</a>
-            </label>
-        </div>
-        <?php } ?>
-                <input type="submit" value="Logout" class="bg-white text-black font-medium text-lg w-full py-2 rounded-md shadow-md shadow-neutral-900 hover:bg-green-800 hover:scale-105 hover:text-white duration-75 md:px-10 xl:text-xl">
-            </form>
-        </div>
-        <?php 
-        } ?>
-
-        <?php
-        // Verifica se l'utente è autenticato
-        if (!isset($_SESSION['ID'])) {
-            // L'utente non è autenticato, mostra il form di login
-            ?>
-    <!-- Questa sezione contiene il form di login -->
-    <form action="./php/login.php" method="POST" id="login" class="bg-neutral-700 py-6 px-6 pt-6 fixed top-16 right-4 rounded-lg shadow-lg shadow-black 2xl:right-32 animate-dasopra2 hidden">
-
-        <img src="/img/x.png" alt="Logo" id="Xmini" onclick="toggleLogin()" class="hidden h-8 w-8 relative float-right z-10 cursor-pointer">
-
-        <div class="my-4">
-            <label for="email" class="block text-white text-sm font-medium mb-2">Email</label>
-            <input type="email" id="email" name="email" class="w-full p-2 pr-6 border rounded-md bg-neutral-800 text-white shadow-md shadow-neutral-900" required>
-        </div>
-
-        <div class="mb-6">
-            <label for="password" class="block text-white text-sm font-medium mb-2">Password</label>
-            <input type="password" id="password" name="password" class="w-full p-2 pr-6 border rounded-md bg-neutral-800 text-white shadow-md shadow-neutral-900" required>
-        </div>
-
-       
-
-        <input type="submit" value="Accedi" class="bg-white float-right text-black font-medium text-lg w-full py-2 rounded-md shadow-md shadow-neutral-900 hover:bg-green-800 hover:scale-105 hover:text-white duration-75 md:px-10 xl:text-xl">
-    </form>
-    <?php
-}
-?>
-
-
-
-      </nav>
-
-      <nav id="nav-imm" class=" lg:hidden  z-10   fixed w-full   ">
-        <div class="flex items-center justify-between  ">
-        <div class=" w-1/3 mt-12">
-        <a href="/dist/index.php" >
-        <img src="/img/logo-lux.png" alt="Logo" id="Logo" class="h-20 sm:h-[85px] pb-2 ml-12 mt-4 z-10 fixed top-0 left-0 "></a>
-        </div>
-
-            <div class=" w-1/3 flex justify-center py-5  gap-10 max-md:hidden ">
-            <?php  if (!isset($_SESSION['ID'])) { ?>
-              <button id="toggleLoginMini" onclick="toggleLogin()" class=" flex items-center hover:scale-105 transition-all">
-                <div class=" bg-neutral-800  px-4 py-5 rounded-full shadow-sm shadow-black hover:shadow-md hover:shadow-black">
-                <img src="/img/user.svg" alt="" class="w-10 h-8"></div>  
-               
-            </button>
-            <?php } ?>
-
-            <?php  if (isset($_SESSION['ID'])) { ?>
-            <button id="toggleUserMini" onclick="toggleUser()" class="  flex items-center hover:scale-105 transition-all">
-                <div class=" bg-neutral-800  px-4 py-5 rounded-full shadow-sm shadow-black hover:shadow-md hover:shadow-black">
-                <img src="/img/user.svg" alt="" class="w-10 h-8"></div>  
-               
-            </button>
-
-            <?php } ?>
                 <?php
-
-           
-            if (isset($_SESSION['ID'])) {
-                if (isset($row_ruolo['ruolo']) && $row_ruolo['ruolo'] === 'admin') {
-                // L'utente è autenticato, mostra il bottone per aggiungere gli immobili
-                echo '<button onclick="aggiungiImmobile()" class="bg-green-800 rounded-full p-4 py-5 text-white shadow-sm shadow-black hover:scale-105 hover:shadow-md hover:shadow-black transition-all">';
-                echo '<img src="/img/piu.svg" alt="" class="w-10 h-8">';
-                echo '</button>';
+                // Check if the user is authenticated
+                if (isset($_SESSION['ID'])) {
+                    if (isset($row_ruolo['ruolo']) && $row_ruolo['ruolo'] === 'admin') {
+                        // The user is authenticated, show the button to add properties
+                        echo '<button onclick="aggiungiImmobile()" class="bg-green-800 rounded-full p-4 py-5 text-white shadow-sm shadow-black hover:scale-105 hover:shadow-md hover:shadow-black transition-all">';
+                        echo '<img src="/img/piu.svg" alt="" class="w-10 h-8">';
+                        echo '</button>';
+                    }
                 }
-            }
                 ?>
-
-            </button>
-
-            <?php
-
-     
-// Controlla se l'utente è autenticato
-if (isset($_SESSION['ID'])) {
-    ?>
-        <!-- Questa sezione contiene le informazioni dell'utente -->
-<div id="userInfoMini" class="hidden text-white  bg-neutral-700 py-6 px-6 pt-6 fixed top-32 left-1/5 mx-4 z-10 rounded-lg shadow-lg shadow-black 2xl:right-32 animate-dasopra2" >
-
-<img src="/img/x.png" alt="Logo" id="Xuser2" onclick="toggleUser()" class="hidden h-8 w-8 relative float-right z-10 cursor-pointer">
-   
-    <p class=" mb-2 text-sm">Email: <br> <span id="userEmail2"></span></p>
-    <p class=" mb-2 text-sm">Ruolo: <br> <span id="userRole2"></span></p>
-    <form action="./php/logout.php" method="POST">
-    <?php if (isset($row_ruolo['ruolo']) && $row_ruolo['ruolo'] === 'admin') {?>
-            <div class="mb-6">
-            <label class="block text-white text-sm font-medium mb-2">
-                Vuoi creare un account? <a href="registrazione.php" class="text-green-500 hover:underline">Clicca qui.</a>
-            </label>
-        </div>
-        <?php } ?>
-        <input type="submit" value="Logout" class="bg-green-800 text-white font-medium text-lg w-full py-2 rounded-md shadow-md shadow-neutral-900 duration-75 md:px-10 xl:text-xl">
-    </form>
-</div>
-<?php 
-} ?>
+                <div class=" text-white text-xl flex gap-1 ml-1 mr-8 mt-12 z-10 cursor-pointer fixed top-0 right-5 ">
+                        <button id="translateButtonIt" onclick="translateSiteToIta()" ><a href="immobili.php">It</a></button>
+                        <p>-</p>
+                        <button id="translateButtonEng" onclick="translateSiteToEng()" class="underline underline-offset-4 text-orange-300">En</button>
+                        </div><script>saveStateToCookies();</script>  
+            </div>
 
             <?php
-        // Verifica se l'utente è autenticato
-        if (!isset($_SESSION['ID'])) {
-            // L'utente non è autenticato, mostra il form di login
+            // Check if the user is authenticated
+            if (isset($_SESSION['ID'])) {
+                ?>
+                <!-- This section contains user information -->
+                <div id="userInfo" class="hidden text-white bg-neutral-700 py-6 px-6 pt-6 fixed top-16 right-4 rounded-lg shadow-lg shadow-black 2xl:right-32 animate-dasopra2">
+
+                    <img src="/img/x.png" alt="Logo" id="Xuser" onclick="toggleUser()" class="hidden h-8 w-8 relative float-right z-10 cursor-pointer">
+
+                    <p class="mb-2 text-sm">Email: <br> <span id="userEmail"></span></p>
+                    <p class="mb-2 text-sm">Role: <br><span id="userRole"></span></p>
+                    <form action="./php/logout.php" method="POST">
+                        <?php if (isset($row_ruolo['ruolo']) && $row_ruolo['ruolo'] === 'admin') { ?>
+                            <div class="mb-6">
+                                <label class="block text-white text-sm font-medium mb-2">
+                                    Want to create an account? <a href="registrazione.php" class="text-green-500 hover:underline">Click here.</a>
+                                </label>
+                            </div>
+                        <?php } ?>
+                        <input type="submit" value="Logout" class="bg-white text-black font-medium text-lg w-full py-2 rounded-md shadow-md shadow-neutral-900 hover:bg-green-800 hover:scale-105 hover:text-white duration-75 md:px-10 xl:text-xl">
+                    </form>
+                </div>
+            <?php
+            } ?>
+
+            <?php
+            // Check if the user is not authenticated
+            if (!isset($_SESSION['ID'])) {
+                // The user is not authenticated, show the login form
+                ?>
+                <!-- This section contains the login form -->
+                <form action="./php/login.php" method="POST" id="login" class="bg-neutral-700 py-6 px-6 pt-6 fixed top-16 right-4 rounded-lg shadow-lg shadow-black 2xl:right-32 animate-dasopra2 hidden">
+
+                    <img src="/img/x.png" alt="Logo" id="Xmini" onclick="toggleLogin()" class="hidden h-8 w-8 relative float-right z-10 cursor-pointer">
+
+                    <div class="my-4">
+                        <label for="email" class="block text-white text-sm font-medium mb-2">Email</label>
+                        <input type="email" id="email" name="email" class="w-full p-2 pr-6 border rounded-md bg-neutral-800 text-white shadow-md shadow-neutral-900" required>
+                    </div>
+
+                    <div class="mb-6">
+                        <label for="password" class="block text-white text-sm font-medium mb-2">Password</label>
+                        <input type="password" id="password" name="password" class="w-full p-2 pr-6 border rounded-md bg-neutral-800 text-white shadow-md shadow-neutral-900" required>
+                    </div>
+
+                    <input type="submit" value="Login" class="bg-white float-right text-black font-medium text-lg w-full py-2 rounded-md shadow-md shadow-neutral-900 hover:bg-green-800 hover:scale-105 hover:text-white duration-75 md:px-10 xl:text-xl">
+                </form>
+            <?php
+            }
             ?>
-            <form action="./php/login.php" method="POST" id="loginMini" class=" hidden bg-neutral-700 py-6 px-8 pt-4 fixed top-40 left-1/5 mx-4 rounded-lg  shadow-lg shadow-black md:top-24 animate-dasopra2">
-            
-              <img src="/img/x.png" alt="Logo" id="Xmini2" onclick="toggleLogin()" class="hidden h-8 w-8 relative float-right z-10 cursor-pointer ">
-
-            <div class="my-4">
-                <label for="email" class="block text-white text-sm font-medium mb-2">Email</label>
-                <input type="email" id="email" name="email" class="w-full p-2 border rounded-md bg-neutral-800 text-white shadow-md shadow-neutral-900" required>
-            </div>
-            
-            <div class="mb-6">
-                <label for="password" class="block text-white text-sm font-medium mb-2">Password</label>
-                <input type="password" id="password" name="password" class="w-full p-2 border rounded-md bg-neutral-800 text-white shadow-md shadow-neutral-900" required>
-            </div>
-   
-         
-            <button type="submit" class="bg-white float-right text-black font-medium text-lg w-full py-2 rounded-md shadow-md shadow-neutral-900 hover:bg-green-800 hover:scale-105 hover:text-white duration-75 md:px-10  xl:text-xl">Invia</button>
-        </form>
-        <?php
-}
-?>
-            </div>
-
-            <div class=" w-1/3 mt-12">
-          <button id="toggleButton" class="transition-all   " onclick="toggleMenu()">
-            <img src="/img/menu-ita.png" alt="Logo" id="hamburger" class="h-14 w-14 ml-1 mr-8 mt-8 z-10 cursor-pointer fixed top-0 right-0">
-            <img src="/img/x.png" alt="Logo" id="X" class="hidden h-12 w-12 ml-1 mr-4 mt-8 z-10 cursor-pointer fixed top-0 right-0">
-          </button>
-
-            </div>
-            <div id="menu" class="bar hidden fixed left-0 top-0 py-10 px-8 text-center bg-neutral-800 w-full z-0">
-            <div class=" flex flex-col text-xl font-semibold   gap-8">
-                <a href="/dist/index.php" class="text-white hover:text-orange-300 hover:scale-105 transition-all ">Home</a>
-                <div class=" border-b mx-12 "></div>
-                <a href="#" class="text-orange-300  underline underline-offset-4 hover:scale-105 transition-all">Immobili</a>
-                <div class="border-b mx-12"></div>
-                <a href="/dist/about.html" class="text-white hover:text-orange-300 hover:scale-105 transition-all">Chi Siamo</a>
-                <div class="border-b mx-12"></div>
-                <a href="/dist/contatti.html" class="text-white hover:text-orange-300 hover:scale-105 transition-all">Contatti</a>
-            </div>
-            </div>
-            
         </div>
     </nav>
+
+    <nav id="nav-imm" class="lg:hidden z-10 fixed w-full">
+        <div class="flex items-center justify-between">
+            <div class="w-1/3 mt-12">
+                <a href="/dist/index_eng.php">
+                    <img src="/img/logo-lux.png" alt="Logo" id="Logo" class="h-20 sm:h-[85px] pb-2 ml-12 mt-4 z-10 fixed top-0 left-0 ">
+                </a>
+            </div>
+
+            <div class="w-1/3 flex justify-center py-5 gap-10 max-md:hidden">
+                <?php if (!isset($_SESSION['ID'])) { ?>
+                    <button id="toggleLoginMini" onclick="toggleLogin()" class="flex items-center hover:scale-105 transition-all">
+                        <div class="bg-neutral-800 px-4 py-5 rounded-full shadow-sm shadow-black hover:shadow-md hover:shadow-black">
+                            <img src="/img/user.svg" alt="" class="w-10 h-8">
+                        </div>
+                    </button>
+                <?php } ?>
+
+                <?php if (isset($_SESSION['ID'])) { ?>
+                    <button id="toggleUserMini" onclick="toggleUser()" class="flex items-center hover:scale-105 transition-all">
+                        <div class="bg-neutral-800 px-4 py-5 rounded-full shadow-sm shadow-black hover:shadow-md hover:shadow-black">
+                            <img src="/img/user.svg" alt="" class="w-10 h-8">
+                        </div>
+                    </button>
+                <?php } ?>
+
+                <?php
+                if (isset($_SESSION['ID'])) {
+                    if (isset($row_ruolo['ruolo']) && $row_ruolo['ruolo'] === 'admin') {
+                        echo '<button onclick="aggiungiImmobile()" class="bg-green-800 rounded-full p-4 py-5 text-white shadow-sm shadow-black hover:scale-105 hover:shadow-md hover:shadow-black transition-all">';
+                        echo '<img src="/img/piu.svg" alt="" class="w-10 h-8">';
+                        echo '</button>';
+                    }
+                }
+                ?>
+            </div>
+
+            <?php
+            // Check if the user is authenticated
+            if (isset($_SESSION['ID'])) {
+                ?>
+                <div id="userInfoMini" class="hidden text-white bg-neutral-700 py-6 px-6 pt-6 fixed top-32 left-1/5 mx-4 z-10 rounded-lg shadow-lg shadow-black 2xl:right-32 animate-dasopra2">
+
+                    <img src="/img/x.png" alt="Logo" id="Xuser2" onclick="toggleUser()" class="hidden h-8 w-8 relative float-right z-10 cursor-pointer">
+
+                    <p class="mb-2 text-sm">Email: <br> <span id="userEmail2"></span></p>
+                    <p class="mb-2 text-sm">Role: <br> <span id="userRole2"></span></p>
+                    <form action="./php/logout.php" method="POST">
+                        <?php if (isset($row_ruolo['ruolo']) && $row_ruolo['ruolo'] === 'admin') { ?>
+                            <div class="mb-6">
+                                <label class="block text-white text-sm font-medium mb-2">
+                                    Want to create an account? <a href="registrazione.php" class="text-green-500 hover:underline">Click here.</a>
+                                </label>
+                            </div>
+                        <?php } ?>
+                        <input type="submit" value="Logout" class="bg-green-800 text-white font-medium text-lg w-full py-2 rounded-md shadow-md shadow-neutral-900 duration-75 md:px-10 xl:text-xl">
+                    </form>
+                </div>
+            <?php
+            } ?>
+
+            <?php
+            // Check if the user is not authenticated
+            if (!isset($_SESSION['ID'])) {
+                ?>
+                <form action="./php/login.php" method="POST" id="loginMini" class="hidden bg-neutral-700 py-6 px-8 pt-4 fixed top-40 left-1/5 mx-4 rounded-lg shadow-lg shadow-black md:top-24 animate-dasopra2">
+
+                    <img src="/img/x.png" alt="Logo" id="Xmini2" onclick="toggleLogin()" class="hidden h-8 w-8 relative float-right z-10 cursor-pointer ">
+
+                    <div class="my-4">
+                        <label for="email" class="block text-white text-sm font-medium mb-2">Email</label>
+                        <input type="email" id="email" name="email" class="w-full p-2 border rounded-md bg-neutral-800 text-white shadow-md shadow-neutral-900" required>
+                    </div>
+
+                    <div class="mb-6">
+                        <label for="password" class="block text-white text-sm font-medium mb-2">Password</label>
+                        <input type="password" id="password" name="password" class="w-full p-2 border rounded-md bg-neutral-800 text-white shadow-md shadow-neutral-900" required>
+                    </div>
+
+                    <button type="submit" class="bg-white float-right text-black font-medium text-lg w-full py-2 rounded-md shadow-md shadow-neutral-900 hover:bg-green-800 hover:scale-105 hover:text-white duration-75 md:px-10 xl:text-xl">Submit</button>
+                </form>
+            <?php
+            }
+            ?>
+        </div>
+
+        <div class="w-1/3 mt-12">
+            <button id="toggleButton" class="transition-all" onclick="toggleMenu()">
+                <img src="/img/menu-ita.png" alt="Logo" id="hamburger" class="h-14 w-14 ml-1 mr-8 mt-8 z-10 cursor-pointer fixed top-0 right-0">
+                <img src="/img/x.png" alt="Logo" id="X" class="hidden h-12 w-12 ml-1 mr-4 mt-8 z-10 cursor-pointer fixed top-0 right-0">
+            </button>
+        </div>
+
+        <div id="menu" class="bar hidden fixed left-0 top-0 py-10 px-8 text-center bg-neutral-800 w-full z-0">
+            <div class="flex flex-col text-xl font-semibold gap-8">
+                <a href="/dist/index_eng.php" class="text-white hover:text-orange-300 hover:scale-105 transition-all ">Home</a>
+                <div class="border-b mx-12"></div>
+                <a href="#" class="text-orange-300 underline underline-offset-4 hover:scale-105 transition-all">Properties</a>
+                <div class="border-b mx-12"></div>
+                <a href="/dist/about_eng.html" class="text-white hover:text-orange-300 hover:scale-105 transition-all">About Us</a>
+                <div class="border-b mx-12"></div>
+                <a href="/dist/contatti_eng.html" class="text-white hover:text-orange-300 hover:scale-105 transition-all">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+
 
    
     
@@ -360,12 +346,12 @@ if (isset($_SESSION['ID'])) {
 <img src="/img/x.png" alt="Logo" id="Xuser3" onclick="toggleUser()" class="hidden h-8 w-8 relative float-right z-10 cursor-pointer">
    
     <p class=" mb-2 text-sm">Email: <br> <span id="userEmail3"></span></p>
-    <p class=" mb-2 text-sm">Ruolo: <br> <span id="userRole3"></span></p>
+    <p class=" mb-2 text-sm">Role: <br> <span id="userRole3"></span></p>
     <form action="./php/logout.php" method="POST">
     <?php if (isset($row_ruolo['ruolo']) && $row_ruolo['ruolo'] === 'admin') {?>
             <div class="mb-6">
             <label class="block text-white text-sm font-medium mb-2">
-                Vuoi creare un account? <a href="registrazione.php" class="text-green-500 hover:underline">Clicca qui.</a>
+            Want to create an account? <a href="registrazione.php" class="text-green-500 hover:underline">Click here.</a>
             </label>
         </div>
         <?php } ?>
@@ -403,29 +389,25 @@ if (isset($_SESSION['ID'])) {
 
             <br><br>
             <div class="flex flex-col justify-center items-center md:mt-16">
-        <h1 class="text-5xl font-semibold text-center text-neutral-500 opacity-80 tracking-wider font-lora xl:text-6xl">Immobili</h1><br>
+            <h1 class="text-5xl font-semibold text-center text-neutral-500 opacity-80 tracking-wider font-lora xl:text-6xl">Real Estate</h1><br>
 
-  
-    
 </div>
 <br>
-    <div class="w-[90%] mx-auto">
-    <h1 class="text-7xl text-center py-2 text-white font-Ayer uppercase md:text-7xl lg:text-8xl xl:text-9xl " data-aos="fade-down" data-aos-duration="500" data-aos-once="true" data-aos-delay="100">Scegli il tuo immobile</h1> <br><br>
-        <h1 class="text-3xl text-white text-center font-Ayer tracking-wide md:text-4xl xl:text-5xl 2xl:text-6xl" data-aos="fade-down" data-aos-duration="800" data-aos-once="true" data-aos-delay="300">Per il resto ci occuperemo tutto noi</h1> <br><br>
-             </div>
+<div class="w-[90%] mx-auto">
+    <h1 class="text-7xl text-center py-2 text-white font-Ayer uppercase md:text-7xl lg:text-8xl xl:text-9xl " data-aos="fade-down" data-aos-duration="500" data-aos-once="true" data-aos-delay="100">Choose Your Property</h1> <br><br>
+    <h1 class="text-3xl text-white text-center font-Ayer tracking-wide md:text-4xl xl:text-5xl 2xl:text-6xl" data-aos="fade-down" data-aos-duration="800" data-aos-once="true" data-aos-delay="300">We'll take care of the rest</h1> <br><br>
+</div>
 
+<div class="mx-3 md:mx-8 my-10 ">
 
-             <div class="mx-3 md:mx-8 my-10 ">
-
-
-             <form method="post" action="immobili.php" class="max-md:hidden">
+<form method="post" action="immobili.php" class="max-md:hidden">
 
 
 <div class="flex gap-6 ">
     <div class=" rounded-lg border border-white p-2 xl:p-4">
-<label for="filtro_provincia" class="text-white">Provincia:</label>
+<label for="filtro_provincia" class="text-white">Province:</label>
 <select id="filtro_provincia" name="filtro_provincia" class="rounded-md bg-transparent border-none text-white">
-<option class='text-black'  value="">Tutte</option>
+<option class='text-black'  value="">All</option>
     <?php
     // Esegui la query per ottenere le province distinte dalla tabella immobili
     $query_province = "SELECT DISTINCT provincia FROM immobili";
@@ -433,6 +415,7 @@ if (isset($_SESSION['ID'])) {
 
     // Popola le opzioni nel menu a discesa
     while ($row = mysqli_fetch_assoc($result_province)) {
+        
         $selected = (!empty($filtroProvincia) && $row['provincia'] == $filtroProvincia) ? 'selected' : '';
 
 
@@ -443,9 +426,9 @@ if (isset($_SESSION['ID'])) {
 </div>
 
 <div class=" rounded-lg border border-white p-2 xl:p-4">
-<label for="filtro_comune" class="text-white">Comune:</label>
+<label for="filtro_comune" class="text-white">City:</label>
 <select id="filtro_comune" name="filtro_comune" class="rounded-md bg-transparent border-none text-white">
-<option class='text-black'  value="">Tutte</option>
+<option class='text-black'  value="">All</option>
     <?php
     // Esegui la query per ottenere le province distinte dalla tabella immobili
     $query_comune = "SELECT DISTINCT comune FROM immobili";
@@ -466,9 +449,9 @@ if (isset($_SESSION['ID'])) {
 </div>
 
 <div class=" rounded-lg border border-white p-2 xl:p-4">
-<label for="filtro_tipo_vendita" class="text-white">Contratto:</label>
+<label for="filtro_tipo_vendita" class="text-white">Contract:</label>
 <select id="filtro_tipo_vendita" name="filtro_tipo_vendita" class="rounded-md bg-transparent border-none text-white">
-<option value="">Tutti</option>
+<option value="">All</option>
     <?php
     // Esegui la query per ottenere i tipi di vendita distinti dalla tabella immobili
     $query_tipo_vendita = "SELECT DISTINCT tipo_vendita FROM immobili";
@@ -489,9 +472,9 @@ if (isset($_SESSION['ID'])) {
 </div>
 
 <div class=" rounded-lg border border-white p-2 xl:p-4">
-<label for="filtro_tipo_immobile" class="text-white">Tipologia:</label>
+<label for="filtro_tipo_immobile" class="text-white">Type:</label>
 <select id="filtro_tipo_immobile" name="filtro_tipo_immobile" class="rounded-md bg-transparent border-none text-white">
-    <option value="">Tutti</option> 
+    <option value="">All</option> 
     <?php
     // Esegui la query per ottenere i tipi di immobile distinti dalla tabella immobili
     $query_tipo_immobile = "SELECT DISTINCT tipo_immobile FROM immobili";
@@ -511,7 +494,7 @@ if (isset($_SESSION['ID'])) {
     ?>
 </div>
 
-<input type="submit" value="Cerca" class="text-white px-6 bg-green-700 rounded-lg border-white border hover:scale-105 transition-all">
+<input type="submit" value="Search" class="text-white px-6 bg-green-700 rounded-lg border-white border hover:scale-105 transition-all">
 </div>
 </form>
 
@@ -525,9 +508,9 @@ if (isset($_SESSION['ID'])) {
 <div class="flex gap-2 ">
 <div class="w-1/2 flex flex-col gap-4">
     <div class="flex flex-col rounded-lg border border-white max-[500px]:p-1 p-2 xl:p-4">
-<label for="filtro_provincia" class="text-white">Provincia:</label>
+<label for="filtro_provincia" class="text-white">Province:</label>
 <select id="filtro_provincia" name="filtro_provincia" class="rounded-md bg-transparent border-none text-white">
-<option class='text-black'  value="">Tutte</option>
+<option class='text-black'  value="">All</option>
     <?php
     // Esegui la query per ottenere le province distinte dalla tabella immobili
     $query_province = "SELECT DISTINCT provincia FROM immobili";
@@ -545,9 +528,9 @@ if (isset($_SESSION['ID'])) {
 </div>
 
 <div class="flex flex-col rounded-lg border border-white max-[500px]:p-1 p-2 xl:p-4">
-<label for="filtro_comune" class="text-white">Comune:</label>
+<label for="filtro_comune" class="text-white">City:</label>
 <select id="filtro_comune" name="filtro_comune" class="rounded-md bg-transparent border-none text-white">
-<option class='text-black'  value="">Tutte</option>
+<option class='text-black'  value="">All</option>
     <?php
     // Esegui la query per ottenere le province distinte dalla tabella immobili
     $query_comune = "SELECT DISTINCT comune FROM immobili";
@@ -569,9 +552,9 @@ if (isset($_SESSION['ID'])) {
 </div>
 <div class="w-1/2 flex flex-col gap-4">
 <div class=" flex flex-col rounded-lg border border-white max-[500px]:p-1 p-2 xl:p-4">
-<label for="filtro_tipo_vendita" class="text-white">Contratto:</label>
+<label for="filtro_tipo_vendita" class="text-white">Contract:</label>
 <select id="filtro_tipo_vendita" name="filtro_tipo_vendita" class="rounded-md bg-transparent border-none text-white">
-<option value="">Tutti</option>
+<option value="">All</option>
     <?php
     // Esegui la query per ottenere i tipi di vendita distinti dalla tabella immobili
     $query_tipo_vendita = "SELECT DISTINCT tipo_vendita FROM immobili";
@@ -579,7 +562,8 @@ if (isset($_SESSION['ID'])) {
 
     // Popola le opzioni nel menu a discesa
     while ($row = mysqli_fetch_assoc($result_tipo_vendita)) {
-        echo "<option class='text-black' value='{$row['tipo_vendita']}'>{$row['tipo_vendita']}</option>";
+        
+        echo "<option class='text-black' value='{$tipo_venditaInglese}'>{$tipo_venditaInglese}</option>";
     }
     ?>
 </select>
@@ -592,9 +576,9 @@ if (isset($_SESSION['ID'])) {
 </div>
 
 <div class="flex flex-col rounded-lg border border-white  max-[500px]:p-1 p-2 xl:p-4">
-<label for="filtro_tipo_immobile" class="text-white">Tipologia:</label>
+<label for="filtro_tipo_immobile" class="text-white">Type:</label>
 <select id="filtro_tipo_immobile" name="filtro_tipo_immobile" class="rounded-md bg-transparent border-none text-white">
-    <option value="">Tutti</option> 
+    <option value="">All</option> 
     <?php
     // Esegui la query per ottenere i tipi di immobile distinti dalla tabella immobili
     $query_tipo_immobile = "SELECT DISTINCT tipo_immobile FROM immobili";
@@ -614,14 +598,13 @@ if (isset($_SESSION['ID'])) {
     ?>
 </div>
 </div>
-<input type="submit" value="Cerca" class="text-white px-2 bg-green-700 rounded-lg border-white border hover:scale-105 transition-all">
+<input type="submit" value="Search" class="text-white px-2 bg-green-700 rounded-lg border-white border hover:scale-105 transition-all">
 </div>
 </form>
 
 <form id="resetFiltri" method="post" action="immobili.php">
     <input type="hidden" name="reset_filtri" value="1">
 </form>
-
 
 
 <?php
@@ -777,10 +760,13 @@ if ($result && mysqli_num_rows($result) > 0) {
     echo '<div class="risultati-immobili">';
     
     while ($row = mysqli_fetch_assoc($result)) {
+
+        include 'traduci.php';
    
+       
 
         echo '<div class="mt-12 bg-neutral-800 w-full min-h-[350px] max-h-[350px] xl:min-h-[450px] xl:max-h-[450px] flex text-white shadow-md shadow-black hover:shadow-lg hover:shadow-orange-300 transition-all max-lg:hidden   ">
-        <a href="dettaglio_immobile.php?id=' . $row['id_immobile'] . '" class=" flex image-hover-scale">
+        <a href="dettaglio_immobile_eng.php?id=' . $row['id_immobile'] . '" class=" flex image-hover-scale">
 
         <div class="relative w-1/3 h-full  overflow-hidden">
             <img src="' . $row['foto_principale'] . '" alt="Anteprima" class="w-full h-full  object-cover">
@@ -793,7 +779,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                 <div class="flex items-center max-xl:hidden  ">';
 
         $maxLength = 120; // Imposta la lunghezza massima desiderata
-        $description = $row['descrizione'];
+        $description = $descrizioneInglese;
 
         if (strlen($description) > $maxLength) {
         $shortDescription = substr($description, 0, $maxLength) . '...';
@@ -826,8 +812,8 @@ if ($result && mysqli_num_rows($result) > 0) {
 
         echo '<div class="border-t border-orange-400 w-[95%]  font-Merriweather text-lg mt-6  mb-8 flex  gap-8 xl:text-xl">
             
-        <p class="pt-4 flex items-center gap-4 uppercase"><img src="/img/casa.svg" alt="" class="w-8 h-8"> ' . $row['tipo_immobile'] . '</p>
-        <p class="pt-4 flex items-center gap-4 uppercase"><img src="/img/posizione.svg" alt="" class="w-8 h-8"> ' . $row['comune'] . '</p>
+        <p class="pt-4 flex items-center gap-4 uppercase"><img src="/img/casa.svg" alt="" class="w-8 h-8"> ' . $tipo_immobileInglese . '</p>
+        <p class="pt-4 flex items-center gap-4 uppercase"><img src="/img/posizione.svg" alt="" class="w-8 h-8"> ' . $comuneInglese . '</p>
         <p class="pt-4 ml-auto">Rif. ' . $row['id_immobile'] . '</p>
         </div>';
 
@@ -838,7 +824,7 @@ if ($result && mysqli_num_rows($result) > 0) {
 
         <div class="mx-auto mb-10 bg-neutral-800 w-[80%] max-w-2xl max-h-[700px] overflow-hidden flex rounded-sm text-white shadow-md shadow-black hover:shadow-lg hover:shadow-orange-300 transition-all flex-col justify-center lg:hidden">
 
-        <div class="relative w-full h-full  overflow-hidden"> <a href="dettaglio_immobile.php?id=' . $row['id_immobile'] . '" class="image-hover-scale">
+        <div class="relative w-full h-full  overflow-hidden"> <a href="dettaglio_immobile_eng.php?id=' . $row['id_immobile'] . '" class="image-hover-scale">
         <img src="' . $row['foto_principale'] . '" alt="Anteprima" class=" w-full h-full  object-cover rounded-t-sm">
         </div>
 
@@ -850,7 +836,7 @@ if ($result && mysqli_num_rows($result) > 0) {
         <p class="font-Unna text-2xl sm:text-3xl ">€ ' . $row['prezzo'] . '</p>
 
         <div class="flex justify-between gap-4">
-        <p class="pt-4 flex flex-col justify-end text-sm sm:text-lg items-start gap-4 uppercase"><img src="/img/casa.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6 "> ' . $row['tipo_immobile'] . '</p>
+        <p class="pt-4 flex flex-col justify-end text-sm sm:text-lg items-start gap-4 uppercase"><img src="/img/casa.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6 "> ' . $tipo_immobileInglese . '</p>
 
         <div class="flex justify-end px-2 gap-4  text-sm sm:text-lg ">
         <div class="flex-col">
@@ -865,7 +851,7 @@ if ($result && mysqli_num_rows($result) > 0) {
         </div>
         <div class="border-t border-orange-400 w-[95%] mt-4 font-Merriweather text-md pb-8 flex gap-8">
 
-        <p class="pt-4 flex items-center gap-4 uppercase"><img src="/img/posizione.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6"> ' . $row['comune'] . '</p>
+        <p class="pt-4 flex items-center gap-4 uppercase"><img src="/img/posizione.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6"> ' . $comuneInglese . '</p>
         <p class="pt-4 ml-auto">Rif. ' . $row['id_immobile'] . '</p>
         </div>
         </div>
@@ -928,120 +914,122 @@ mysqli_close($conn);
 
     
 
-
    
 <br><br>
 
 
-    <div class="bg-neutral-950 pt-16 border-t border-white px-4 lg:px-10   flex flex-col   ">
- 
- <div class="mx-8">
-     <div class="flex justify-between gap-4 md:gap-0">
- <div class=" flex  flex-col items-center md:items-start gap-10 md:gap-6 lg:ml-6 w-1/3">
-            
-             <button onclick="effettuaChiamatacell()" class="flex items-center hover:scale-105 transition-all">
-                 <div class=" bg-green-700 text-white px-2 py-2 rounded-full lg:px-3 lg:py-3">
-                 <img src="/img/cellulare.png" alt="" class="w-6 h-6"></div> 
-                 <div class="flex items-center text-white">
-                 <p class="hidden ml-4 md:block lg:text-md xl:ml-8 xl:text-xl">3289086227</p></div>
-             </button>
-             
-             
-             <button onclick="effettuaChiamata()" class="flex items-center hover:scale-105 transition-all">
-                 <div class=" bg-white text-white px-2 py-2 rounded-full lg:px-3 lg:py-3">
-                 <svg width="24px" height="24px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                     <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
-                     <title>phone</title>
-                     <desc>Created with Sketch.</desc>
-                     <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                         <g id="Rounded" transform="translate(-749.000000, -1263.000000)">
-                             <g id="Communication" transform="translate(100.000000, 1162.000000)">
-                                 <g id="-Round-/-Communication-/-phone" transform="translate(646.000000, 98.000000)">
-                                     <g>
-                                         <polygon id="Path" points="0 0 24 0 24 24 0 24"></polygon>
-                                         <path d="M19.23,15.26 L16.69,14.97 C16.08,14.9 15.48,15.11 15.05,15.54 L13.21,17.38 C10.38,15.94 8.06,13.63 6.62,10.79 L8.47,8.94 C8.9,8.51 9.11,7.91 9.04,7.3 L8.75,4.78 C8.63,3.77 7.78,3.01 6.76,3.01 L5.03,3.01 C3.9,3.01 2.96,3.95 3.03,5.08 C3.56,13.62 10.39,20.44 18.92,20.97 C20.05,21.04 20.99,20.1 20.99,18.97 L20.99,17.24 C21,16.23 20.24,15.38 19.23,15.26 Z" id="🔹Icon-Color" fill="#1D1D1D"></path>
-                                     </g>
-                                 </g>
-                             </g>
-                         </g>
-                     </g>
-                 </svg> </div>
-                 <div class="flex items-center text-white">
-                 <p class="hidden ml-4 md:block lg:text-md xl:ml-8 xl:text-xl">0952274123</p></div>
-             </button>
-            
-             
-             <a href="mailto:segreteria@premiahome.it?subject=Oggetto%20della%20mail&body=Testo%20del%20messaggio" target="_blank">
-             <button class="flex items-center hover:scale-105 transition-all">
-                 <div class=" bg-red-700 text-white px-2 py-2 rounded-full lg:px-3 lg:py-3">
-                 <img src="/img/email.png" alt="" class="w-6 h-6"></div>
-                 <div class="flex items-center text-white">
-                 <p class="hidden ml-4 text-sm md:block lg:text-md xl:ml-8 xl:text-xl">segreteria@premiahome.it</p></div>
-             </button></a>
-             
-            
-         </div>
- 
-         <div class="flex flex-col gap-4   text-left md:text-lg lg:text-xl transition-all uppercase w-fit mx-4 max-xl:text-center">
-     <a href="/dist/index.php"  class="text-white  mb-2">
-     <p class="">IMMOBILI IN EVIDENZA</p> 
-     </a>
-     <a href="/dist/immobili.php"  class="text-white  mb-2">
-     <p class="">cerca il tuo immobile</p> 
-     </a>
-     <a href="/dist/about.html"  class="text-white  mb-2">
-     <p class="">scopri chi siamo</p> 
-     </a>
-     <a href="/dist/contatti.html"  class="text-white ">
-     <p class="">parla con noi</p> 
-     </a>
- </div>
- 
-         <div class="flex flex-col gap-4 items-center md:items-end  lg:mr-6 text-2xl md:text-lg lg:text-xl transition-all w-1/3 max-md:hidden ">
-     <a href="https://www.facebook.com/tuapagina" target="_blank" class="text-white hover:text-blue-700 hover:scale-105 mb-2">
-         <i class="fab fa-facebook "></i> Facebook
-     </a>
-     <a href="https://www.instagram.com/tuapagina" target="_blank" class="text-white hover:text-purple-700 hover:scale-105 mb-2">
-         <i class="fab fa-instagram"></i> Instagram
-     </a>
-     <a href="https://www.youtube.com/tuapagina" target="_blank" class="text-white hover:text-red-700 hover:scale-105 mb-2">
-         <i class="fab fa-youtube"></i> YouTube
-     </a>
-     <a href="https://www.linkedin.com/company/tuapagina" target="_blank" class="text-white hover:text-blue-900 hover:scale-105">
-         <i class="fab fa-linkedin"></i> LinkedIn
-     </a>
- </div>
- 
- <div class="flex flex-col gap-4 items-center md:items-end  lg:mr-6 text-2xl md:text-lg lg:text-xl transition-all w-1/3 md:hidden ">
-     <a href="https://www.facebook.com/tuapagina" target="_blank" class="text-white hover:text-blue-700 hover:scale-105 mb-2">
-         <i class="fab fa-facebook "></i> <p class="hidden  ">Facebook</p>
-     </a>
-     <a href="https://www.instagram.com/tuapagina" target="_blank" class="text-white hover:text-purple-700 hover:scale-105 mb-2">
-         <i class="fab fa-instagram"></i> <p class="hidden ">Instagram</p>
-     </a>
-     <a href="https://www.youtube.com/tuapagina" target="_blank" class="text-white hover:text-red-700 hover:scale-105 mb-2">
-         <i class="fab fa-youtube"></i> <p class="hidden ">YouTube</p>
-     </a>
-     <a href="https://www.linkedin.com/company/tuapagina" target="_blank" class="text-white hover:text-blue-900 hover:scale-105">
-         <i class="fab fa-linkedin"></i> <p class="hidden ">LinkedIn</p>
-     </a>
- </div>
- 
- </div>
- <br>
- <div class="flex gap-8 mt-6 lg:ml-6">
-             <p class="text-white ">Lun-Ven: 9-13 / 15-19</p>
-             <div class="border-l border-white"></div>
-             <p class="text-white ">Sabato: 9-13</p>
-         </div>
-     <br>
-     <div class="flex  justify-between items-end lg:mx-6 pb-8 border-t gap-16 border-red-700 text-sm">
-     <p class="text-white xl:text-lg  mt-6">Premia Home S.P.A. - P.IVA: 06024760875 -  Viale jonio 35, Catania (CT)</p> 
- 
-     <p class="text-white  font-medium mt-6">Website by SDT Copy Sales</p>
- </div>
- </div>
- </div>
+<div class="bg-neutral-950 pt-16 border-t border-white px-4 lg:px-10 flex flex-col">
+                <div class="mx-8">
+                    <div class="flex justify-between gap-4 md:gap-0">
+                        <div class="flex flex-col items-center md:items-start gap-10 md:gap-6 lg:ml-6 w-1/3">
+                            <button onclick="makeCallCell()" class="flex items-center hover:scale-105 transition-all">
+                                <div class="bg-green-700 text-white px-2 py-2 rounded-full lg:px-3 lg:py-3">
+                                    <img src="/img/cellulare.png" alt="" class="w-6 h-6">
+                                </div>
+                                <div class="flex items-center text-white">
+                                    <p class="hidden ml-4 md:block lg:text-md xl:ml-8 xl:text-xl">3289086227</p>
+                                </div>
+                            </button>
+                            
+                            <button onclick="makeCall()" class="flex items-center hover:scale-105 transition-all">
+                                <div class="bg-white text-white px-2 py-2 rounded-full lg:px-3 lg:py-3">
+                                    <svg width="24px" height="24px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
+                                        <title>phone</title>
+                                        <desc>Created with Sketch.</desc>
+                                        <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <g id="Rounded" transform="translate(-749.000000, -1263.000000)">
+                                                <g id="Communication" transform="translate(100.000000, 1162.000000)">
+                                                    <g id="-Round-/-Communication-/-phone" transform="translate(646.000000, 98.000000)">
+                                                        <g>
+                                                            <polygon id="Path" points="0 0 24 0 24 24 0 24"></polygon>
+                                                            <path d="M19.23,15.26 L16.69,14.97 C16.08,14.9 15.48,15.11 15.05,15.54 L13.21,17.38 C10.38,15.94 8.06,13.63 6.62,10.79 L8.47,8.94 C8.9,8.51 9.11,7.91 9.04,7.3 L8.75,4.78 C8.63,3.77 7.78,3.01 6.76,3.01 L5.03,3.01 C3.9,3.01 2.96,3.95 3.03,5.08 C3.56,13.62 10.39,20.44 18.92,20.97 C20.05,21.04 20.99,20.1 20.99,18.97 L20.99,17.24 C21,16.23 20.24,15.38 19.23,15.26 Z" id="🔹Icon-Color" fill="#1D1D1D"></path>
+                                                        </g>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </svg>
+                                </div>
+                                <div class="flex items-center text-white">
+                                    <p class="hidden ml-4 md:block lg:text-md xl:ml-8 xl:text-xl">0952274123</p>
+                                </div>
+                            </button>
+                            
+                            <a href="mailto:segreteria@premiahome.it?subject=Subject%20of%20the%20email&body=Message%20text" target="_blank">
+                                <button class="flex items-center hover:scale-105 transition-all">
+                                    <div class="bg-red-700 text-white px-2 py-2 rounded-full lg:px-3 lg:py-3">
+                                        <img src="/img/email.png" alt="" class="w-6 h-6">
+                                    </div>
+                                    <div class="flex items-center text-white">
+                                        <p class="hidden ml-4 text-sm md:block lg:text-md xl:ml-8 xl:text-xl">segreteria@premiahome.it</p>
+                                    </div>
+                                </button>
+                            </a>
+                        </div>
+                        
+                        <div class="flex flex-col gap-4 text-left md:text-lg lg:text-xl transition-all uppercase w-fit mx-4 max-xl:text-center">
+                            <a href="/dist/index.php" class="text-white mb-2">
+                                <p class="">FEATURED PROPERTIES</p>
+                            </a>
+                            <a href="/dist/immobili.php" class="text-white mb-2">
+                                <p class="">find your property</p>
+                            </a>
+                            <a href="/dist/about.html" class="text-white mb-2">
+                                <p class="">discover who we are</p>
+                            </a>
+                            <a href="/dist/contatti.html" class="text-white">
+                                <p class="">talk to us</p>
+                            </a>
+                        </div>
+                        
+                        <div class="flex flex-col gap-4 items-center md:items-end lg:mr-6 text-2xl md:text-lg lg:text-xl transition-all w-1/3 max-md:hidden">
+                            <a href="https://www.facebook.com/yourpage" target="_blank" class="text-white hover:text-blue-700 hover:scale-105 mb-2">
+                                <i class="fab fa-facebook "></i> Facebook
+                            </a>
+                            <a href="https://www.instagram.com/yourpage" target="_blank" class="text-white hover:text-purple-700 hover:scale-105 mb-2">
+                                <i class="fab fa-instagram"></i> Instagram
+                            </a>
+                            <a href="https://www.youtube.com/yourpage" target="_blank" class="text-white hover:text-red-700 hover:scale-105 mb-2">
+                                <i class="fab fa-youtube"></i> YouTube
+                            </a>
+                            <a href="https://www.linkedin.com/company/yourpage" target="_blank" class="text-white hover:text-blue-900 hover:scale-105">
+                                <i class="fab fa-linkedin"></i> LinkedIn
+                            </a>
+                        </div>
+                        
+                        <div class="flex flex-col gap-4 items-center md:items-end lg:mr-6 text-2xl md:text-lg lg:text-xl transition-all w-1/3 md:hidden">
+                            <a href="https://www.facebook.com/yourpage" target="_blank" class="text-white hover:text-blue-700 hover:scale-105 mb-2">
+                                <i class="fab fa-facebook "></i> <p class="hidden ">Facebook</p>
+                            </a>
+                            <a href="https://www.instagram.com/yourpage" target="_blank" class="text-white hover:text-purple-700 hover:scale-105 mb-2">
+                                <i class="fab fa-instagram"></i> <p class="hidden ">Instagram</p>
+                            </a>
+                            <a href="https://www.youtube.com/yourpage" target="_blank" class="text-white hover:text-red-700 hover:scale-105 mb-2">
+                                <i class="fab fa-youtube"></i> <p class="hidden ">YouTube</p>
+                            </a>
+                            <a href="https://www.linkedin.com/company/yourpage" target="_blank" class="text-white hover:text-blue-900 hover:scale-105">
+                                <i class="fab fa-linkedin"></i> <p class="hidden ">LinkedIn</p>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <br>
+                    
+                    <div class="flex gap-8 mt-6 lg:ml-6">
+                        <p class="text-white">Mon-Fri: 9-13 / 15-19</p>
+                        <div class="border-l border-white"></div>
+                        <p class="text-white">Saturday: 9-13</p>
+                    </div>
+                    
+                    <br>
+                    
+                    <div class="flex justify-between items-end lg:mx-6 pb-8 border-t gap-16 border-red-700 text-sm">
+                        <p class="text-white xl:text-lg mt-6">Premia Home S.P.A. - VAT: 06024760875 - Viale Jonio 35, Catania (CT)</p>
+                        <p class="text-white font-medium mt-6">Website by SDT Copy Sales</p>
+                    </div>
+                </div>
+            </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
@@ -1088,5 +1076,6 @@ mysqli_close($conn);
 </html>
 
 <?php
-} }
+    
+ }}
 ?>

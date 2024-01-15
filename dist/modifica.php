@@ -4,39 +4,41 @@ include './php/db_connection.php';
 
 $errors = [];
 
-// Verifica se l'ID dell'immobile è fornito
+// Funzione per eliminare le foto della galleria esistenti
+function deleteExistingGalleryPhotos($conn, $id_immobile) {
+    $queryDelete = "UPDATE immobili SET galleria_foto = NULL WHERE id_immobile = ?";
+    $stmtDelete = $conn->prepare($queryDelete);
+    $stmtDelete->bind_param("i", $id_immobile);
+    $stmtDelete->execute();
+    $stmtDelete->close();
+}
+
+// Ottieni i dettagli dell'immobile
 if (isset($_GET['id'])) {
     $id_immobile = $_GET['id'];
 
-    // Query per ottenere i dettagli dell'immobile utilizzando un prepared statement
     $query = "SELECT * FROM immobili WHERE id_immobile = ?";
-    $stmt = mysqli_prepare($conn, $query);
+    $stmt = $conn->prepare($query);
 
     if ($stmt) {
-        mysqli_stmt_bind_param($stmt, "i", $id_immobile);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
+        $stmt->bind_param("i", $id_immobile);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-        // Verifica se la query ha avuto successo
-        if ($result && mysqli_num_rows($result) > 0) {
-            $immobile = mysqli_fetch_assoc($result);
+        if ($result && $result->num_rows > 0) {
+            $immobile = $result->fetch_assoc();
         } else {
-            // Gestisci il caso in cui l'immobile non sia trovato
             echo "Immagine non trovata.";
         }
 
-        mysqli_stmt_close($stmt);
+        $stmt->close();
     } else {
-        // Gestisci gli errori nella preparazione della query
-        echo "Errore nella preparazione della query: " . mysqli_error($conn);
+        echo "Errore nella preparazione della query: " . $conn->error;
     }
-} 
+}
 
-
+// Modifica dell'immobile
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-   
-
-    // Verifica se l'ID dell'immobile è fornito
     if (isset($_POST['id_immobile'])) {
         $id_immobile = $_POST['id_immobile'];
 
@@ -64,18 +66,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $riscaldamento = mysqli_real_escape_string($conn, $_POST['riscaldamento']);
         $soggiorno = mysqli_real_escape_string($conn, $_POST['soggiorno']);
         $condizioni = mysqli_real_escape_string($conn, $_POST['condizioni']);
-        $videoUrl = mysqli_real_escape_string($conn, $_POST['video']);
+        $youtubeUrl = mysqli_real_escape_string($conn, $_POST['video']);
         $inEvidenza = isset($_POST['in_evidenza']) ? 1 : 0;
         // Altri campi del modulo
 
+        // Caricamento foto principale
         if (isset($_FILES['foto_princ']) && $_FILES['foto_princ']['error'] === UPLOAD_ERR_OK) {
-
             $uploadDir = './imgphp/';
             $uploadFile = $uploadDir . basename($_FILES['foto_princ']['name']);
     
             if (move_uploaded_file($_FILES['foto_princ']['tmp_name'], $uploadFile)) {
                 $percorsoFotoPrincipale = $uploadFile;
-    
             } else {
                 $errors[] = "Errore durante il caricamento della foto principale.";
             }
@@ -83,50 +84,60 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $errors[] = "Foto principale non specificata o errore nel caricamento.";
         }
     
-      // Verifica se il campo 'foto_princ' è stato definito nell'array $_FILES
-    if (isset($_FILES['galleria_foto']) && !empty($_FILES['galleria_foto']['name'][0])) {
-        // Gestione dell'upload delle foto principali
-        $uploadDir = './imgphp/galleria/';
-        $galleriaFiles = array();
-    
-        foreach ($_FILES['galleria_foto']['tmp_name'] as $key => $tmp_name) {
-            $galleriaFile = $uploadDir . basename($_FILES['galleria_foto']['name'][$key]);
-    
-            if (move_uploaded_file($tmp_name, $galleriaFile)) {
-                $galleriaFiles = $galleriaFile;
+        // Elimina le foto esistenti dalla galleria
+        deleteExistingGalleryPhotos($conn, $id_immobile);
+
+     // Caricamento nuove foto per la galleria
+if (isset($_FILES['galleria_foto']) && is_array($_FILES['galleria_foto']['name'])) {
+    $uploadedFiles = [];
+
+    foreach ($_FILES['galleria_foto']['name'] as $key => $fileName) {
+        if ($_FILES['galleria_foto']['error'][$key] === UPLOAD_ERR_OK) {
+            $uploadDir = './imgphp/';
+            $uploadFile = $uploadDir . basename($fileName);
+
+            if (move_uploaded_file($_FILES['galleria_foto']['tmp_name'][$key], $uploadFile)) {
+                $uploadedFiles[] = mysqli_real_escape_string($conn, $uploadFile);
             } else {
-                $errors[] = "Errore durante il caricamento di una foto principale.";
+                $errors[] = "Errore durante il caricamento di una foto.";
             }
-        }
-    
-        // Ora $fotoPrincipaliFiles contiene i percorsi di tutte le foto principali caricate con successo
-    
-        // Puoi memorizzare i percorsi delle foto nel database o fare altre operazioni necessarie
-        // Esempio: $percorsoFotoPrincipale = implode(',', $fotoPrincipaliFiles);
-    } else {
-        // L'array $_FILES['foto_princ'] non è impostato o non ci sono file caricati
-        $errors[] = "Foto principali non specificate o errore nel caricamento.";
-    }
-    
-    
-    
-    
-      
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $pdfFileName = $_FILES['pdf_file']['name'];
-        $pdfTmpName = $_FILES['pdf_file']['tmp_name'];
-        $pdfType = $_FILES['pdf_file']['type'];
-    
-        // Controlla se è un file PDF
-        if ($pdfType === 'application/pdf') {
-            // Leggi il contenuto del file PDF
-            $pdfContent = file_get_contents($pdfTmpName);
-    
-            // Escapa il contenuto del file per evitare SQL injection
-            $escapedContent = mysqli_real_escape_string($conn, $pdfContent);
-    
+        } else {
+            $errors[] = "Errore durante l'upload di una foto. Codice errore: " . $_FILES['galleria_foto']['error'][$key];
         }
     }
+
+    // Aggiorna il campo galleria_foto nella tabella immobili
+    $newGalleryPhotosJson = json_encode($uploadedFiles);
+
+    $queryUpdateGallery = "UPDATE immobili SET galleria_foto = ? WHERE id_immobile = ?";
+    $stmtUpdateGallery = $conn->prepare($queryUpdateGallery);
+    $stmtUpdateGallery->bind_param("si", $newGalleryPhotosJson, $id_immobile);
+    $stmtUpdateGallery->execute();
+    $stmtUpdateGallery->close();
+} else {
+    $errors[] = "Nessuna foto specificata o errore nel caricamento.";
+}
+
+
+        // Caricamento file PDF
+        if ($_FILES['pdf_file']['error'] === UPLOAD_ERR_OK) {
+            $pdfFileName = $_FILES['pdf_file']['name'];
+            $pdfTmpName = $_FILES['pdf_file']['tmp_name'];
+            $pdfType = $_FILES['pdf_file']['type'];
+    
+            // Controlla se è un file PDF
+            if ($pdfType === 'application/pdf') {
+                // Leggi il contenuto del file PDF
+                $pdfContent = file_get_contents($pdfTmpName);
+    
+                // Escapa il contenuto del file per evitare SQL injection
+                $escapedContent = mysqli_real_escape_string($conn, $pdfContent);
+            } else {
+                $errors[] = "Il file caricato non è un PDF.";
+            }
+        } else {
+            $errors[] = "Errore durante il caricamento del file PDF.";
+        }
 
         // Esegui la query di aggiornamento utilizzando un prepared statement
         $query = "UPDATE immobili 
@@ -155,36 +166,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               condizioni = ?, 
               in_evidenza = ?, 
               foto_principale = ?,
-              galleria_foto = ?, 
               video = ?, 
               nome_file = ?, 
               tipo_contenuto = ?, 
-              dati = ?
+              dati = ?,
+              galleria_foto = ?
           WHERE id_immobile = ?";
 
-        $stmt = mysqli_prepare($conn, $query);
+        $stmt = $conn->prepare($query);
 
         if ($stmt) {
-            mysqli_stmt_bind_param($stmt, "ssdssiiisssisssdissssssisssssbi", $titolo, $descrizione, $prezzo, $tipo_immobile, $tipo_vendita, $vani, $camere, $bagni, $provincia, $comune, $indirizzo, $piani, $giardino, $balcone, $classe_energetica, $metri_quadrati, $anno_costruzione, $parcheggio, $cucina, $EPI, $riscaldamento, $soggiorno, $condizioni, $inEvidenza, $percorsoFotoPrincipale, $galleriaFiles, $videoUrl, $pdfFileName , $pdfType, $escapedContent, $id_immobile);
-            $result = mysqli_stmt_execute($stmt);
+            mysqli_stmt_bind_param($stmt, "ssdssiiisssisssdissssssissssbii", 
+                $titolo, $descrizione, $prezzo, $tipo_immobile, $tipo_vendita, $vani, $camere, 
+                $bagni, $provincia, $comune, $indirizzo, $piani, $giardino, $balcone, 
+                $classe_energetica, $metri_quadrati, $anno_costruzione, $parcheggio, $cucina, 
+                $EPI, $riscaldamento, $soggiorno, $condizioni, $inEvidenza, $percorsoFotoPrincipale, 
+                $youtubeUrl, $pdfFileName, $pdfType, $escapedContent, $newGalleryPhotosJson, $id_immobile);
+            
+            $result = $stmt->execute();
 
             if ($result) {
                 echo "Modifica effettuata con successo.";
                 header("Location: /dist/dettaglio_immobile.php?id=$id_immobile");
             } else {
-                echo "Errore nella modifica: " . mysqli_error($conn);
+                echo "Errore nella modifica: " . $conn->error;
             }
 
-            mysqli_stmt_close($stmt);
+            $stmt->close();
         } else {
             // Gestisci gli errori nella preparazione della query
-            echo "Errore nella preparazione della query di aggiornamento: " . mysqli_error($conn);
+            echo "Errore nella preparazione della query di aggiornamento: " . $conn->error;
         }
     } else {
         $errors[] = "ID immobile non fornito.";
     }
 }
+
+// ... (gestione degli errori o altre logiche)
+
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="it">
@@ -234,11 +256,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="hidden" name="id_immobile" value="<?php echo $immobile['id_immobile']; ?>">
 
                 <label for="titolo">Titolo:</label>
-                <input type="text" name="titolo" placeholder="Titolo" value="<?php echo $immobile['titolo']; ?>" required class="border border-white bg-neutral-800 rounded-md py-3 text-white px-2">
+                <input type="text" name="titolo" placeholder="Titolo" value="<?php echo str_replace(["\r", "\n", "\\r", "\\n"], "<br>", str_replace("\\'", "'", $immobile['titolo'])); ?>" required class="border border-white bg-neutral-800 rounded-md py-3 text-white px-2">
             </div>
             <div class="mb-6 flex flex-col">
                 <label for="descrizione">Descrizione:</label>
-                <textarea name="descrizione" rows="8" placeholder="Descrizione"  required class="border border-white bg-neutral-800 rounded-md py-3 text-white px-2"><?php echo $immobile['descrizione']; ?></textarea>
+                <textarea name="descrizione" rows="8" placeholder="Descrizione"  required class="border border-white bg-neutral-800 rounded-md py-3 text-white px-2"><?php echo str_replace(["\r", "\n", "\\r", "\\n"], " ", str_replace("\\'", "'", $immobile['descrizione'])); ?></textarea>
             </div>
             <div class="flex flex-row gap-10">
             <div class="md:w-1/2  ">

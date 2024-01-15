@@ -9,7 +9,7 @@ include './php/db_connection.php';
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="/dist/output.css" rel="stylesheet">
+  <link href="output.css" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500&display=swap">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -17,9 +17,9 @@ include './php/db_connection.php';
   <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk&display=swap" rel="stylesheet">
-<!-- Aggiungi questi link nell'head del tuo HTML -->
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="loading.js"></script>
+<script src="traduttore.js"></script>
 
 
   <title>PremiaHome-Luxury</title>
@@ -30,34 +30,40 @@ include './php/db_connection.php';
 <body class="overflow-x-hidden font-Grotesk tracking-wide" >
 
 <div id="loading-overlay" class="fixed top-0 left-0 w-full h-full bg-neutral-900  flex justify-center items-center z-50 transition-all ease-in-out duration-1000">
-        <div id="loading-spinner" class=" animate-ritira"><img src="/img/logo-ombra.png" alt="Logo" id="Logo-1024" class="w-[80%] xl:w-[120%] mx-auto z-10 "></div>
+        <div id="loading-spinner" class=" animate-ritira"><img src="/img/logo-lux.png" alt="Logo" id="Logo-1024" class="w-[80%] xl:w-[120%] mx-auto z-10 "></div>
     </div>
 
 <div id="overlay" class="fixed inset-0 bg-black opacity-50 z-50 hidden"></div>
 
   <div class="bg-neutral-900 min-h-screen flex flex-col">
-      <nav id="nav-1024" class="max-lg:hidden  z-10   w-full fixed py-10 "data-aos="fade-down" data-aos-duration="600" data-aos-once="true">
+      <nav id="nav-1024" class="max-lg:hidden  z-10    w-full fixed py-16 "data-aos="fade-down" data-aos-duration="600" data-aos-once="true">
           <div class="flex items-center justify-between ">
-            <div class="h-32 w-60 ml-10 mt-4 z-10 fixed top-0 left-5" id="Logo-1024">
+            <div id="Logo-1024" class=" h-[90px] xl:h-[100px] w-60 ml-10 mt-5 z-10 fixed top-0 left-5 xl:left-10" >
               <img src="/img/logo-lux.png" alt="Logo"  class=" h-full ">
               </div>
               <div id="menu-1024" class="  space-x-8  text-lg font-semibold xl:text-xl fixed left-1/2 -translate-x-1/2 ">
-                  <a href="#" class="text-green-600  underline underline-offset-4 hover:scale-105 transition-all">Home</a>
-                  <a href="/dist/immobili.php" class="text-white hover:scale-105 transition-all">Immobili</a>
-                  <a href="/dist/about.html" class="text-white hover:scale-105 transition-all">Chi Siamo</a>
-                  <a href="/dist/contatti.html" class="text-white hover:scale-105 transition-all">Contatti</a>
+                  <a href="#" class="text-orange-300  underline underline-offset-4 hover:scale-105 transition-all">Home</a>
+                  <a href="/dist/immobili.php" class="text-white  hover:text-orange-300  hover:scale-105 transition-all">Immobili</a>
+                  <a href="/dist/about.html" class="text-white  hover:text-orange-300  hover:scale-105 transition-all">Chi Siamo</a>
+                  <a href="/dist/contatti.html" class="text-white hover:text-orange-300  hover:scale-105 transition-all">Contatti</a>
               </div>
-              
-              <img src="/img/logo-ombra.png" alt="Logo" class="h-18 w-52 mr-2 opacity-0 pointer-events-none">
+                    <div class="text-white  text-xl flex gap-1 ml-1 mr-8 mt-12 z-10 cursor-pointer fixed top-0 right-5 ">
+                    <button id="translateButtonIt" onclick="translateSiteToIta()" class="underline underline-offset-4 text-orange-300">It</button>
+                    <p>-</p>
+                    <button id="translateButtonEng" onclick="translateSiteToEng()"><a href="index_eng.php">En</a></button>
+                    </div>
+        <script>saveStateToCookies();</script>         
+        
+
           </div>
-     
+  
     
       </nav>
 
-        <button onclick="translateSite()">Traduci il sito in Inglese</button>
-      <nav id="nav" class=" lg:hidden p-4 z-10  min-[1780px]:py-6 md:px-14 fixed w-full py-16  "data-aos="fade-down" data-aos-duration="600" data-aos-once="true">
+        
+      <nav id="nav" class=" lg:hidden p-4 z-10   md:px-14 fixed w-full py-16  "data-aos="fade-down" data-aos-duration="600" data-aos-once="true">
         <div class="flex items-center justify-between  ">
-            <img src="/img/logo-ombra.png" alt="Logo" id="Logo" class="h-18 w-48 ml-8 mt-6 z-10 fixed top-0 left-0 ">
+            <img src="/img/logo-lux.png" alt="Logo" id="Logo" class="h-20 sm:h-[90px] ml-12 mt-6 z-10 fixed top-0 left-0 ">
 
             <button id="toggleButton" class="transition-all   " onclick="toggleMenu()">
               <img src="/img/menu-ita.png" alt="Logo" id="hamburger" class="h-14 w-14 ml-1 mr-8 mt-8 z-10 cursor-pointer fixed top-0 right-0">
@@ -66,13 +72,13 @@ include './php/db_connection.php';
 
             <div id="menu" class="bar hidden fixed left-0 top-0 py-10 px-8 text-center bg-neutral-800 w-full z-0">
             <div class=" flex flex-col text-xl font-semibold   gap-8">
-                <a href="#" class="text-green-600  underline underline-offset-4 hover:scale-105 transition-all ">Home</a>
+                <a href="#" class="text-orange-300  underline underline-offset-4 hover:scale-105 transition-all ">Home</a>
                 <div class=" border-b mx-12 "></div>
-                <a href="/dist/immobili.php" class="text-white hover:scale-105 transition-all">Immobili</a>
+                <a href="/dist/immobili.php" class="text-white  hover:text-orange-300 hover:scale-105 transition-all">Immobili</a>
                 <div class="border-b mx-12"></div>
-                <a href="/dist/about.html" class="text-white hover:scale-105 transition-all">Chi Siamo</a>
+                <a href="/dist/about.html" class="text-white  hover:text-orange-300 hover:scale-105 transition-all">Chi Siamo</a>
                 <div class="border-b mx-12"></div>
-                <a href="/dist/contatti.html" class="text-white hover:scale-105 transition-all">Contatti</a>
+                <a href="/dist/contatti.html" class="text-white  hover:text-orange-300 hover:scale-105 transition-all">Contatti</a>
             </div>
             </div>
             
@@ -181,9 +187,9 @@ if ($result) {
     // Itera sui risultati della query
     while ($row = mysqli_fetch_assoc($result)) {
       ?>
-  <div class="mx-auto mb-10 bg-neutral-800 w-[31%] max-h-[700px] overflow-hidden flex rounded-sm text-white shadow-md shadow-black hover:shadow-lg hover:shadow-green-800 transition-all flex-col justify-center max-lg:hidden">
+  <div class="mx-auto mb-10 bg-neutral-800 w-[31%] max-h-[700px] overflow-hidden flex rounded-sm text-white shadow-md shadow-black hover:shadow-lg hover:shadow-orange-300 transition-all flex-col justify-center max-lg:hidden">
 
-<div class="relative w-full h-full  overflow-hidden"> <a href="dettaglio_immobile.php?id=<?php echo $row['id_immobile']; ?>" class="">
+<div class="relative w-full h-full  overflow-hidden"> <a href="dettaglio_immobile.php?id=<?php echo $row['id_immobile']; ?>" class="image-hover-scale">
        <img src="<?php echo $row['foto_principale']; ?>" alt="Anteprima" class=" w-full h-full  object-cover rounded-t-sm">
    </div>
 
@@ -209,7 +215,7 @@ if ($result) {
        </div>
    </div>
          </div>
-       <div class="border-t border-green-700 w-[95%] mt-4 font-Merriweather text-md pb-8 flex gap-8">
+       <div class="border-t border-orange-400 w-[95%] mt-4 font-Merriweather text-md pb-8 flex gap-8">
          
            <p class="pt-4 flex items-center gap-4 uppercase"><img src="/img/posizione.svg" alt="" class="w-8 h-8 max-[475px]:w-6 max-[475px]:h-6"> <?php echo $row['comune']; ?></p>
            <p class="pt-4 ml-auto">Rif. <?php echo $row['id_immobile']; ?></p>
@@ -239,9 +245,10 @@ if ($result) {
     // Itera sui risultati della query
     while ($row = mysqli_fetch_assoc($result)) {
       ?>
-   <div class="mx-auto mb-10 bg-neutral-800 w-[90%] max-h-[700px] overflow-hidden flex rounded-sm text-white shadow-md shadow-black hover:shadow-lg hover:shadow-green-800 transition-all flex-col justify-center lg:hidden">
+   <div class="mx-auto mb-10 bg-neutral-800 w-[90%] max-w-2xl max-h-[700px] overflow-hidden flex rounded-sm text-white shadow-md shadow-black hover:shadow-lg hover:shadow-green-800 transition-all flex-col justify-center lg:hidden">
 
-<div class="relative w-full h-full  overflow-hidden"> <a href="dettaglio_immobile.php?id=<?php echo $row['id_immobile']; ?>" class="">
+<div class="relative w-full h-full  overflow-hidden"> 
+    <a href="dettaglio_immobile.php?id=<?php echo $row['id_immobile']; ?>" class="image-hover-scale">
        <img src="<?php echo $row['foto_principale']; ?>" alt="Anteprima" class=" w-full max-sm:h-[300px] h-[400px]  object-cover rounded-t-sm">
    </div>
 
@@ -330,7 +337,7 @@ mysqli_close($conn);
       </div>
       <br><br><br>
        <div class="flex justify-center py-8 ">
-       <button type="submit" onclick="effettuaChiamata()" class="w-[80%] bg-red-700 text-white font-semibold text-lg xl:text-xl 2xl:text-2xl p-4 shadow-md shadow-black border-2 border-neutral-500 hover:scale-105 hover:shadow-lg hover:shadow-black hover:border-white transition-all md:w-[60%] lg:w-[50%] max-w-[550px] ">Voglio un appuntamento</button>
+       <button type="submit" onclick="effettuaChiamata()" class="w-[80%] bg-red-700 text-white font-semibold text-lg xl:text-xl 2xl:text-2xl p-4 shadow-md shadow-black border-2 border-neutral-500 hover:scale-105 hover:shadow-lg hover:shadow-black hover:border-white hover:bg-orange-400 transition-all duration-200 md:w-[60%] lg:w-[50%] max-w-[550px] ">Voglio un appuntamento</button>
       </div>
     </div>
 
@@ -341,40 +348,13 @@ mysqli_close($conn);
       <br>
       <h1 class="text-3xl  text-center">E noi facciamo tutto per darti il meglio.</h1> <br><br>
 
-      <button type="submit" onclick="effettuaChiamata()" class="w-[80%] bg-red-700 text-white font-semibold text-lg xl:text-xl 2xl:text-2xl p-4 shadow-md shadow-black border-2 border-neutral-500 hover:scale-105 hover:shadow-lg hover:shadow-black hover:border-white transition-all md:w-[60%] lg:w-[50%] max-w-[550px] ">Voglio un appuntamento</button>
+      <button type="submit" onclick="effettuaChiamata()" class="w-[80%] bg-red-700 text-white font-semibold text-lg xl:text-xl 2xl:text-2xl p-4 shadow-md shadow-black border-2 border-neutral-500 hover:scale-105 hover:shadow-lg hover:shadow-black hover:border-white  hover:bg-orange-400 transition-all duration-200 md:w-[60%] lg:w-[50%] max-w-[550px] ">Voglio un appuntamento</button>
   <br>
 
   </div>
 
   
-  <script>
-        async function translateText(text, targetLanguage) {
-            try {
-                const response = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=it|${targetLanguage}`);
-                const data = await response.json();
 
-                return data.responseData && data.responseData.translatedText
-                    ? data.responseData.translatedText
-                    : text;
-            } catch (error) {
-                console.error('Si è verificato un errore durante la richiesta di traduzione:', error);
-                return text;
-            }
-        }
-
-        async function translateSite() {
-            const targetLanguage = 'en'; // Lingua di destinazione: Inglese
-            const siteContent = document.getElementById('content');
-
-            // Itera su tutti gli elementi di testo nel contenuto del sito
-            const textElements = siteContent.querySelectorAll(':not(script):not(style):not(noscript):not([data-notranslate])');
-            for (const element of textElements) {
-                const originalText = element.innerText;
-                const translatedText = await translateText(originalText, targetLanguage);
-                element.innerText = translatedText;
-            }
-        }
-    </script>
 
 
 <div class="bg-neutral-950 pt-16 border-t border-white px-4 lg:px-10   flex flex-col   ">
@@ -491,28 +471,20 @@ mysqli_close($conn);
 
 
     </div>
+  </div>
  <script src="index.js"></script>
+ <script src="scroll.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 <!-- Aggiungi questi script alla fine del tuo body -->
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+
 
     <script>
       AOS.init();
   </script>
 
-<script>
-    $(document).ready(function(){
-        $('.carousel').slick({
-            dots: true, // Aggiungi i puntini di navigazione
-            infinite: true,
-            speed: 300,
-            slidesToShow: 1, // Mostra un solo immobile alla volta
-            adaptiveHeight: true,
-        });
-    });
-</script>
 
+<script src="traduttore.js"></script>
 
 
 

@@ -16,11 +16,12 @@
 
   }
 
-.carousel {
-    width: 70%; /* Imposta la larghezza desiderata per il carousel */
-    margin: auto; /* Centra il carousel */
-}
+.image-hover-scale:hover img {
+    transform: scale(1.05); /* Ingrandisci l'immagine del 5% */
+    transition: .3s linear;
+  }
 
-.slide {
-   /* Aggiungi spaziatura tra le slide */
-}
+  .image-hover-scale img {
+    transition: .3s linear;
+  }
+

@@ -11,6 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk&display=swap" rel="stylesheet">
+  <script src="traduttore.js"></script>
 
   <title>PremiaHome-Luxury</title>
 </head>
@@ -19,27 +20,33 @@
 
 <body class="font-Grotesk tracking-wide">
     <div class="bg-neutral-900 min-h-screen flex flex-col">
-        <div class="bg-neutral-900 min-h-screen flex flex-col">
-            <nav id="nav-1024" class="max-lg:hidden lg:block  z-10   w-full fixed ">
+     
+            <nav id="nav-1024" class="max-lg:hidden lg:block  z-10  py-16 w-full fixed ">
                 <div class="flex items-center justify-between ">
                     <a href="/dist/index.php" >
-                    <img src="/img/logo-ombra.png" alt="Logo" id="Logo-1024" class="h-18 w-60 ml-8 mt-6 z-10 fixed top-0 left-0 "></a>
+                        <div id="Logo-1024" class=" h-[90px] xl:h-[100px] w-60 ml-10 mt-5 z-10 fixed top-0 left-5 xl:left-10" >
+                            <img src="/img/logo-lux.png" alt="Logo"  class=" h-full ">
+                            </div></a>
                     
                     <div id="menu-1024" class=" mt-12 space-x-8  text-lg font-semibold xl:text-xl fixed left-1/2 -translate-x-1/2 ">
-                        <a href="/dist/index.php" class="text-white  hover:scale-105 transition-all">Home</a>
-                        <a href="/dist/immobili.php" class="text-white hover:scale-105 transition-all">Immobili</a>
-                        <a href="/dist/about.html" class="text-white hover:scale-105 transition-all">Chi Siamo</a>
-                        <a href="#" class="text-green-600  underline underline-offset-4 hover:scale-105 transition-all">Contatti</a>
+                        <a href="/dist/index.php" class="text-white hover:text-orange-300  hover:scale-105 transition-all">Home</a>
+                        <a href="/dist/immobili.php" class="text-white hover:text-orange-300 hover:scale-105 transition-all">Immobili</a>
+                        <a href="/dist/about.html" class="text-white hover:text-orange-300 hover:scale-105 transition-all">Chi Siamo</a>
+                        <a href="#" class="text-orange-300  underline underline-offset-4 hover:scale-105 transition-all">Contatti</a>
                     </div>
                     
-                    <img src="/img/logo-ombra.png" alt="Logo" class="h-18 w-52 mr-2 opacity-0 pointer-events-none">
-                </div>
+                    <div class=" text-white text-xl flex gap-1 ml-1 mr-8 mt-12 z-10 cursor-pointer fixed top-0 right-5 ">
+                        <button id="translateButtonIt" onclick="translateSiteToIta()"class="underline underline-offset-4 text-orange-300" >It</button>
+                        <p>-</p>
+                        <button id="translateButtonEng" onclick="translateSiteToEng()" ><a href="contatti_eng.html">En</a></button>
+                        </div><script>saveStateToCookies();</script>  
+              
             </nav>
       
-            <nav id="nav" class=" lg:hidden p-4 z-10  min-[1780px]:py-6 md:px-14 fixed w-full py-16   ">
+            <nav id="nav" class=" lg:hidden p-4 z-10   md:px-14 fixed w-full py-16   ">
               <div class="flex items-center justify-between  ">
                 <a href="/dist/index.php" >
-                  <img src="/img/logo-ombra.png" alt="Logo" id="Logo" class="h-18 w-48 ml-8 mt-6 z-10 fixed top-0 left-0 "></a>
+                    <img src="/img/logo-lux.png" alt="Logo" id="Logo" class="h-20 sm:h-[90px] ml-12 mt-6 z-10 fixed top-0 left-0 "></a>
       
                 <button id="toggleButton" class="transition-all   " onclick="toggleMenu()">
                   <img src="/img/menu-ita.png" alt="Logo" id="hamburger" class="h-14 w-14 ml-1 mr-8 mt-8 z-10 cursor-pointer fixed top-0 right-0">
@@ -48,13 +55,13 @@
       
                   <div id="menu" class="bar hidden fixed left-0 top-0 py-10 px-8 text-center bg-neutral-800 w-full z-0">
                   <div class=" flex flex-col text-xl font-semibold   gap-8">
-                      <a href="/dist/index.php" class="text-white   hover:scale-105 transition-all ">Home</a>
+                      <a href="/dist/index.php" class="text-white  hover:text-orange-300 hover:scale-105 transition-all ">Home</a>
                       <div class=" border-b mx-12 "></div>
-                      <a href="/dist/immobili.php" class="text-white hover:scale-105 transition-all">Immobili</a>
+                      <a href="/dist/immobili.php" class="text-white hover:text-orange-300 hover:scale-105 transition-all">Immobili</a>
                       <div class="border-b mx-12"></div>
-                      <a href="/dist/about.html" class="text-white hover:scale-105 transition-all">Chi Siamo</a>
+                      <a href="/dist/about.html" class="text-white hover:text-orange-300 hover:scale-105 transition-all">Chi Siamo</a>
                       <div class="border-b mx-12"></div>
-                      <a href="#" class="text-green-600 underline underline-offset-4 hover:scale-105 transition-all">Contatti</a>
+                      <a href="#" class="text-orange-300 underline underline-offset-4 hover:scale-105 transition-all">Contatti</a>
                   </div>
                   </div>
                   
@@ -76,34 +83,35 @@
     <br><br>
 
     <div class="bg-neutral-800"><br> <br>
-        <p class=" pl-10 text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl tracking-wide text-white text-center font-Ayer">Compila il form con tutte le informazioni. Ti chiameremo per trovare la soluzione alle tue esigenze.</p>
+        <p class="px-10 text-3xl md:text-3xl lg:text-4xl  tracking-wide text-white text-center">Compila il form con tutte le informazioni. Ti chiameremo per trovare la soluzione alle tue esigenze.</p>
 <br>
     <div class="max-w-md mx-auto p-8 md:py-8 md:px-0  rounded md:flex md:max-w-2xl lg:max-w-5xl xl:max-w-full ">
         
         
-        <form action="#" method="post" class="md:w-1/2 md:mr-12 lg:mx-10 lg:mr-16 ">
+        <form action="#" method="post" class="md:w-1/2 md:mr-12 lg:mx-10 lg:mr-16">
             <div class="mb-4">
                 <label for="nome" class="block text-white text-sm font-medium mb-2">Nome *</label>
-                <input type="text" id="nome" name="nome" class="w-full p-2 border rounded-md bg-neutral-800 text-white shadow-md shadow-neutral-900" required>
+                <input type="text" id="nome" name="nome" class="w-full p-2 border rounded-md bg-neutral-800 text-white shadow-md shadow-neutral-900 focus:border-orange-300 focus:outline-none" required>
             </div>
-
+        
             <div class="mb-4">
                 <label for="email" class="block text-white text-sm font-medium mb-2">Email *</label>
-                <input type="email" id="email" name="email" class="w-full p-2 border rounded-md bg-neutral-800 text-white shadow-md shadow-neutral-900" required>
+                <input type="email" id="email" name="email" class="w-full p-2 border rounded-md bg-neutral-800 text-white shadow-md shadow-neutral-900 focus:border-orange-300 focus:outline-none" required>
             </div>
-
+        
             <div class="mb-4">
                 <label for="telefono" class="block text-white text-sm font-medium mb-2">Numero di Telefono *</label>
-                <input type="tel" id="telefono" name="telefono" class="w-full p-2 border rounded-md bg-neutral-800 text-white shadow-md shadow-neutral-900" required>
+                <input type="tel" id="telefono" name="telefono" class="w-full p-2 border rounded-md bg-neutral-800 text-white shadow-md shadow-neutral-900 focus:border-orange-300 focus:outline-none" required>
             </div>
-
+        
             <div class="mb-4">
                 <label for="messaggio" class="block text-white text-sm font-medium mb-2">Messaggio *</label>
-                <textarea id="mex" name="messaggio" rows="4" class="w-full p-2 border rounded-md bg-neutral-800 text-white shadow-md shadow-neutral-900" required></textarea>
+                <textarea id="mex" name="messaggio" rows="4" class="w-full p-2 border rounded-md bg-neutral-800 text-white shadow-md shadow-neutral-900 focus:border-orange-300 focus:outline-none" required></textarea>
             </div>
-
-            <button type="submit" class="bg-white float-right text-black font-medium text-lg px-8 py-2 rounded-md shadow-md shadow-neutral-900 hover:bg-green-800 hover:scale-105 hover:text-white duration-75 md:px-10 lg:px-16 xl:px-20 xl:py-3 xl:text-xl">Invia</button>
+        
+            <button type="submit" class="bg-green-800 text-white md:bg-white float-right md:text-black font-medium text-lg px-8 py-2 rounded-md shadow-md shadow-neutral-900 md:hover:bg-green-800 hover:scale-105 hover:text-white duration-75 max-md:w-full lg:px-16 xl:px-20 xl:py-3 xl:text-xl">Invia</button>
         </form>
+        
 <br><br><br>
         <div class="mt-6 flex justify-between md:flex-col md:items-start md:justify-center md:mt-0 gap-10 lg:gap-14 xl:ml-20 2xl:ml-32">
            
@@ -290,5 +298,6 @@
 </script>
 
 <script src="index.js"></script>
+<script src="scroll.js"></script>
 </body>
 </html>

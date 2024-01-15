@@ -39,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $riscaldamento = mysqli_real_escape_string($conn, $_POST['riscaldamento']);
     $soggiorno = mysqli_real_escape_string($conn, $_POST['soggiorno']);
     $condizioni = mysqli_real_escape_string($conn, $_POST['condizioni']);
+    $youtubeUrl = mysqli_real_escape_string($conn, $_POST['video']);
     $inEvidenza = isset($_POST['in_evidenza']) ? 1 : 0;
 
 
@@ -57,35 +58,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = "Foto principale non specificata o errore nel caricamento.";
     }
 
-  // Verifica se il campo 'foto_princ' è stato definito nell'array $_FILES
-if (isset($_FILES['galleria_foto']) && !empty($_FILES['galleria_foto']['name'][0])) {
-    // Gestione dell'upload delle foto principali
-    $uploadDir = './imgphp/galleria/';
-    $galleriaFiles = array();
-
-    foreach ($_FILES['galleria_foto']['tmp_name'] as $key => $tmp_name) {
-        $galleriaFile = $uploadDir . basename($_FILES['galleria_foto']['name'][$key]);
-
-        if (move_uploaded_file($tmp_name, $galleriaFile)) {
-            $galleriaFiles = $galleriaFile;
-        } else {
-            $errors[] = "Errore durante il caricamento di una foto principale.";
+    if (isset($_FILES['galleria_foto']) && is_array($_FILES['galleria_foto']['name'])) {
+        $uploadDir = './imgphp/';
+        $uploadedFiles = [];
+    
+        foreach ($_FILES['galleria_foto']['name'] as $key => $fileName) {
+            // Verifica se è stato effettuato l'upload senza errori
+            if ($_FILES['galleria_foto']['error'][$key] === UPLOAD_ERR_OK) {
+                $uploadFile = $uploadDir . basename($fileName);
+    
+                // Move_uploaded_file restituisce true se l'upload è avvenuto con successo
+                if (move_uploaded_file($_FILES['galleria_foto']['tmp_name'][$key], $uploadFile)) {
+                    $uploadedFiles[] = $uploadFile;
+                } else {
+                    $errors[] = "Errore durante il caricamento di una foto.";
+                }
+            } else {
+                $errors[] = "Errore durante l'upload di una foto. Codice errore: " . $_FILES['galleria_foto']['error'][$key];
+            }
         }
+    
+        // Ora $uploadedFiles contiene i percorsi delle immagini caricate con successo
+        // Puoi utilizzare questo array nella tua logica di gestione delle immagini
+        print_r($uploadedFiles);
+    } else {
+        $errors[] = "Nessuna foto specificata o errore nel caricamento.";
     }
-
-    // Ora $fotoPrincipaliFiles contiene i percorsi di tutte le foto principali caricate con successo
-
-    // Puoi memorizzare i percorsi delle foto nel database o fare altre operazioni necessarie
-    // Esempio: $percorsoFotoPrincipale = implode(',', $fotoPrincipaliFiles);
-} else {
-    // L'array $_FILES['foto_princ'] non è impostato o non ci sono file caricati
-    $errors[] = "Foto principali non specificate o errore nel caricamento.";
-}
-
+    
 
 // Verifica se è stato effettuato il submit del modulo
 
-// Controlla se è stato fornito un URL del video
+/* Controlla se è stato fornito un URL del video
 if (isset($_POST['video']) && !empty($_POST['video'])) {
     // Ottieni l'URL del video
     $youtubeUrl = $_POST['video'];
@@ -106,9 +109,8 @@ if (isset($_POST['video']) && !empty($_POST['video'])) {
     }
 } else {
     echo 'Si è verificato un errore: l\'URL del video non è stato fornito.';
-}
+}*/
 
-  
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pdfFileName = $_FILES['pdf_file']['name'];
     $pdfTmpName = $_FILES['pdf_file']['tmp_name'];
@@ -131,14 +133,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Inserisci i dati nel database solo se non ci sono errori nell'upload dell'immagine
     if (empty($errors)) {
         // Creazione della stringa JSON per la galleria
-        $galleriaFilesJSON = json_encode($galleriaFiles);
-
+        $galleriaFilesJSON = json_encode($uploadedFiles);
+    
         // Query per l'inserimento nel database
         $query = "INSERT INTO immobili (titolo, prezzo, tipo_immobile, tipo_vendita, vani, camere, bagni, provincia, comune, indirizzo, piani, giardino, balcone, classe_energetica, descrizione, metri_quadrati, foto_principale, galleria_foto, video, anno_costruzione, parcheggio, cucina, EPI, riscaldamento, soggiorno, condizioni, in_evidenza, nome_file, tipo_contenuto, dati) 
                   VALUES ('$titolo', '$prezzo', '$tipo_immobile', '$tipo_vendita', '$vani', '$camere', '$bagni', '$provincia', '$comune', '$indirizzo', '$piani', '$giardino', '$balcone', '$classe_energetica', '$descrizione', '$metri_quadrati', '$percorsoFotoPrincipale', '$galleriaFilesJSON', '$youtubeUrl', '$anno_costruzione', '$parcheggio', '$cucina', '$EPI', '$riscaldamento', '$soggiorno', '$condizioni', '$in_evidenza', '$pdfFileName', '$pdfType', '$escapedContent')";
-
+        
         $result = mysqli_query($conn, $query);
-
+    
+        // Altri controlli o operazioni dopo l'inserimento nel database
+    
+    
  
 
         // Funzione per ottenere le coordinate da Nominatim
@@ -466,15 +471,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             <div class="mb-6 flex flex-col">
                 <label for="foto_princ">Foto anteprima:</label>
-                <input type="file" name="foto_princ" accept="image/*" placeholder="Foto anteprima" required class="border border-white bg-neutral-800 rounded-md py-3 text-white px-2">
+                <input type="file" name="foto_princ" accept="image/*" multiple placeholder="Foto anteprima" required class="border border-white bg-neutral-800 rounded-md py-3 text-white px-2">
             </div>
             <div class="mb-6 flex flex-col">
-                <label for="galleria_foto">Galleria Foto:</label>
-                <input type="file" name="galleria_foto" accept="image/*" multiple placeholder="Foto" required class="border border-white bg-neutral-800 rounded-md py-3 text-white px-2">
-            </div>
+            <label for="galleria_foto">Seleziona le foto:</label>
+            <input type="file" id="galleria_foto" name="galleria_foto[]" multiple accept="image/*" required class="border border-white bg-neutral-800 rounded-md py-3 text-white px-2">
+         </div>
             <div class="mb-6 flex flex-col">
                 <label for="video">URL del Video (YouTube):</label>
-                <input type="text" name="video" placeholder="Inserisci l'URL del video di YouTube" required class="border border-white bg-neutral-800 rounded-md py-3 text-white px-2">
+                <input type="text" name="video" placeholder="Inserisci l'URL del video di YouTube"  class="border border-white bg-neutral-800 rounded-md py-3 text-white px-2">
             </div>
 
             <div class="mb-6 flex flex-col">

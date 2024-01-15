@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./dist/*.{html,js,php}"],
+  content: ["dist/*.{html,js,php}"],
   theme: {animation: {
     'bounce-horizontal': 'bounce-horizontal 1.5s infinite',
     'bounce-horizontal-reverse': 'bounce-horizontal-reverse 1.5s infinite', // Nome animazione: durata animazione e iterazioni

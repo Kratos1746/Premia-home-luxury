@@ -1,94 +1,6 @@
 
-document.addEventListener('DOMContentLoaded', function() {
-  // Controlla se l'animazione è già stata visualizzata utilizzando un cookie
-  if (document.cookie.includes('loading_animation_shown=true')) {
-      // Se è già stata visualizzata, nascondi l'overlay immediatamente
-      document.getElementById('loading-overlay').style.display = 'none';
-  } else {
-      // Se l'animazione non è stata visualizzata, mostra l'overlay di caricamento
-      setTimeout(function() {
-        document.getElementById('loading-overlay').classList.add('animate-ritira2');
-        document.getElementById('loading-spinner').classList.add('animate-ritira2');
-          setTimeout(function() {
-              document.getElementById('loading-overlay').style.display = 'none';
-              // Imposta un cookie per indicare che l'animazione è stata visualizzata
-              document.cookie = 'loading_animation_shown=true; path=/'; // Cookie valido per la sessione
-          }, 500); // Dopo che l'animazione di dissolvenza è completa
-      }, 2000); // Imposta la durata del caricamento simulato (2 secondi nell'esempio)
-  }
-});
 
-var prevScrollpos = window.pageYOffset;
-window.onscroll = function() {
-    var currentScrollPos = window.pageYOffset;
-
-    // Controlla la direzione dello scorrimento
-    if (prevScrollpos > currentScrollPos ) {
-        // Se si sta risalendo la pagina, mostra le barre
-        document.getElementById('hamburger').classList.add('fixed');
-        document.getElementById('Logo').classList.add('fixed');
-        document.getElementById('nav').classList.add('fixed');
-        document.getElementById('menu-1024').classList.remove('hidden');
-        document.getElementById('Logo-1024').classList.remove('hidden');
-        document.getElementById('nav-1024').classList.remove('hidden');
-        document.getElementById('nav').classList.remove('hidden'); 
-        document.getElementById('menu-1024').classList.remove('mt-12');
-        document.getElementById('nav-1024').classList.add('p-4');
-        
-        nav.classList.add('p-4');
-        nav.classList.add('md:px-14');
-        document.getElementById('nav').classList.add('bg-neutral-900');
-       
-        document.getElementById('nav').classList.add('animate-dasopra2');
-        document.getElementById('nav-1024').classList.add('bg-neutral-900');
-        document.getElementById('nav-1024').classList.add('py-8');
-        document.getElementById('nav-1024').classList.add('animate-dasopra2');
-        
-        
-   
   
-
-        // Aggiungi qui le stesse operazioni per la barra di navigazione mobile (se presente)
-        // ...
-
-    } else if(currentScrollPos > 80) {
-        // Altrimenti, nascondi le barre
-        document.getElementById('hamburger').classList.remove('fixed');
-        document.getElementById('Logo').classList.remove('fixed');
-        document.getElementById('nav').classList.remove('fixed');    
-        document.getElementById('menu-1024').classList.add('hidden');
-        document.getElementById('Logo-1024').classList.add('hidden');
-        document.getElementById('nav-1024').classList.add('hidden');
-        document.getElementById('nav').classList.add('hidden'); 
-
-        nav.classList.remove('p-4');
-        nav.classList.remove('md:px-14');
-        document.getElementById('nav').classList.remove('bg-neutral-900');
-       
-        document.getElementById('nav').classList.remove('animate-dasopra2');
-        document.getElementById('nav-1024').classList.remove('animate-dasopra2');
-        document.getElementById('nav-1024').classList.remove('bg-neutral-900');
-        document.getElementById('Logo-1024').classList.remove('h-full');
-   
-    }
-    
-
-    if(currentScrollPos < 30){
-        document.getElementById('nav').classList.remove('bg-neutral-900');
-        document.getElementById('nav').classList.remove('animate-dasopra2');
-        document.getElementById('nav-1024').classList.remove('bg-neutral-900');
-        document.getElementById('nav-1024').classList.remove('animate-ritira');
-        nav.classList.remove('md:px-14');
-        nav.classList.remove('p-4');
-        document.getElementById('Logo-1024').classList.add('h-full');
-        document.getElementById('Logo-1024').classList.remove('h-24');
-        // Aggiungi qui le stesse operazioni per la barra di navigazione mobile (se presente)
-        // ...
-    }
-
-    prevScrollpos = currentScrollPos;
-};
-
 
  
 
@@ -118,6 +30,8 @@ window.onscroll = function() {
       logo.classList.remove('hidden');
       nav.classList.add('p-4');
       nav.classList.add('md:px-14');
+      document.getElementById('nav').classList.add('py-16');
+      document.getElementById('nav').classList.add('bg-neutral-900');
       
       
     }
