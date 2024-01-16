@@ -66,6 +66,10 @@ mysqli_close($conn);
 
   <link href="output.css" rel="stylesheet">
 
+  <link rel = "icon" href = 
+        "img/logo-luxury.png" 
+        type = "image/x-icon">
+
     <title>Registrazione</title>
 </head>
 <body>

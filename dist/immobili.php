@@ -65,6 +65,10 @@ if ($result)	{
 
 <!--	Title
 	=========================================================-->
+    <link rel = "icon" href = 
+        "img/logo-luxury.png" 
+        type = "image/x-icon">
+        
 <title>PremiaHome-Luxury</title>
 </head>
 

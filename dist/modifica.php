@@ -227,6 +227,11 @@ if ($stmt) {
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
     <!-- Metatag e link CSS -->
+
+    <link rel = "icon" href = 
+        "img/logo-luxury.png" 
+        type = "image/x-icon">
+        
     <title>Modifica Immobile</title>
 </head>
 

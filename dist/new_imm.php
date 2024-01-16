@@ -224,7 +224,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha512-oQvF5Rb3ZRZZc7zEBVdLzj/df4s80N67P5P8WP6HG5F4383tY6YqECV1N3z1uDLjOFC8D5lufoS6cKCbThRQbEw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/js/select2.min.js" integrity="sha512-omM7I9j2J8i3gsr3ZATvTQ7iaV+0x50Gf5kMEmlUmA/qpExMgtz55NRIteqHVwlJ/i5GOLAE6e7/OPh8/Zxblw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-
+    <link rel = "icon" href = 
+        "img/logo-luxury.png" 
+        type = "image/x-icon">
+        
     <title>Nuovo Immobile</title>
 </head>
 

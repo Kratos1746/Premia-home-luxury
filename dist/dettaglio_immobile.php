@@ -124,7 +124,9 @@ if (isset($_GET['id'])) {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
 <link href="output.css" rel="stylesheet">
 
-
+<link rel = "icon" href = 
+        "img/logo-luxury.png" 
+        type = "image/x-icon">
 
 </head>
 

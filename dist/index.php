@@ -21,6 +21,10 @@ include './php/db_connection.php';
 <script src="loading.js"></script>
 <script src="traduttore.js"></script>
 
+<link rel = "icon" href = 
+        "img/logo-luxury.png" 
+        type = "image/x-icon">
+
 
   <title>PremiaHome-Luxury</title>
 </head>
