@@ -179,7 +179,7 @@ if (isset($_GET['id'])) {
                 }
             }
             ?>
-<div class=" text-white text-xl flex gap-1 ml-1 mr-8 mt-12 z-10 cursor-pointer fixed top-0 right-5 ">
+<div class=" text-white text-xl flex gap-1 ml-1 mr-8 mt-12 z-10 cursor-pointer fixed top-0 right-0 xl:right-5 ">
                         <button id="translateButtonIt" onclick="translateSiteToIta()"class="underline underline-offset-4 text-orange-300" >It</button>
                         <p>-</p>
                         <button id="translateButtonEng" onclick="translateSiteToEng()" ><a href="dettaglio_immobile_eng.php">En</a></button>
@@ -507,7 +507,7 @@ if (isset($_SESSION['ID'])) {
         <div class="mb-10 absolute left-1/2 transform -translate-x-1/2 -translate-y-10">
             <div class="min-h-[500px] relative flex flex-col mb-4">
                 <h1 class="font-Ayer text-7xl uppercase text-center break-normal md:text-[86px] 2xl:text-9xl max-w-lg md:max-w-xl lg:max-w-3xl xl:max-w-6xl">
-                    <?php echo str_replace(["\r", "\n", "\\r", "\\n"], "<br>", str_replace("\\'", "'", $row['titolo'])); ?>
+                    <?php echo nl2br(str_replace('\r\n', "\r\n", str_replace("\\'", "'", $row['titolo']))); ?>
                 </h1>
                 <br>
                 <p class="text-2xl md:text-3xl lg:text-4xl text-center tracking-wide">€ <?php echo $row['prezzo']; ?></p>
@@ -522,7 +522,7 @@ if (isset($_SESSION['ID'])) {
             
             <p class="pb-4 flex items-center gap-2 md:gap-4 uppercase"><img src="/img/casa.svg" alt="" class="w-6 h-6 min-[450px]:w-8 min-[450px]:h-8"> <?php echo $row['tipo_immobile']; ?></p>
             <p class="pb-4 flex items-center gap-2 md:gap-4 uppercase"><img src="/img/posizione.svg" alt="" class="w-6 h-6 min-[450px]:w-8 min-[450px]:h-8"> <?php echo $row['comune']; ?></p>
-            <p class="pb-4 ml-2">Rif. <?php echo $row['id_immobile']; ?></p>
+            <p class="pb-4  ml-auto">Rif. <?php echo $row['id_immobile']; ?></p>
         </div>
                 <div class="flex gap-3 lg:gap-5 mt-6 ">
                 <div class="flex flex-col justify-center border border-white rounded-xl gap-3 w-1/3 lg:w-[185px] ">  
@@ -542,7 +542,9 @@ if (isset($_SESSION['ID'])) {
                 <div class="flex max-lg:flex-col w-[90%] justify-between mt-16">
 
                 <h1 class="uppercase text-6xl font-Ayer  xl:text-9xl text-neutral-400 mb-4">Descrizione</h1>
-                <p class="flex items-end text-xl max-lg:w-full lg:max-w-[50%] break-normal font-Grotesk"><?php echo str_replace(["\r", "\n", "\\r", "\\n"], "<br>", str_replace("\\'", "'", $row['descrizione'])); ?>
+                <p class="flex items-end text-xl max-lg:w-full lg:max-w-[50%] break-normal font-Grotesk"><?php echo nl2br(str_replace('\r\n', "\r\n", str_replace("\\'", "'", $row['descrizione']))); ?>
+
+
 
 </p>
 

@@ -170,9 +170,8 @@ function eliminaImm() {
               if (response == "success") {
                   // Eliminazione avvenuta con successo
                   window.location.href = "/dist/immobili.php";
-              } else {
-                  // Gestisci altri scenari, ad esempio mostrando un messaggio di errore
-                  alert("Errore durante l'eliminazione dell'immobile.");
+              }else{
+                window.location.href = "/dist/immobili.php";
               }
           }
       };

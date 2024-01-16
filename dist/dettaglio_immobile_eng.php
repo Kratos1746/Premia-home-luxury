@@ -483,7 +483,7 @@ if (isset($_SESSION['ID'])) {
         <div class="mb-10 absolute left-1/2 transform -translate-x-1/2 -translate-y-10">
             <div class="min-h-[500px] relative flex flex-col mb-4">
                 <h1 class="font-Ayer text-7xl uppercase text-center break-normal md:text-[86px] 2xl:text-9xl max-w-lg md:max-w-xl lg:max-w-3xl xl:max-w-6xl">
-                    <?php echo $row['titolo']; ?>
+                <?php echo nl2br(str_replace('\r\n', "\r\n", str_replace("\\'", "'", $row['titolo']))); ?>
                 </h1>
                 <br>
                 <p class="text-2xl md:text-3xl lg:text-4xl text-center tracking-wide">€ <?php echo $row['prezzo']; ?></p>
@@ -519,7 +519,7 @@ if (isset($_SESSION['ID'])) {
                 <div class="flex max-lg:flex-col w-[90%] justify-between mt-16">
 
                 <h1 class="uppercase text-6xl font-Ayer  xl:text-9xl text-neutral-400 mb-4">Description</h1>
-                <p class="flex items-end text-xl max-lg:w-full lg:max-w-[50%] break-normal font-Grotesk"><?php echo nl2br($descrizioneInglese); ?></p>
+                <p class="flex items-end text-xl max-lg:w-full lg:max-w-[50%] break-normal font-Grotesk"><?php echo nl2br(str_replace('\r\n', "\r\n", str_replace("\\'", "'", $descrizioneInglese))); ?></p>
                 
                 </div>
 
